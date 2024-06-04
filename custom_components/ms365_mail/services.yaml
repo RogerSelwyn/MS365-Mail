@@ -1,0 +1,46 @@
+auto_reply_enable:
+  target:
+    device:
+      integration: ms365_mail
+    entity:
+      integration: ms365_mail
+      domain: sensor
+  fields:
+    external_reply:
+      example: I'm currently on holiday, please email Bob for answers
+      required: true
+      selector:
+        text:
+    internal_reply:
+      example: I'm currently on holliday
+      required: true
+      selector:
+        text:
+    start:
+      example: "2025-01-01T12:00:00+0000"
+      selector:
+        text:
+    end:
+      example: "2025-01-02T12:30:00+0000"
+      selector:
+        text:
+    external_audience:
+      example: all
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - label: "All"
+              value: "all"
+            - label: "Contacts Only"
+              value: "contactsOnly"
+            - label: "None"
+              value: "none"
+
+auto_reply_disable:
+  target:
+    device:
+      integration: ms365_mail
+    entity:
+      integration: ms365_mail
+      domain: sensor

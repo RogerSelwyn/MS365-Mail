@@ -1,0 +1,6 @@
+{
+    "services": {
+        "auto_reply_enable": "mdi:microsoft-outlook",
+        "auto_reply_disable": "mdi:microsoft-outlook"
+    }
+}
