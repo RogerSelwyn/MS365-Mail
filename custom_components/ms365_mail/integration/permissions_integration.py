@@ -38,10 +38,9 @@ class Permissions(BasePermissions):
         return self._requested_permissions
 
     def _build_email_permissions(self):
+        self._requested_permissions.append(PERM_MAIL_READ + self._shared)
         if self._enable_update:
             self._requested_permissions.append(PERM_MAIL_SEND + self._shared)
-        else:
-            self._requested_permissions.append(PERM_MAIL_READ + self._shared)
 
     def _build_autoreply_permissions(self):
         if self._enable_autoreply:
