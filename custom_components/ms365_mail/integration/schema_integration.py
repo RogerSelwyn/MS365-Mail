@@ -32,7 +32,7 @@ from .const_integration import (
 CONFIG_SCHEMA_INTEGRATION = {
     vol.Optional(CONF_ENABLE_UPDATE, default=False): cv.boolean,
     vol.Optional(CONF_SHARED_MAILBOX, default=""): cv.string,
-    vol.Optional(CONF_ENABLE_AUTOREPLY, default=""): cv.boolean,
+    vol.Optional(CONF_ENABLE_AUTOREPLY, default=False): cv.boolean,
 }
 
 NOTIFY_SERVICE_DATA_SCHEMA = vol.Schema(
