@@ -2,5 +2,19 @@
     "services": {
         "auto_reply_enable": "mdi:microsoft-outlook",
         "auto_reply_disable": "mdi:microsoft-outlook"
+    },
+    "entity": {
+        "sensor": {
+            "auto_reply": {
+                "default": "mdi:reply-all",
+                "state": {
+                    "disabled": "mdi:reply-outline",
+                    "scheduled": "mdi:reply"
+                }
+            },
+            "mail": {
+                "default": "mdi:microsoft-outlook"
+            }
+        }
     }
 }
