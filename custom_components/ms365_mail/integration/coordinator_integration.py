@@ -32,7 +32,7 @@ from .const_integration import (
     SENSOR_AUTO_REPLY,
     SENSOR_EMAIL,
 )
-from .mailsensor import build_mail_query
+from .sensor_integration import build_mail_query
 
 _LOGGER = logging.getLogger(__name__)
 

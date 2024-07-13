@@ -1,13 +1,24 @@
 """MS365 mail sensors."""
 
 import datetime
+import logging
 from operator import itemgetter
 
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_platform
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from O365 import mailbox  # pylint: disable=no-name-in-module
 
 from ..classes.entity import MS365Entity
-from ..const import ATTR_DATA, DATETIME_FORMAT
+from ..const import (
+    ATTR_DATA,
+    CONF_ENABLE_UPDATE,
+    CONF_ENTITY_KEY,
+    CONF_ENTITY_TYPE,
+    DATETIME_FORMAT,
+)
 from ..helpers.config_entry import MS365ConfigEntry
 from ..helpers.utils import clean_html
 from .const_integration import (
@@ -20,6 +31,7 @@ from .const_integration import (
     ATTR_STATE,
     CONF_BODY_CONTAINS,
     CONF_DOWNLOAD_ATTACHMENTS,
+    CONF_ENABLE_AUTOREPLY,
     CONF_HAS_ATTACHMENT,
     CONF_HTML_BODY,
     CONF_IMPORTANCE,
@@ -29,10 +41,95 @@ from .const_integration import (
     CONF_SUBJECT_CONTAINS,
     CONF_SUBJECT_IS,
     PERM_MAILBOX_SETTINGS,
+    SENSOR_AUTO_REPLY,
+    SENSOR_EMAIL,
     Attachment,
     Unread,
 )
+from .schema_integration import (
+    AUTO_REPLY_SERVICE_DISABLE_SCHEMA,
+    AUTO_REPLY_SERVICE_ENABLE_SCHEMA,
+)
 from .utils_integration import get_email_attributes
+
+_LOGGER = logging.getLogger(__name__)
+
+
+async def async_integration_setup_entry(
+    hass: HomeAssistant,  # pylint: disable=unused-argument
+    entry: MS365ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Set up the MS365 platform."""
+
+    account = entry.runtime_data.account
+
+    is_authenticated = account.is_authenticated
+    if not is_authenticated:
+        return False
+
+    sensor_entities = _sensor_entities(entry)
+    email_entities = _email_entities(entry)
+    entities = sensor_entities + email_entities
+
+    async_add_entities(entities, False)
+    await _async_setup_register_services(entry)
+
+    return True
+
+
+def _sensor_entities(entry):
+    return [
+        MS365AutoReplySensor(
+            entry.runtime_data.coordinator,
+            entry,
+            key[CONF_NAME],
+            key[CONF_ENTITY_KEY],
+            key[CONF_UNIQUE_ID],
+        )
+        for key in entry.runtime_data.sensors
+        if key[CONF_ENTITY_TYPE] == SENSOR_AUTO_REPLY
+    ]
+
+
+def _email_entities(entry):
+    return [
+        MS365MailSensor(
+            entry.runtime_data.coordinator,
+            entry,
+            key[CONF_NAME],
+            key[CONF_ENTITY_KEY],
+            key[CONF_UNIQUE_ID],
+        )
+        for key in entry.runtime_data.sensors
+        if key[CONF_ENTITY_TYPE] == SENSOR_EMAIL
+    ]
+
+
+async def _async_setup_register_services(entry):
+    perms = entry.runtime_data.permissions
+    await _async_setup_mailbox_services(entry, perms)
+
+
+async def _async_setup_mailbox_services(entry, perms):
+    if not entry.data.get(CONF_ENABLE_UPDATE):
+        return
+
+    if not entry.data.get(CONF_ENABLE_AUTOREPLY):
+        return
+
+    platform = entity_platform.async_get_current_platform()
+    if perms.validate_authorization(PERM_MAILBOX_SETTINGS):
+        platform.async_register_entity_service(
+            "auto_reply_enable",
+            AUTO_REPLY_SERVICE_ENABLE_SCHEMA,
+            "auto_reply_enable",
+        )
+        platform.async_register_entity_service(
+            "auto_reply_disable",
+            AUTO_REPLY_SERVICE_DISABLE_SCHEMA,
+            "auto_reply_disable",
+        )
 
 
 class MS365MailSensor(MS365Entity, SensorEntity):
