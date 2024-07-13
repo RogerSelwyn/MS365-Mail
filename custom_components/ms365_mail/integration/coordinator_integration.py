@@ -7,18 +7,15 @@ from datetime import timedelta
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
-
-# from homeassistant.helpers import entity_registry
-from homeassistant.helpers.entity import async_generate_entity_id
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-# from homeassistant.util import dt
 from ..const import (
     ATTR_DATA,
     CONF_ENTITY_KEY,
     CONF_ENTITY_NAME,
     CONF_ENTITY_TYPE,
 )
+from ..helpers.utils import build_entity_id
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,
     ATTR_STATE,
@@ -68,7 +65,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         name = f"{self._entry.data[CONF_ENTITY_NAME]}_mail"
         if mail_folder := await self._async_get_mail_folder():
             new_key = {
-                CONF_ENTITY_KEY: _build_entity_id(
+                CONF_ENTITY_KEY: build_entity_id(
                     self.hass, ENTITY_ID_FORMAT_SENSOR, name
                 ),
                 CONF_UNIQUE_ID: f"{mail_folder.folder_id}_{self._entity_name}",
@@ -121,7 +118,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         if self._entry.data[CONF_ENABLE_AUTOREPLY]:
             name = f"{self._entry.data[CONF_ENTITY_NAME]}_autoreply"
             new_key = {
-                CONF_ENTITY_KEY: _build_entity_id(
+                CONF_ENTITY_KEY: build_entity_id(
                     self.hass, ENTITY_ID_FORMAT_SENSOR, name
                 ),
                 CONF_UNIQUE_ID: name,
@@ -177,12 +174,3 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 ATTR_STATE: data.automaticrepliessettings.status.value,
                 ATTR_AUTOREPLIESSETTINGS: data.automaticrepliessettings,
             }
-
-
-def _build_entity_id(hass, entity_id_format, name):
-    """Build and entity ID."""
-    return async_generate_entity_id(
-        entity_id_format,
-        name,
-        hass=hass,
-    )
