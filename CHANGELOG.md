@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.0 (2024/07/18)
+### ✨ Enhancements
+- [Add diagnostics support](https://github.com/RogerSelwyn/MS365-Mail/commit/bbdc0f53f33d5c7485fc4a3105ca51e251143e02) - @RogerSelwyn
+
+### 🐛 Fixes
+- [Correct configuration of shared_mailbox](https://github.com/RogerSelwyn/MS365-Mail/commit/2346182c8123b4a7f73b395cc2bf027490981fe7) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Add entity icons](https://github.com/RogerSelwyn/MS365-Mail/commit/10beac89433ca7ff44f028355565e892975dd513) - @RogerSelwyn
+- [Code updates in support of standardisation across MS365 integrations](https://github.com/RogerSelwyn/MS365-Mail/commit/80eb85d57f920df58b2e7b42769e2f5a42089d64) - @RogerSelwyn
+- [Consolidate sensor code to one place](https://github.com/RogerSelwyn/MS365-Mail/commit/08dc34c9e2ebc6da043eefa31805cd08f24268ad) - @RogerSelwyn
+- [Consolidate duplicate code](https://github.com/RogerSelwyn/MS365-Mail/commit/1678928725c6df58984daacf237d556d1ecb0f36) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.1.0](https://github.com/RogerSelwyn/MS365-Mail/commit/9540c84de3cbb00d170259a633e15833747fb2d6) - @RogerSelwyn
+
 ## v0.0.3 (2024/07/08)
 ### ⬆️ Dependencies
 - [Bump O365 to 2.0.35](https://github.com/RogerSelwyn/MS365-Mail/commit/162009be38a38846712688406238553f517c8ae8) - @RogerSelwyn
