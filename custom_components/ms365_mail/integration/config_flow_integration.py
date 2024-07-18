@@ -39,7 +39,8 @@ def integration_reconfigure_schema(entry_data):
             CONF_ENABLE_UPDATE, default=entry_data[CONF_ENABLE_UPDATE]
         ): cv.boolean,
         vol.Optional(
-            CONF_SHARED_MAILBOX, default=entry_data[CONF_SHARED_MAILBOX]
+            CONF_SHARED_MAILBOX,
+            description={"suggested_value": entry_data.get(CONF_SHARED_MAILBOX, None)},
         ): cv.string,
         vol.Optional(
             CONF_ENABLE_AUTOREPLY, default=entry_data[CONF_ENABLE_AUTOREPLY]
