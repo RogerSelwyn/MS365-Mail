@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.1.1 (2024/08/13)
+### 🐛 Fixes
+- [Handle corrupted token file gracefully with repair](https://github.com/RogerSelwyn/MS365-Mail/commit/e9b1cc10514a33d35939d3873370dc0b03fd5a43) - @RogerSelwyn
+- [Extraneous letter](https://github.com/RogerSelwyn/MS365-Mail/commit/dec944ccec0d492a725a82f7023186ed9d0d9e60) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Move coordinator setup code to new _async_setup method](https://github.com/RogerSelwyn/MS365-Mail/commit/2ee4282eec83f075ef12d4782f3ee43aabfb5b7a) - @RogerSelwyn
+- [Minimum HA version 2024.8.0](https://github.com/RogerSelwyn/MS365-Mail/commit/eae518e4f5e569d1fffc0716367ef85f74081ccd) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.1.1](https://github.com/RogerSelwyn/MS365-Mail/commit/43f56798743b6e81a687d7d3ccd38b500e51c8e9) - @RogerSelwyn
+
 ## v0.1.0 (2024/07/18)
 ### ✨ Enhancements
 - [Add diagnostics support](https://github.com/RogerSelwyn/MS365-Mail/commit/bbdc0f53f33d5c7485fc4a3105ca51e251143e02) - @RogerSelwyn
