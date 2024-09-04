@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.1.2 (2024/09/04)
+### 🐛 Fixes
+- [Fix issue of o365 library accessing token within the event loop](https://github.com/RogerSelwyn/MS365-Mail/commit/0996193e73cfaa90d0de74c93b4594e5f81d9abb) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Implement Sourcery.ai recomendations](https://github.com/RogerSelwyn/MS365-Mail/commit/5cf9f97574cd679909e26894f2ea5a3ce55940d5) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.1.2](https://github.com/RogerSelwyn/MS365-Mail/commit/a94c7e128eab80cf39c0ec2bb8005b890444a8f6) - @RogerSelwyn
+
 ## v0.1.1 (2024/08/13)
 ### 🐛 Fixes
 - [Handle corrupted token file gracefully with repair](https://github.com/RogerSelwyn/MS365-Mail/commit/e9b1cc10514a33d35939d3873370dc0b03fd5a43) - @RogerSelwyn
