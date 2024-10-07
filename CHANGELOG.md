@@ -1,4 +1,10 @@
 # Changelog
+## v0.1.3 (2024/10/07)
+### 🐛 Fixes
+- [Ensure all calls to O365 library methods are async](https://github.com/RogerSelwyn/MS365-Mail/commit/ba0acb9b25ad4a14de2932f5fcfd4ae9fa40fd82) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.1.3](https://github.com/RogerSelwyn/MS365-Mail/commit/b4c7136d1e64742ff4c43b7dba3b661028aa72e8) - @RogerSelwyn
 
 ## v0.1.2 (2024/09/04)
 ### 🐛 Fixes
