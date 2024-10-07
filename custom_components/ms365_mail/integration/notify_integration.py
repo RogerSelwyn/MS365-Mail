@@ -40,7 +40,7 @@ async def async_integration_get_service(hass, config, discovery_info=None):  # p
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
     account = entry.runtime_data.account
     if (
-        account.is_authenticated
+        entry.runtime_data.is_authenticated
         and entry.runtime_data.permissions.validate_authorization(PERM_MAIL_SEND)
     ):
         return MS365EmailService(account, hass, entry)
@@ -92,7 +92,7 @@ class MS365EmailService(BaseNotificationService):
             resp = await self.hass.async_add_executor_job(self.account.get_current_user)
             target = resp.mail
 
-        new_message = self.account.new_message()
+        new_message = self.hass.async_add_executor_job(self.account.new_message)
         message = self._build_message(data, message, new_message.attachments)
         self._build_attachments(data, new_message.attachments)
         new_message.to.add(target)

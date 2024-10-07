@@ -29,7 +29,7 @@ from .const_integration import (
     SENSOR_AUTO_REPLY,
     SENSOR_EMAIL,
 )
-from .sensor_integration import build_mail_query
+from .sensor_integration import async_build_mail_query
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,6 +47,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
             # Polling interval. Will only be polled if there are subscribers.
             update_interval=timedelta(seconds=30),
         )
+        self._hass = hass
         self._entry = entry
         self._account = account
         self._entity_name = entry.data[CONF_ENTITY_NAME]
@@ -72,7 +73,9 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 CONF_MS365_MAIL_FOLDER: mail_folder,
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_EMAIL,
-                CONF_QUERY: build_mail_query(mail_folder, self._entry.options),
+                CONF_QUERY: await async_build_mail_query(
+                    self._hass, mail_folder, self._entry.options
+                ),
             }
 
             keys.append(new_key)
@@ -80,14 +83,14 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
 
     async def _async_get_mail_folder(self):
         """Get the configured folder."""
-        mailbox = self._account.mailbox()
+        mailbox = await self.hass.async_add_executor_job(self._account.mailbox)
         _LOGGER.debug("Get mail folder: %s", self._entry.data[CONF_ENTITY_NAME])
         if mail_folder_conf := self._entry.options.get(CONF_FOLDER):
             return await self._async_get_configured_mail_folder(
                 mail_folder_conf, mailbox
             )
 
-        return mailbox.inbox_folder()
+        return await self.hass.async_add_executor_job(mailbox.inbox_folder)
 
     async def _async_get_configured_mail_folder(self, mail_folder_conf, mailbox):
         mail_folder = mailbox
