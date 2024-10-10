@@ -1,4 +1,16 @@
 # Changelog
+
+## v0.1.4 (2024/10/10)
+### 🐛 Fixes
+- [Fix error in notification send](https://github.com/RogerSelwyn/MS365-Mail/commit/036cb26b1c26749d6311c9c39431c9eccf2f0c4c) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update the docs](https://github.com/RogerSelwyn/MS365-Mail/commit/d62996191d9f5ec1231f1ea7828fe46801d8e85b) - @RogerSelwyn
+- [Docs update](https://github.com/RogerSelwyn/MS365-Mail/commit/de76b514476f87f27424a43968156249b51f84d7) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.1.4](https://github.com/RogerSelwyn/MS365-Mail/commit/afcbf22ce3d399ae8c9e6b75ed6cadcfa299d03c) - @RogerSelwyn
+
 ## v0.1.3 (2024/10/07)
 ### 🐛 Fixes
 - [Ensure all calls to O365 library methods are async](https://github.com/RogerSelwyn/MS365-Mail/commit/ba0acb9b25ad4a14de2932f5fcfd4ae9fa40fd82) - @RogerSelwyn
