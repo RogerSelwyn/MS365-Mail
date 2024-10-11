@@ -54,4 +54,5 @@ Key | Type | Required | Description
 `subject_is` | `string` | `False` | Only get emails where the subject equals exactly this string (Mutually exclusive with `subject_contains`)
 `download_attachments` | `boolean` | `False` | **True**=Download attachments, False=Don't download attachments
 `html_body` | `boolean` | `False` | True=Output HTML body, **False**=Output plain text body
+`show_body` | `boolean` | `False` | **True**=Show body on entity, False=Don't show body on entity
 `body_contains` | `string` | `False` | Only get emails where the body contains this string
