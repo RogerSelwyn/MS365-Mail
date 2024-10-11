@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.0 (2024/10/11)
+### ✨ Enhancements
+- [Add ability to save attachments to disk](https://github.com/RogerSelwyn/MS365-Mail/commit/5a594ae2dec2ea8c9b98966a69b40533fcb761ef) - @RogerSelwyn
+
+### 📚 Documentation
+- [Correct link to docs](https://github.com/RogerSelwyn/MS365-Mail/commit/f7a3f8463dce095d436c3c16b57c0473ad3c2248) - @RogerSelwyn
+- [Update docs with config options](https://github.com/RogerSelwyn/MS365-Mail/commit/df79673ad1eb374043ed53e621df020da5be7295) - @RogerSelwyn
+- [Add show_body config variable to docs](https://github.com/RogerSelwyn/MS365-Mail/commit/25dbcacab349b20f1b84ccd991658e6dcd2add4f) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v0.2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/b6dd96181efead2239baea0581c1a2b3476a10a2) - @RogerSelwyn
+
 ## v0.1.4 (2024/10/10)
 ### 🐛 Fixes
 - [Fix error in notification send](https://github.com/RogerSelwyn/MS365-Mail/commit/036cb26b1c26749d6311c9c39431c9eccf2f0c4c) - @RogerSelwyn
