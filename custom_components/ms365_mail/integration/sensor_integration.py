@@ -37,6 +37,7 @@ from .const_integration import (
     CONF_IMPORTANCE,
     CONF_IS_UNREAD,
     CONF_MAIL_FROM,
+    CONF_SAVE_ATTACHMENTS,
     CONF_SHOW_BODY,
     CONF_SUBJECT_CONTAINS,
     CONF_SUBJECT_IS,
@@ -142,7 +143,9 @@ class MS365MailSensor(MS365Entity, SensorEntity):
     ):
         """Initialise the MS365 Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
-        self._download_attachments = entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
+        download_attachments = entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
+        save_attachments = entry.options.get(CONF_SAVE_ATTACHMENTS)
+        self._fetch_attachments = download_attachments or save_attachments
         self._html_body = entry.options.get(CONF_HTML_BODY)
         self._show_body = entry.options.get(CONF_SHOW_BODY)
         self._state = None
@@ -173,7 +176,7 @@ class MS365MailSensor(MS365Entity, SensorEntity):
     def _get_attributes(self, data):
         return [
             get_email_attributes(
-                x, self._download_attachments, self._html_body, self._show_body
+                x, self._fetch_attachments, self._html_body, self._show_body
             )
             for x in data
         ]
@@ -253,6 +256,8 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
 async def _async_build_base_query(hass, mail_folder, sensor_conf):
     """Build base query for mail."""
     download_attachments = sensor_conf.get(CONF_DOWNLOAD_ATTACHMENTS)
+    save_attachments = sensor_conf.get(CONF_SAVE_ATTACHMENTS)
+    fetch_attachments = download_attachments or save_attachments
     show_body = sensor_conf.get(CONF_SHOW_BODY)
     html_body = sensor_conf.get(CONF_HTML_BODY)
     query = await hass.async_add_executor_job(mail_folder.new_query)
@@ -272,7 +277,7 @@ async def _async_build_base_query(hass, mail_folder, sensor_conf):
         query = query.select(
             "body",
         )
-    if download_attachments:
+    if fetch_attachments:
         query = query.select(
             "attachments",
         )

@@ -25,9 +25,14 @@ from .const_integration import (
     CONF_MAX_ITEMS,
     CONF_MS365_MAIL_FOLDER,
     CONF_QUERY,
+    CONF_SAVE_ATTACHMENTS,
     ENTITY_ID_FORMAT_SENSOR,
     SENSOR_AUTO_REPLY,
     SENSOR_EMAIL,
+)
+from .filemgmt_integration import (
+    check_and_create_attachments_folder,
+    save_attachments_to_disk,
 )
 from .sensor_integration import async_build_mail_query
 
@@ -77,8 +82,10 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                     self._hass, mail_folder, self._entry.options
                 ),
             }
-
             keys.append(new_key)
+
+            if self._entry.options.get(CONF_SAVE_ATTACHMENTS):
+                check_and_create_attachments_folder(self._hass)
         return keys
 
     async def _async_get_mail_folder(self):
@@ -150,6 +157,8 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         """Update code."""
 
         download_attachments = self._entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
+        save_attachments = self._entry.options.get(CONF_SAVE_ATTACHMENTS)
+        fetch_attachments = download_attachments or save_attachments
         max_items = self._entry.options.get(CONF_MAX_ITEMS, 5)
         mail_folder = key[CONF_MS365_MAIL_FOLDER]
         entity_key = key[CONF_ENTITY_KEY]
@@ -160,12 +169,16 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 mail_folder.get_messages,
                 limit=max_items,
                 query=query,
-                download_attachments=download_attachments,
+                download_attachments=fetch_attachments,
             )
         )
         self._data[entity_key] = {
             ATTR_DATA: await self.hass.async_add_executor_job(list, data)
         }
+        if save_attachments:
+            await self.hass.async_add_executor_job(
+                save_attachments_to_disk, self._hass, self._data[entity_key][ATTR_DATA]
+            )
 
     async def _async_auto_reply_update(self, key):
         """Update state."""

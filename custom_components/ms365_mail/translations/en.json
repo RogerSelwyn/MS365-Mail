@@ -52,6 +52,7 @@
                     "subject_is": "Subject is",
                     "body_contains": "Body contains",
                     "download_attachments": "Download attachments",
+                    "save_attachments": "Save attachments to ms365_storage/attachments",
                     "html_body": "Output HTML body",
                     "show_body": "Show body on entity"
                 },

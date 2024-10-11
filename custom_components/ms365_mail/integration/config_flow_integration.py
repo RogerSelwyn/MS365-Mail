@@ -21,6 +21,7 @@ from .const_integration import (
     CONF_IS_UNREAD,
     CONF_MAIL_FROM,
     CONF_MAX_ITEMS,
+    CONF_SAVE_ATTACHMENTS,
     CONF_SHOW_BODY,
     CONF_SUBJECT_CONTAINS,
     CONF_SUBJECT_IS,
@@ -153,6 +154,14 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                         description={
                             "suggested_value": self._user_input.get(
                                 CONF_DOWNLOAD_ATTACHMENTS, True
+                            )
+                        },
+                    ): BOOLEAN_SELECTOR,
+                    vol.Optional(
+                        CONF_SAVE_ATTACHMENTS,
+                        description={
+                            "suggested_value": self._user_input.get(
+                                CONF_SAVE_ATTACHMENTS, False
                             )
                         },
                     ): BOOLEAN_SELECTOR,

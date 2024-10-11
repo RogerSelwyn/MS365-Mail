@@ -6,6 +6,7 @@ from homeassistant.const import Platform
 
 PLATFORMS: list[Platform] = [Platform.SENSOR]
 DOMAIN = "ms365_mail"
+ATTACHMENT_FOLDER = "attachments"
 
 ATTR_AUTOREPLIESSETTINGS = "autorepliessettings"
 ATTR_ATTACHMENTS = "attachments"
@@ -35,6 +36,7 @@ CONF_MAIL_FROM = "from"
 CONF_MAX_ITEMS = "max_items"
 CONF_MS365_MAIL_FOLDER = "mail_folder"
 CONF_QUERY = "query"
+CONF_SAVE_ATTACHMENTS = "save_attachments"
 CONF_SHOW_BODY = "show_body"
 CONF_SUBJECT_CONTAINS = "subject_contains"
 CONF_SUBJECT_IS = "subject_is"
