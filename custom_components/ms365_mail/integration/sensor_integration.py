@@ -63,9 +63,6 @@ async def async_integration_setup_entry(
 ) -> None:
     """Set up the MS365 platform."""
 
-    if not entry.runtime_data.is_authenticated:
-        return False
-
     sensor_entities = await _async_sensor_entities(entry, hass)
     email_entities = _email_entities(entry)
     entities = sensor_entities + email_entities
