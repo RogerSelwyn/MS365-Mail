@@ -223,8 +223,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
         external_audience=mailbox.ExternalAudience.ALL,
     ):
         """Enable out of office autoreply."""
-        if not self._validate_autoreply_permissions():
-            return
+        self._validate_autoreply_permissions()
 
         await self.hass.async_add_executor_job(
             self.mailbox.set_automatic_reply,
@@ -237,8 +236,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
 
     async def async_auto_reply_disable(self):
         """Disable out of office autoreply."""
-        if not self._validate_autoreply_permissions():
-            return
+        self._validate_autoreply_permissions()
 
         await self.hass.async_add_executor_job(self.mailbox.set_disable_reply)
 
