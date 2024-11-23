@@ -124,9 +124,6 @@ class MS365EmailService(BaseNotificationService):
         return message
 
     def _build_photo_content(self, photos, new_message_attachments):
-        if isinstance(photos, str):
-            photos = [photos]
-
         photos_content = ""
         for i, photo in enumerate(photos, start=1):
             if photo.startswith("http"):
