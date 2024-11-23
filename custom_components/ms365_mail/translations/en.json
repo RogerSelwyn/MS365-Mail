@@ -73,7 +73,7 @@
     },
     "exceptions": {
         "not_authorised": {
-            "message": "Not authorisied requires permission: {required_permission}"
+            "message": "{required_permission}"
         }
     },
     "services": {
