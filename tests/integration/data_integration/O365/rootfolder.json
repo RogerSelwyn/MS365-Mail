@@ -1,0 +1,16 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('fake_user_id')/mailFolders",
+    "value": [
+        {
+            "id": "rootfolderid",
+            "displayName": "RootFolder",
+            "parentFolderId": "parentfolderid",
+            "childFolderCount": 1,
+            "unreadItemCount": 0,
+            "totalItemCount": 0,
+            "sizeInBytes": 0,
+            "isHidden": false
+        }
+    ],
+    "@odata.nextLink": "https://graph.microsoft.com/v1.0/me/mailFolders?%24filter=displayName+eq+%27RootFolder%27&%24top=1&%24skip=1"
+}

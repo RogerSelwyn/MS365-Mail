@@ -1,0 +1,16 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('fake_user_id')/mailFolders('rootfolderid')/childFolders",
+    "value": [
+        {
+            "id": "childfolderid",
+            "displayName": "homeassistant",
+            "parentFolderId": "rootfolderid",
+            "childFolderCount": 0,
+            "unreadItemCount": 0,
+            "totalItemCount": 4,
+            "sizeInBytes": 259239,
+            "isHidden": false
+        }
+    ],
+    "@odata.nextLink": "https://graph.microsoft.com/v1.0/me/mailFolders('rootfolderid')/childFolders?%24filter=displayName+eq+%27ChildFolder%27&%24top=1&%24skip=1"
+}

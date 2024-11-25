@@ -1,0 +1,41 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('fake_user_id')/mailboxSettings",
+    "archiveFolder": "Afake_archive_folder_id",
+    "timeZone": "GMT Standard Time",
+    "delegateMeetingMessageDeliveryOptions": "sendToDelegateOnly",
+    "dateFormat": "",
+    "timeFormat": "",
+    "userPurpose": "user",
+    "automaticRepliesSetting": {
+        "status": "disabled",
+        "externalAudience": "all",
+        "internalReplyMessage": "I'm currently on holiday",
+        "externalReplyMessage": "I'm currently on holiday, please email Bob for answers",
+        "scheduledStartDateTime": {
+            "dateTime": "2024-11-06T18:00:00.0000000",
+            "timeZone": "UTC"
+        },
+        "scheduledEndDateTime": {
+            "dateTime": "2024-11-07T18:00:00.0000000",
+            "timeZone": "UTC"
+        }
+    },
+    "language": {
+        "locale": "en-GB",
+        "displayName": "English (United Kingdom)"
+    },
+    "workingHours": {
+        "daysOfWeek": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+        ],
+        "startTime": "08:00:00.0000000",
+        "endTime": "17:00:00.0000000",
+        "timeZone": {
+            "name": "GMT Standard Time"
+        }
+    }
+}

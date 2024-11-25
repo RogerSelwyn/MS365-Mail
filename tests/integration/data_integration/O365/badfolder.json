@@ -1,0 +1,4 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('fake_user_id')/mailFolders('rootfolderid')/childFolders",
+    "value": []
+}
