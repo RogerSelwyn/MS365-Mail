@@ -32,20 +32,10 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_integration_get_service(hass, config, discovery_info=None):  # pylint: disable=unused-argument
     """Get the service."""
-    if discovery_info is None or not hasattr(
-        discovery_info[CONF_ENTRY], "runtime_data"
-    ):
-        return
-
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
     account = entry.runtime_data.account
-    if (
-        entry.runtime_data.is_authenticated
-        and entry.runtime_data.permissions.validate_authorization(PERM_MAIL_SEND)
-    ):
-        return MS365EmailService(account, hass, entry)
 
-    return
+    return MS365EmailService(account, hass, entry)
 
 
 class MS365EmailService(BaseNotificationService):
