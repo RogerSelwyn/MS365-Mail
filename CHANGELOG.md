@@ -1,5 +1,36 @@
 # Changelog
 
+## v1.0.0 (2024/11/25)
+### 🐛 Fixes
+- [Fix of shared permissions usage](https://github.com/RogerSelwyn/MS365-Mail/commit/a823386068160f8b8de235467e5183cf3cf43ca7) - @RogerSelwyn
+- [Fix issue with escalated permissions caused by previous change](https://github.com/RogerSelwyn/MS365-Mail/commit/5a9ebd70e78aae1e3d1fd7f8d9e2dd2f8a8125fc) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Adjust config flow translations](https://github.com/RogerSelwyn/MS365-Mail/commit/e6c370864039f09e5abc540991d0d1e2373f9c3c) - @RogerSelwyn
+- [Changes from testing of ms365_calendar](https://github.com/RogerSelwyn/MS365-Mail/commit/7c789c7a3de8b2868a2dbd5e03de58043ed5893b) - @RogerSelwyn
+- [Adjust to use update_reload_and_abort](https://github.com/RogerSelwyn/MS365-Mail/commit/f18fdd386c4a73a2f269ad8a7e4adfa041235b7b) - @RogerSelwyn
+- [Remove unnecessary check](https://github.com/RogerSelwyn/MS365-Mail/commit/f7775bc8a8b704dc5654c0720d065471dbfbfcba) - @RogerSelwyn
+- [Changes in support of recent HA core changes](https://github.com/RogerSelwyn/MS365-Mail/commit/cd70443f9cd294fdfd263116fd79c0fb317c9e3a) - @RogerSelwyn
+- [Remove redundant code](https://github.com/RogerSelwyn/MS365-Mail/commit/8a75a66b8a0d968f935a8fcfaafa6230caea581d) - @RogerSelwyn
+- [Remove redundant code](https://github.com/RogerSelwyn/MS365-Mail/commit/e2cb550f76362ac12e2fcdca93650a05b5b90bcc) - @RogerSelwyn
+- [Correct translation](https://github.com/RogerSelwyn/MS365-Mail/commit/e7af10125c485939a11ee2388bd8f29b4c16ccd0) - @RogerSelwyn
+- [Remove redundant code](https://github.com/RogerSelwyn/MS365-Mail/commit/8882bb1ccb533a0d554a7b815bf6313fa0aab67a) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Bump python-o365 to 2.0.38](https://github.com/RogerSelwyn/MS365-Mail/commit/0304b2c9de286130a358e485e9963b1d9847ae10) - @RogerSelwyn
+- [Bump minimum HA version to 2024.11.0](https://github.com/RogerSelwyn/MS365-Mail/commit/64a2f4aa9ef67cd9218adf69258ee3f29a18c5df) - @RogerSelwyn
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/eb332ce4fd0af81ea10908b6bffba8c874312327) - @actions-user
+
+### 📚 Documentation
+- [Add information about notify services](https://github.com/RogerSelwyn/MS365-Mail/commit/4442db1e047c3f97a67ac3e0794e4a6f51cb610d) - @RogerSelwyn
+- [Fix documentation config](https://github.com/RogerSelwyn/MS365-Mail/commit/8b851782502042ad65389a8de84791b5617b4573) - @RogerSelwyn
+
+### ✅ Test
+- [Add testing](https://github.com/RogerSelwyn/MS365-Mail/commit/a9296b9d8810835c182359e623361a5a8ee32655) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.0.0](https://github.com/RogerSelwyn/MS365-Mail/commit/586cc94638f9c13499ca71f747b1e71971d42b12) - @RogerSelwyn
+
 ## v0.2.0 (2024/10/11)
 ### ✨ Enhancements
 - [Add ability to save attachments to disk](https://github.com/RogerSelwyn/MS365-Mail/commit/5a594ae2dec2ea8c9b98966a69b40533fcb761ef) - @RogerSelwyn
