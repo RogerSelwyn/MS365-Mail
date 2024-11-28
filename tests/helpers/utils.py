@@ -42,11 +42,9 @@ def _build_token(scope):
 
 def build_token_url(result, token_url):
     """Build the correct token url"""
-    state = re.search(
-        "state=(.*?)&", result["description_placeholders"]["auth_url"]
-    ).group(1)
+    state = re.search("state=(.*?)&", result["description_placeholders"]["auth_url"])[1]
 
-    return token_url + "?" + TOKEN_PARAMS.format(state)
+    return f"{token_url}?{TOKEN_PARAMS.format(state)}"
 
 
 def build_token_file(tmp_path, scope):
@@ -105,7 +103,7 @@ def check_entity_state(
 ):
     """Check entity state."""
     state = hass.states.get(entity_name)
-    # print(state)
+    print(state)
     assert state.state == entity_state
     if entity_attributes:
         print("*************************** State Attributes")
@@ -119,7 +117,7 @@ def check_entity_state(
 
     if attributes is not None:
         for key, value in attributes.items():
-            assert state.attributes[key] == value
+            assert state.attributes.get(key, None) == value
 
 
 def utcnow():

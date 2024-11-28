@@ -24,7 +24,9 @@ BASE_CONFIG_ENTRY = {
     "shared_mailbox": "",
 }
 BASE_TOKEN_PERMS = "Mail.Read"
+BASE_MISSING_PERMS = BASE_TOKEN_PERMS
 UPDATE_TOKEN_PERMS = "Mail.Read Mail.Send MailboxSettings.ReadWrite"
+UPDATE_OPTIONS = {"enable_update": True}
 
 ALT_CONFIG_ENTRY = deepcopy(BASE_CONFIG_ENTRY)
 ALT_CONFIG_ENTRY["alt_auth_method"] = True
