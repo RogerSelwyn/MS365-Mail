@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.0.1 (2024/11/30)
+### 🧰 Maintenance
+- [Update .gitignore](https://github.com/RogerSelwyn/MS365-Mail/commit/f258697a81ea7227a485c958dabae88288689771) - @RogerSelwyn
+- [Typo](https://github.com/RogerSelwyn/MS365-Mail/commit/fce74748c244d20029458f31177bd10120afa6d7) - @RogerSelwyn
+- [Add support for migration from o365 integration](https://github.com/RogerSelwyn/MS365-Mail/commit/2df43fae99433c31573e4e41f99241cc9470ac36) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/eb332ce4fd0af81ea10908b6bffba8c874312327) - @actions-user
+
+### 📚 Documentation
+- [Update CHANGELOG.md](https://github.com/RogerSelwyn/MS365-Mail/commit/e3f5fc5d30ec7abc4594c7999f99d3e2f521c433) - @RogerSelwyn
+
+### ✅ Test
+- [Testing improvements](https://github.com/RogerSelwyn/MS365-Mail/commit/6d1d6cbd2fff793a36d3b32fc069925989560316) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.0.1](https://github.com/RogerSelwyn/MS365-Mail/commit/ef6c7aef5d59fa16bf0f84d69cda1c4aee3d8e0c) - @RogerSelwyn
+
 ## v1.0.0 (2024/11/25)
 ### 🐛 Fixes
 - [Fix of shared permissions usage](https://github.com/RogerSelwyn/MS365-Mail/commit/a823386068160f8b8de235467e5183cf3cf43ca7) - @RogerSelwyn
