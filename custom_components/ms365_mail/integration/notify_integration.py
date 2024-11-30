@@ -32,6 +32,11 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_integration_get_service(hass, config, discovery_info=None):  # pylint: disable=unused-argument
     """Get the service."""
+    if discovery_info is None or not hasattr(
+        discovery_info[CONF_ENTRY], "runtime_data"
+    ):
+        return
+
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
     account = entry.runtime_data.account
 

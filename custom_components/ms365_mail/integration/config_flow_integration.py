@@ -54,6 +54,11 @@ def integration_validate_schema(user_input):  # pylint: disable=unused-argument
     return {}
 
 
+async def async_integration_imports(hass, import_data):  # pylint: disable=unused-argument
+    """Do the integration  level import tasks."""
+    return
+
+
 class MS365OptionsFlowHandler(config_entries.OptionsFlow):
     """Config flow options for MS365."""
 
