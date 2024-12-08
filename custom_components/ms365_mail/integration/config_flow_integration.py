@@ -65,9 +65,6 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, entry: MS365ConfigEntry):
         """Initialize MS365 options flow."""
 
-        self._entry = entry
-        self._user_input = entry.options
-
     async def async_step_init(
         self,
         user_input=None,  # pylint: disable=unused-argument
@@ -92,26 +89,30 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
         return self.async_show_form(
             step_id="user",
             description_placeholders={
-                CONF_ENTITY_NAME: self._entry.data[CONF_ENTITY_NAME]
+                CONF_ENTITY_NAME: self.config_entry.data[CONF_ENTITY_NAME]
             },
             data_schema=vol.Schema(
                 {
                     vol.Optional(
                         CONF_FOLDER,
                         description={
-                            "suggested_value": self._user_input.get(CONF_FOLDER)
+                            "suggested_value": self.config_entry.options.get(
+                                CONF_FOLDER
+                            )
                         },
                     ): cv.string,
                     vol.Optional(
                         CONF_MAX_ITEMS,
                         description={
-                            "suggested_value": self._user_input.get(CONF_MAX_ITEMS, 5)
+                            "suggested_value": self.config_entry.options.get(
+                                CONF_MAX_ITEMS, 5
+                            )
                         },
                     ): int,
                     vol.Optional(
                         CONF_IS_UNREAD,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_IS_UNREAD, Unread.NONE
                             )
                         },
@@ -119,13 +120,15 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_MAIL_FROM,
                         description={
-                            "suggested_value": self._user_input.get(CONF_MAIL_FROM)
+                            "suggested_value": self.config_entry.options.get(
+                                CONF_MAIL_FROM
+                            )
                         },
                     ): cv.string,
                     vol.Optional(
                         CONF_HAS_ATTACHMENT,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_HAS_ATTACHMENT, Attachment.NONE
                             )
                         },
@@ -133,7 +136,7 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_IMPORTANCE,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_IMPORTANCE, ImportanceLevel.NONE
                             )
                         },
@@ -142,7 +145,7 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_SUBJECT_CONTAINS,
                         "subject_contains_or_is",
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_SUBJECT_CONTAINS
                             )
                         },
@@ -151,13 +154,15 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                         CONF_SUBJECT_IS,
                         "subject_contains_or_is",
                         description={
-                            "suggested_value": self._user_input.get(CONF_SUBJECT_IS)
+                            "suggested_value": self.config_entry.options.get(
+                                CONF_SUBJECT_IS
+                            )
                         },
                     ): cv.string,
                     vol.Optional(
                         CONF_DOWNLOAD_ATTACHMENTS,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_DOWNLOAD_ATTACHMENTS, True
                             )
                         },
@@ -165,7 +170,7 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_SAVE_ATTACHMENTS,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_SAVE_ATTACHMENTS, False
                             )
                         },
@@ -173,7 +178,7 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_HTML_BODY,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_HTML_BODY, False
                             )
                         },
@@ -181,7 +186,7 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_SHOW_BODY,
                         description={
-                            "suggested_value": self._user_input.get(
+                            "suggested_value": self.config_entry.options.get(
                                 CONF_SHOW_BODY, True
                             )
                         },
@@ -189,7 +194,9 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
                     vol.Optional(
                         CONF_BODY_CONTAINS,
                         description={
-                            "suggested_value": self._user_input.get(CONF_BODY_CONTAINS)
+                            "suggested_value": self.config_entry.options.get(
+                                CONF_BODY_CONTAINS
+                            )
                         },
                     ): cv.string,
                 }
@@ -200,5 +207,5 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
 
     async def _async_tidy_up(self, user_input):
         update = self.async_create_entry(title="", data=user_input)
-        await self.hass.config_entries.async_reload(self._entry.entry_id)
+        await self.hass.config_entries.async_reload(self._config_entry_id)
         return update
