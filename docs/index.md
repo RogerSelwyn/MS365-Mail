@@ -12,7 +12,7 @@ This integration forms part of a suite of integrations that replace the old [O36
 
 All the integrations are built to the same standard with the same authentication and configuration mechanism. All the integrations can use the same Entra ID App Registration and secret if desired.
 
-# Microsoft 365 MAIL Integration for Home Assistant
+# Microsoft 365 Mail Integration for Home Assistant
 
 This integration enables:
 1. Getting emails from your inbox 
