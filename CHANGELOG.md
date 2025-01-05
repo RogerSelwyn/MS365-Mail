@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.1.0 (2025/01/05)
+### 🧰 Maintenance
+- [Use attributes from base class](https://github.com/RogerSelwyn/MS365-Mail/commit/2b398e94ccaf3ec972ddb3516d7ed2092fd11793) - @RogerSelwyn
+- [Add protections in line with base](https://github.com/RogerSelwyn/MS365-Mail/commit/c0bf01dc92ae3c20fd6fe8d71b6a89275f52c9de) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update CHANGELOG.md](https://github.com/RogerSelwyn/MS365-Mail/commit/8cdd9e54e067e7ccc77a79427c8d3bfcb1ca56c1) - @RogerSelwyn
+- [Update README.md](https://github.com/RogerSelwyn/MS365-Mail/commit/c15e36c8a3cb5752118ce7978f1e1c471a8d6cd3) - @RogerSelwyn
+- [Update README.md](https://github.com/RogerSelwyn/MS365-Mail/commit/614710047455ef7d6ba63b7a7a78aabbbea55e4e) - @RogerSelwyn
+- [Update README.md](https://github.com/RogerSelwyn/MS365-Mail/commit/168df303ab959d092ba5b9db4e793956ff3bae83) - @RogerSelwyn
+- [Update index.md](https://github.com/RogerSelwyn/MS365-Mail/commit/2392c258cd05f06729ae87344d34a0cef7e77bf8) - @RogerSelwyn
+- [Update authentication.md](https://github.com/RogerSelwyn/MS365-Mail/commit/a7b25567a5a40acd58f4d19cf65a52874a1b2652) - @RogerSelwyn
+
+### ✅ Test
+- [Bump pytest-cov to 6.0.0](https://github.com/RogerSelwyn/MS365-Mail/commit/525922f2ce918d42017457df0f9d4757a33000d3) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.1.0](https://github.com/RogerSelwyn/MS365-Mail/commit/23b06fb48c4169ccc11420a3b9167cde4ad044a0) - @RogerSelwyn
+
 ## v1.0.1 (2024/11/30)
 ### 🧰 Maintenance
 - [Update .gitignore](https://github.com/RogerSelwyn/MS365-Mail/commit/f258697a81ea7227a485c958dabae88288689771) - @RogerSelwyn
