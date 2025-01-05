@@ -25,6 +25,7 @@ BASE_CONFIG_ENTRY = {
 }
 BASE_TOKEN_PERMS = "Mail.Read"
 BASE_MISSING_PERMS = BASE_TOKEN_PERMS
+SHARED_TOKEN_PERMS = "Mail.Read.Shared"
 UPDATE_TOKEN_PERMS = "Mail.Read Mail.Send MailboxSettings.ReadWrite"
 UPDATE_OPTIONS = {"enable_update": True}
 
