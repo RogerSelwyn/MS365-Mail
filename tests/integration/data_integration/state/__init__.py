@@ -97,7 +97,7 @@ SAFE_HTML_MESSAGES = [
             "due_date": None,
             "completion_date": None,
         },
-        "body": "",
+        "body": "Plain Text",
     },
 ]
 
@@ -134,7 +134,7 @@ CLEAN_HTML_MESSAGES = [
             "due_date": None,
             "completion_date": None,
         },
-        "body": "",
+        "body": "Plain Text",
     },
 ]
 
