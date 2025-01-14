@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.1.1 (2025/01/14)
+### 🧰 Maintenance
+- [Correct integration name](https://github.com/RogerSelwyn/MS365-Mail/commit/cf44a08ba89ca3ae9cde9a1eb43428f0bfaf44e8) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Bump Home Assistant to 2024.12.0](https://github.com/RogerSelwyn/MS365-Mail/commit/e1b081269a93f61248ba16db7e6568109e6d2feb) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update CHANGELOG.md](https://github.com/RogerSelwyn/MS365-Mail/commit/0798851d74a5483100d624bc9afab9d074b73b5f) - @RogerSelwyn
+- [Update README.md](https://github.com/RogerSelwyn/MS365-Mail/commit/4ca3fafc84af33befe554815cce74027494b94d6) - @RogerSelwyn
+
+### ✅ Test
+- [Remove unrequired dependencies](https://github.com/RogerSelwyn/MS365-Mail/commit/9c7e31b4ee2c42d3cb6dce8795ca946e69d135ac) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.1.1](https://github.com/RogerSelwyn/MS365-Mail/commit/856a5f547590724d7a936893dfa330a995aa4228) - @RogerSelwyn
+  
 ## v1.1.0 (2025/01/05)
 ### 🧰 Maintenance
 - [Use attributes from base class](https://github.com/RogerSelwyn/MS365-Mail/commit/2b398e94ccaf3ec972ddb3516d7ed2092fd11793) - @RogerSelwyn
