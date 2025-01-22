@@ -23,7 +23,7 @@ nav_order: 4
 
 1. Launch HACS
 1. Navigate to the Integrations section
-1. Add this repository as a Custom Repository (Integration) via the menu at top right.
+1. Add repository `RogerSelwyn/MS365-Mail` with type `Integration` as a Custom Repository via the menu at top right.
 1. Search for "Microsoft 365 Mail"
 1. Select "Install this repository"
 1. Restart Home Assistant
