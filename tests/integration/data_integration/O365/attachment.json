@@ -4,7 +4,7 @@
         {
             "@odata.type": "#microsoft.graph.fileAttachment",
             "@odata.mediaContentType": "image/jpeg",
-            "id": "attachment1",
+            "id": "AAMkAGQwYzQ5ZjZjLTQyYmItNDJmNy04NDNjLTJjYWY3NzMyMDBmYwBGAAAAAAC9VxHxYFTdSrdCHSJkXtJ-attachment1",
             "lastModifiedDateTime": "2024-11-25T09:48:34Z",
             "name": "test.jpg",
             "contentType": "image/jpeg",
