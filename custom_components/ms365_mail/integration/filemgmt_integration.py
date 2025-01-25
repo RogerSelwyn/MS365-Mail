@@ -19,8 +19,9 @@ def save_attachments_to_disk(hass, data):
     """Save attachments."""
     for mail in data:
         for x in mail.attachments:
+            attachment_id = x.attachment_id[(x.attachment_id.find("-") + 1) :]
             file_name = build_config_file_path(
-                hass, f"{ATTACHMENT_FOLDER}/{x.attachment_id}---{x.name}"
+                hass, f"{ATTACHMENT_FOLDER}/{attachment_id}---{x.name}"
             )
             try:
                 with open(file_name, "xb") as file:
