@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.1.2 (2025/01/25)
+### 🐛 Fixes
+- [Shorten filename for downloaded attachments](https://github.com/RogerSelwyn/MS365-Mail/commit/52c5ded2b78a83bba1105111aa083d919ed10474) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Add bug reporting templates](https://github.com/RogerSelwyn/MS365-Mail/commit/d4291418858898d2b3c20ac9684cdf4557607865) - @RogerSelwyn
+
+📚 Documentation
+- [Update installation_and_configuration.md](https://github.com/RogerSelwyn/MS365-Mail/commit/be97ac26482aa27f777372920d732bdf1ecbcab5) - @spreadman01
+
+### 🔖 Release
+- [Release v1.1.2](https://github.com/RogerSelwyn/MS365-Mail/commit/5eb6b3a4918be094336adcdaf69fe3826b1c0bad) - @RogerSelwyn
+  
 ## v1.1.1 (2025/01/14)
 ### 🧰 Maintenance
 - [Correct integration name](https://github.com/RogerSelwyn/MS365-Mail/commit/cf44a08ba89ca3ae9cde9a1eb43428f0bfaf44e8) - @RogerSelwyn
