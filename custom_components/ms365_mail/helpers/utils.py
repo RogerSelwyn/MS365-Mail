@@ -1,7 +1,6 @@
 """Utilities processes."""
 
 import warnings
-from copy import deepcopy
 
 from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
 from homeassistant.helpers.entity import async_generate_entity_id
