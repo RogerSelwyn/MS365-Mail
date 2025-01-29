@@ -11,6 +11,7 @@ from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from O365 import mailbox  # pylint: disable=no-name-in-module
 
+from ..classes.config_entry import MS365ConfigEntry
 from ..classes.entity import MS365Entity
 from ..const import (
     ATTR_DATA,
@@ -19,7 +20,6 @@ from ..const import (
     CONF_ENTITY_TYPE,
     DATETIME_FORMAT,
 )
-from ..helpers.config_entry import MS365ConfigEntry
 from ..helpers.utils import clean_html
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,

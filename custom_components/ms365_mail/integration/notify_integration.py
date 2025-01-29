@@ -12,8 +12,8 @@ from homeassistant.components.notify import (
     BaseNotificationService,
 )
 
+from ..classes.config_entry import MS365ConfigEntry
 from ..const import CONF_ENTITY_NAME
-from ..helpers.config_entry import MS365ConfigEntry
 from .const_integration import (
     ATTR_ATTACHMENTS,
     ATTR_IMPORTANCE,
