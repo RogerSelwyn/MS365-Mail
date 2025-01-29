@@ -38,7 +38,7 @@ async def async_integration_get_service(hass, config, discovery_info=None):  # p
         return
 
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
-    account = entry.runtime_data.account
+    account = entry.runtime_data.ha_account.account
 
     return MS365EmailService(account, hass, entry)
 

@@ -190,7 +190,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
         """Initialise the Auto reply Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
         self._entry = entry
-        self._account = self._entry.runtime_data.account
+        self._account = self._entry.runtime_data.ha_account.account
         self.mailbox = None
 
     async def async_init(self, hass):
