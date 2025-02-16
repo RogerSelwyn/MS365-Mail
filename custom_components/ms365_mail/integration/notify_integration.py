@@ -12,8 +12,8 @@ from homeassistant.components.notify import (
     BaseNotificationService,
 )
 
+from ..classes.config_entry import MS365ConfigEntry
 from ..const import CONF_ENTITY_NAME
-from ..helpers.config_entry import MS365ConfigEntry
 from .const_integration import (
     ATTR_ATTACHMENTS,
     ATTR_IMPORTANCE,
@@ -38,7 +38,7 @@ async def async_integration_get_service(hass, config, discovery_info=None):  # p
         return
 
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
-    account = entry.runtime_data.account
+    account = entry.runtime_data.ha_account.account
 
     return MS365EmailService(account, hass, entry)
 
@@ -64,11 +64,13 @@ class MS365EmailService(BaseNotificationService):
 
     async def async_send_message(self, message="", **kwargs):
         """Send an async message to a user."""
+
         if not self._entry.runtime_data.permissions.validate_authorization(
             PERM_MAIL_SEND
         ):
             _LOGGER.error(
-                "Not authorisied to send mail - requires permission: %s", PERM_MAIL_SEND
+                "Not authorised to send mail - requires permission: %s",
+                f"{PERM_MAIL_SEND}(.Shared)",
             )
             return
 
@@ -84,7 +86,9 @@ class MS365EmailService(BaseNotificationService):
         if data and data.get(ATTR_TARGET, None):
             target = data.get(ATTR_TARGET)
         else:
-            resp = await self.hass.async_add_executor_job(self.account.get_current_user)
+            resp = await self.hass.async_add_executor_job(
+                self.account.get_current_user_data
+            )
             target = resp.mail
 
         new_message = await self.hass.async_add_executor_job(self.account.new_message)

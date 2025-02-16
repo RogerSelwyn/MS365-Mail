@@ -12,11 +12,11 @@ from homeassistant.exceptions import ServiceValidationError
 from custom_components.ms365_mail.const import CONF_ENABLE_UPDATE
 from custom_components.ms365_mail.integration.const_integration import (
     CONF_ENABLE_AUTOREPLY,
-    DOMAIN,
 )
 
 from ..conftest import MS365MockConfigEntry
 from ..const import TEST_DATA_INTEGRATION_LOCATION
+from .const_integration import DOMAIN
 
 
 async def test_update_service_setup(
@@ -114,7 +114,7 @@ async def test_autoreply_failed_permission(
     failed_perm = "mail.failed_perm"
     with (
         patch(
-            "custom_components.ms365_mail.integration.sensor_integration.PERM_MAILBOX_SETTINGS",
+            f"custom_components.{DOMAIN}.integration.sensor_integration.PERM_MAILBOX_SETTINGS",
             failed_perm,
         ),
         pytest.raises(ServiceValidationError) as exc_info,
@@ -134,12 +134,12 @@ async def test_autoreply_failed_permission(
             return_response=False,
         )
     assert (
-        f"Not authorisied to update auto reply - requires permission: {failed_perm}"
+        f"Not authorised to update auto reply - requires permission: {failed_perm}"
         in str(exc_info.value)
     )
     with (
         patch(
-            "custom_components.ms365_mail.integration.sensor_integration.PERM_MAILBOX_SETTINGS",
+            f"custom_components.{DOMAIN}.integration.sensor_integration.PERM_MAILBOX_SETTINGS",
             failed_perm,
         ),
         pytest.raises(ServiceValidationError) as exc_info,
@@ -154,7 +154,7 @@ async def test_autoreply_failed_permission(
             return_response=False,
         )
     assert (
-        f"Not authorisied to update auto reply - requires permission: {failed_perm}"
+        f"Not authorised to update auto reply - requires permission: {failed_perm}"
         in str(exc_info.value)
     )
 
@@ -362,7 +362,7 @@ async def test_notify_failed_permission(
     entity_name = "sensor.test_mail"
     failed_perm = "mail.failed_perm"
     with patch(
-        "custom_components.ms365_mail.integration.notify_integration.PERM_MAIL_SEND",
+        f"custom_components.{DOMAIN}.integration.notify_integration.PERM_MAIL_SEND",
         failed_perm,
     ):
         await hass.services.async_call(
@@ -377,7 +377,7 @@ async def test_notify_failed_permission(
             return_response=False,
         )
     assert (
-        f"Not authorisied to send mail - requires permission: {failed_perm}"
+        f"Not authorised to send mail - requires permission: {failed_perm}"
         in caplog.text
     )
 

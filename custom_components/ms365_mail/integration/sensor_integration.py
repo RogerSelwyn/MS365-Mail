@@ -11,6 +11,7 @@ from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from O365 import mailbox  # pylint: disable=no-name-in-module
 
+from ..classes.config_entry import MS365ConfigEntry
 from ..classes.entity import MS365Entity
 from ..const import (
     ATTR_DATA,
@@ -19,7 +20,6 @@ from ..const import (
     CONF_ENTITY_TYPE,
     DATETIME_FORMAT,
 )
-from ..helpers.config_entry import MS365ConfigEntry
 from ..helpers.utils import clean_html
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,
@@ -190,7 +190,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
         """Initialise the Auto reply Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
         self._entry = entry
-        self._account = self._entry.runtime_data.account
+        self._account = self._entry.runtime_data.ha_account.account
         self.mailbox = None
 
     async def async_init(self, hass):
@@ -243,7 +243,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
     def _validate_autoreply_permissions(self):
         return self._validate_permissions(
             PERM_MAILBOX_SETTINGS,
-            "Not authorisied to update auto reply - requires permission: "
+            "Not authorised to update auto reply - requires permission: "
             + f"{PERM_MAILBOX_SETTINGS}",
         )
 

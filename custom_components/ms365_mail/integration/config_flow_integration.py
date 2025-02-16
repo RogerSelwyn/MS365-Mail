@@ -8,8 +8,8 @@ from homeassistant import (
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.selector import BooleanSelector
 
+from ..classes.config_entry import MS365ConfigEntry
 from ..const import CONF_ENABLE_UPDATE, CONF_ENTITY_NAME, CONF_SHARED_MAILBOX
-from ..helpers.config_entry import MS365ConfigEntry
 from .const_integration import (
     CONF_BODY_CONTAINS,
     CONF_DOWNLOAD_ATTACHMENTS,

@@ -67,9 +67,11 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         return self.keys
 
     async def _async_email_sensors(self):
-        keys = []
-        name = f"{self._entry.data[CONF_ENTITY_NAME]}_mail"
         if mail_folder := await self._async_get_mail_folder():
+            name = f"{self._entry.data[CONF_ENTITY_NAME]}_mail"
+            if self._entry.options.get(CONF_SAVE_ATTACHMENTS):
+                check_and_create_attachments_folder(self._hass)
+
             new_key = {
                 CONF_ENTITY_KEY: build_entity_id(
                     self.hass, ENTITY_ID_FORMAT_SENSOR, name
@@ -82,11 +84,9 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                     self._hass, mail_folder, self._entry.options
                 ),
             }
-            keys.append(new_key)
+            return [new_key]
 
-            if self._entry.options.get(CONF_SAVE_ATTACHMENTS):
-                check_and_create_attachments_folder(self._hass)
-        return keys
+        return []
 
     async def _async_get_mail_folder(self):
         """Get the configured folder."""
@@ -124,7 +124,6 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         return mail_folder
 
     async def _async_auto_reply_sensors(self):
-        keys = []
         if self._entry.data[CONF_ENABLE_AUTOREPLY]:
             name = f"{self._entry.data[CONF_ENTITY_NAME]}_autoreply"
             new_key = {
@@ -136,8 +135,8 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 CONF_ENTITY_TYPE: SENSOR_AUTO_REPLY,
             }
 
-            keys.append(new_key)
-        return keys
+            return [new_key]
+        return []
 
     async def _async_update_data(self):
         _LOGGER.debug(

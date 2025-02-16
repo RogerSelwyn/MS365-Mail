@@ -28,8 +28,8 @@
         "toRecipients": [
             {
                 "emailAddress": {
-                    "name": "John Doe",
-                    "address": "john@nomail.com"
+                    "name": "Jane Doe",
+                    "address": "jane.doe@nomail.com"
                 }
             }
         ],
@@ -65,8 +65,8 @@
         "toRecipients": [
             {
                 "emailAddress": {
-                    "name": "John Doe",
-                    "address": "john@nomail.com"
+                    "name": "Jane Doe",
+                    "address": "jane.doe@nomail.com"
                 }
             }
         ],
@@ -83,5 +83,5 @@
         }
     }
 ],
-"@odata.nextLink": "https://graph.microsoft.com/v1.0/me/mailFolders('Inbox')/messages?%24orderby=receivedDateTime+desc&%24select=hasAttachments%2cfrom%2cccRecipients%2cisRead%2creceivedDateTime%2ctoRecipients%2cimportance%2csender%2cflag%2csubject&%24top=5&%24skip=5"
+"@odata.nextLink": "https://graph.microsoft.com/v1.0/users/jane.doe@nomail.com/mailFolders('Inbox')/messages?%24orderby=receivedDateTime+desc&%24select=hasAttachments%2cfrom%2cccRecipients%2cisRead%2creceivedDateTime%2ctoRecipients%2cimportance%2csender%2cflag%2csubject&%24top=5&%24skip=5"
 }
