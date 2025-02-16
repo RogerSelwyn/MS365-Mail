@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.3.0 (2025/02/16)
+### 🐛 Fixes
+- [Handle expired token/invalid grant](https://github.com/RogerSelwyn/MS365-Mail/commit/12ace955146443dfc9901bf85a7ea69dca08c67f) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Remove incorrect merge item](https://github.com/RogerSelwyn/MS365-Mail/commit/83cfdc29cdcc20fc525ffd2e1f391bc7499ef18d) - @RogerSelwyn
+- [Add link to re-configure in Issue text](https://github.com/RogerSelwyn/MS365-Mail/commit/40130925d9a21a60a67b4ea09c7723f8b4ade0ed) - @RogerSelwyn
+- [Break account out from permissions](https://github.com/RogerSelwyn/MS365-Mail/commit/a5a253db0cc4919270780dfb707e824b6cd7ec8b) - @RogerSelwyn
+- [Tidy up runtime_data](https://github.com/RogerSelwyn/MS365-Mail/commit/bb6a300b77de82e9024fd785cbb7fa812791440e) - @RogerSelwyn
+- [Break out token_backend from permissions](https://github.com/RogerSelwyn/MS365-Mail/commit/133ddeb9ba9ee2102bd4a2df5df40a43d805ec00) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update installation_and_configuration.md](https://github.com/RogerSelwyn/MS365-Mail/commit/ee2f738b80de4f2a6c28399507de7e4b4283d1e8) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.3.0](https://github.com/RogerSelwyn/MS365-Mail/commit/7bf8759e435e3e676f13d2769cd1f864a2d95ba9) - @RogerSelwyn
+
 ## v1.1.2 (2025/01/25)
 ### 🐛 Fixes
 - [Shorten filename for downloaded attachments](https://github.com/RogerSelwyn/MS365-Mail/commit/52c5ded2b78a83bba1105111aa083d919ed10474) - @RogerSelwyn
