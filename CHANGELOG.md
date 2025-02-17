@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3.1 (2025/02/17)
+### 🐛 Fixes
+- [Fix permissions repair text](https://github.com/RogerSelwyn/MS365-Mail/commit/76d96230ae86af841544bcc5c442893934db5575) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Reduce constraint on O365 dependency](https://github.com/RogerSelwyn/MS365-Mail/commit/602cbf26ca4cbbb53461c32c76e9b51bbfd73f08) - @RogerSelwyn
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/1f9dae230ef7af8bdf87a40cccf697de40121748) - @actions-user
+
+### 🔖 Release
+- [Release v1.3.1](https://github.com/RogerSelwyn/MS365-Mail/commit/24f0af98db5775c3c422d7632d59e16e003c58e0) - @RogerSelwyn
+
 ## v1.3.0 (2025/02/16)
 ### 🐛 Fixes
 - [Handle expired token/invalid grant](https://github.com/RogerSelwyn/MS365-Mail/commit/12ace955146443dfc9901bf85a7ea69dca08c67f) - @RogerSelwyn
