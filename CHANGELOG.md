@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.4.0 (2025/02/23)
+### ✨ Enhancements
+- [Add support for 21Vianet (China)](https://github.com/RogerSelwyn/MS365-Mail/commit/e23faa99497d0e92197cd425cedb3beafb440e22) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update bug_report.yml](https://github.com/RogerSelwyn/MS365-Mail/commit/adfc02330bf444bd909590ac38a14fb895aa8902) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.4.0](https://github.com/RogerSelwyn/MS365-Mail/commit/92844be2dcc198022178f60171350c65e051101d) - @RogerSelwyn
+
 ## v1.3.1 (2025/02/17)
 ### 🐛 Fixes
 - [Fix permissions repair text](https://github.com/RogerSelwyn/MS365-Mail/commit/76d96230ae86af841544bcc5c442893934db5575) - @RogerSelwyn
