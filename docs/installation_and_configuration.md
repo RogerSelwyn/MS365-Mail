@@ -42,6 +42,14 @@ Key | Type | Required | Description
 `enable_update` | `boolean` | `False` | If True (**default is False**), this will enable the notify service for sending emails
 `shared_mailbox` | `string` | `False` | Email address or ID of shared mailbox *Only available for calendar and email sensors*
 
+#### Advanced API Options
+
+ These options will only be relevant for users in very specific circumstances.
+
+ Key | Type | Required | Description
+ -- | -- | -- | --
+ `country` | `string` | `True` | Selection of an alternate country specific API. Currently only 21Vianet from China.
+
 ### Options variables
 
 Key | Type | Required | Description
