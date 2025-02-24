@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.4.1 (2025/02/24)
+### 🐛 Fixes
+- [Ensure timezone is set on protocol](https://github.com/RogerSelwyn/MS365-Mail/commit/1dbd1daab8dc73a727733c57f02dde38381e746c) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.4.1](https://github.com/RogerSelwyn/MS365-Mail/commit/1850adf0c3852cdd11a3cf6a809d6baf88ae5e58) - @RogerSelwyn
+
 ## v1.4.0 (2025/02/23)
 ### ✨ Enhancements
 - [Add support for 21Vianet (China)](https://github.com/RogerSelwyn/MS365-Mail/commit/e23faa99497d0e92197cd425cedb3beafb440e22) - @RogerSelwyn
