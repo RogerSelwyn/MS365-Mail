@@ -20,8 +20,11 @@
                     "client_secret": "Client Secret",
                     "alt_auth_method": "Use alternate (more complex) authentication",
                     "enable_update": "Enable update services",
-                    "shared_mailbox": "Email address or ID of shared mailbox",
+                    "shared_mailbox": "Email address/ID of shared mailbox",
                     "enable_autoreply": "Enable management of autoreply"
+                },
+                "data_description": {
+                    "shared_mailbox": "Do not put your own email address in this box"
                 },
                 "description": "Enter previously created Entra ID App Registration credentials"
             },
