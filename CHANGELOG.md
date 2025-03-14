@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.4.3 (2025/03/14)
+### 🐛 Fixes
+- [Fix issue with token refresh - pin MSAL to 1.13.1](https://github.com/RogerSelwyn/MS365-Mail/commit/d097e3c11c1cec084ea4cb6cf1c208077f21b1b2) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Make further hint not to put email address in shared mailbox field](https://github.com/RogerSelwyn/MS365-Mail/commit/848a4525daa6eb9d834a3eee64a519c426cea0d8) - @RogerSelwyn
+- [Sourcery recommendation](https://github.com/RogerSelwyn/MS365-Mail/commit/945d92d601b9758d2e3d3ba0809d5f857f895420) - @RogerSelwyn
+- [Workflow ordering](https://github.com/RogerSelwyn/MS365-Mail/commit/1cf6c444c1afb4d8afe2a3792fda24a2f903955f) - @RogerSelwyn
+- [Update bug report](https://github.com/RogerSelwyn/MS365-Mail/commit/8f8ecd1af9c8bfd8e468c1abe3aec76c0bcd7325) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/0badc075c98ee6e1fc5f4c70c05c0961255698b6) - @actions-user
+
+### 🔖 Release
+- [Release v1.4.3](https://github.com/RogerSelwyn/MS365-Mail/commit/fdf17b4920cd4f3b5127768b203e7ca019f37180) - @RogerSelwyn
+
+
+
+
 ## v1.4.1 (2025/02/24)
 ### 🐛 Fixes
 - [Ensure timezone is set on protocol](https://github.com/RogerSelwyn/MS365-Mail/commit/1dbd1daab8dc73a727733c57f02dde38381e746c) - @RogerSelwyn
