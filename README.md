@@ -26,3 +26,5 @@ I work on this integration because I like things to work well for myself and oth
 # Documentation
 
 The full documentation is available here - [MS365 Mail Documentation](https://rogerselwyn.github.io/MS365-Mail/)
+
+Also @fixtse has produced a video on installing the integrations, which can be seen on [YouTube](https://youtu.be/_g5I2y-xzaM?si=snmBIGNtM45-4EoW)
