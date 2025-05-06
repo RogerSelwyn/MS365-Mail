@@ -38,7 +38,7 @@ def _safe_html(html):
     soup = BeautifulSoup(html, features="html.parser")
     if soup.find("body"):
         blacklist = ["script", "style"]
-        for tag in soup.findAll():
+        for tag in soup.find_all():
             if tag.name.lower() in blacklist:
                 # blacklisted tags are removed in their entirety
                 tag.extract()
