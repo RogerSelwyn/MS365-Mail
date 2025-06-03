@@ -1,5 +1,32 @@
 # Changelog
 
+## v1.6.0 (2025/06/03)
+### 🐛 Fixes
+- [Handle race condition for token update](https://github.com/RogerSelwyn/MS365-Mail/commit/fd71fa04ed4ba97dce74c9c52bca5f9d2e71caef) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Update bug_report.yml](https://github.com/RogerSelwyn/MS365-Mail/commit/d16e57fc4d42dba96ac9380d6a0ba2a61de7f26c) - @RogerSelwyn
+- [Unpin MSAL](https://github.com/RogerSelwyn/MS365-Mail/commit/de089ae15b8c2788faccc8cdc7c112eda8fa80b2) - @RogerSelwyn
+- [Remove deprecated call](https://github.com/RogerSelwyn/MS365-Mail/commit/9f7504015a2164b910d5eb146cdbcf6c6e16030a) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Update ruff to 0.11.0](https://github.com/RogerSelwyn/MS365-Mail/commit/3c9d3bf827a677174628108eb27aee80c923609c) - @RogerSelwyn
+- [Bump python-o365 to 2.1.1](https://github.com/RogerSelwyn/MS365-Mail/commit/33a6475fb4c25c75c7f114821ecc9988398bf1b3) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update docs](https://github.com/RogerSelwyn/MS365-Mail/commit/26bb9100087364d05f6e0284b2ac34fb8774ec0d) - @RogerSelwyn
+- [Update readme](https://github.com/RogerSelwyn/MS365-Mail/commit/3a095437903cd78fc4d09f693575ba5f5c3a2998) - @RogerSelwyn
+- [Correct Nabu Casa URL](https://github.com/RogerSelwyn/MS365-Mail/commit/b1feeab6d67c7bdee386bee4d8a1ea7efb466685) - @RogerSelwyn
+
+### ✅ Test
+- [Add .python-version for Rye](https://github.com/RogerSelwyn/MS365-Mail/commit/045c4dea460e386e842e2c9bf6de2af9331c3022) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.6.0](https://github.com/RogerSelwyn/MS365-Mail/commit/59debe421987e2e5b0bc53497e6d5c6a24d250cb) - @RogerSelwyn
+
+
+
+
 ## v1.4.3 (2025/03/14)
 ### 🐛 Fixes
 - [Fix issue with token refresh - pin MSAL to 1.13.1](https://github.com/RogerSelwyn/MS365-Mail/commit/d097e3c11c1cec084ea4cb6cf1c208077f21b1b2) - @RogerSelwyn
