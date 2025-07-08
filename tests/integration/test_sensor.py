@@ -202,12 +202,8 @@ async def test_bad_subfolder(
 
 
 def _check_filter(base_config_entry, filterdata):
-    assert (
-        filterdata in base_config_entry.runtime_data.sensors[0]["query"].get_filters()
-    )
+    assert filterdata in str(base_config_entry.runtime_data.sensors[0]["query"].filters)
 
 
 def _check_select(base_config_entry, selectdata):
-    assert (
-        selectdata in base_config_entry.runtime_data.sensors[0]["query"].get_selects()
-    )
+    assert selectdata in base_config_entry.runtime_data.sensors[0]["query"].select

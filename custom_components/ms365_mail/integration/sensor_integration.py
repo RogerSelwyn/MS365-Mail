@@ -10,6 +10,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from O365 import mailbox  # pylint: disable=no-name-in-module
+from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
+    QueryBuilder,
+)
 
 from ..classes.config_entry import MS365ConfigEntry
 from ..classes.entity import MS365Entity
@@ -248,15 +251,14 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
         )
 
 
-async def _async_build_base_query(hass, mail_folder, sensor_conf):
+async def _async_build_base_query(sensor_conf, builder):
     """Build base query for mail."""
     download_attachments = sensor_conf.get(CONF_DOWNLOAD_ATTACHMENTS)
     save_attachments = sensor_conf.get(CONF_SAVE_ATTACHMENTS)
     fetch_attachments = download_attachments or save_attachments
     show_body = sensor_conf.get(CONF_SHOW_BODY)
     html_body = sensor_conf.get(CONF_HTML_BODY)
-    query = await hass.async_add_executor_job(mail_folder.new_query)
-    query = query.select(
+    query = builder.select(
         "sender",
         "from",
         "subject",
@@ -269,20 +271,20 @@ async def _async_build_base_query(hass, mail_folder, sensor_conf):
         "flag",
     )
     if show_body or html_body:
-        query = query.select(
+        query = query & builder.select(
             "body",
         )
     if fetch_attachments:
-        query = query.select(
+        query = query & builder.select(
             "attachments",
         )
     return query
 
 
-async def async_build_mail_query(hass, mail_folder, sensor_conf):
+async def async_build_mail_query(sensor_conf, builder: QueryBuilder):
     """Build query for mail sensor."""
-    query = await _async_build_base_query(hass, mail_folder, sensor_conf)
-    query.order_by("receivedDateTime", ascending=False)
+    query = await _async_build_base_query(sensor_conf, builder)
+    query = query & builder.orderby(("receivedDateTime", False))
 
     body_contains = sensor_conf.get(CONF_BODY_CONTAINS)
     subject_contains = sensor_conf.get(CONF_SUBJECT_CONTAINS)
@@ -308,29 +310,38 @@ async def async_build_mail_query(hass, mail_folder, sensor_conf):
         or email_from is not None
         or is_unread is not None
     ):
-        query = _add_to_query(
-            query, "ge", "receivedDateTime", datetime.datetime(1900, 5, 1)
+        query = query & builder.greater_equal(
+            "receivedDateTime", datetime.datetime(1900, 5, 1)
         )
-    query = _add_to_query(query, "contains", "body", body_contains)
-    query = _add_to_query(query, "contains", "subject", subject_contains)
-    query = _add_to_query(query, "equals", "subject", subject_is)
-    query = _add_to_query(query, "equals", "hasAttachments", has_attachment)
-    query = _add_to_query(query, "equals", "from", email_from)
-    query = _add_to_query(query, "equals", "IsRead", not is_unread, is_unread)
-    query = _add_to_query(query, "equals", "importance", importance)
+
+    query = _add_to_query(query, builder, "contains", "body", body_contains)
+    query = _add_to_query(query, builder, "contains", "subject", subject_contains)
+    query = _add_to_query(query, builder, "equals", "subject", subject_is)
+    query = _add_to_query(query, builder, "equals", "hasAttachments", has_attachment)
+    query = _add_to_query(query, builder, "equals", "from", email_from)
+    query = _add_to_query(query, builder, "equals", "IsRead", not is_unread, is_unread)
+    query = _add_to_query(query, builder, "equals", "importance", importance)
 
     return query
 
 
-def _add_to_query(query, qtype, attribute_name, attribute_value, check_value=True):
+def _add_to_query(
+    query,
+    builder: QueryBuilder,
+    qtype,
+    attribute_name,
+    attribute_value,
+    check_value=True,
+):
     if attribute_value is None or check_value is None:
         return query
 
     if qtype == "ge":
-        query.chain("and").on_attribute(attribute_name).greater_equal(attribute_value)
+        query = query & builder.greater_equal(attribute_name, attribute_value)
+
     if qtype == "contains":
-        query.chain("and").on_attribute(attribute_name).contains(attribute_value)
+        query = query & builder.contains(attribute_name, attribute_value)
     if qtype == "equals":
-        query.chain("and").on_attribute(attribute_name).equals(attribute_value)
+        query = query & builder.equals(attribute_name, attribute_value)
 
     return query

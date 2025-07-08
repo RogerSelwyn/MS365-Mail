@@ -8,6 +8,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
+    QueryBuilder,
+)
 
 from ..const import (
     ATTR_DATA,
@@ -58,6 +61,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         self._entity_name = entry.data[CONF_ENTITY_NAME]
         self.keys = []
         self._data = {}
+        self._builder = QueryBuilder(protocol=account.protocol)
 
     async def _async_setup(self):
         """Do the initial setup of the entities."""
@@ -81,7 +85,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_EMAIL,
                 CONF_QUERY: await async_build_mail_query(
-                    self._hass, mail_folder, self._entry.options
+                    self._entry.options, self._builder
                 ),
             }
             return [new_key]
