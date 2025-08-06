@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.6.1 (2025/08/06)
+### 🐛 Fixes
+- [Fix deprecation warning](https://github.com/RogerSelwyn/MS365-Mail/commit/6037dbb97a4a6f1624506decd14969f9ad7124cb) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Migrate to new O365 query methods](https://github.com/RogerSelwyn/MS365-Mail/commit/2decd991ff1a1822b9b38eebad8863b7609231ec) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Add oauthlib dependency](https://github.com/RogerSelwyn/MS365-Mail/commit/2c73862325721bcffd3afeded79e60b1b8b1d09d) - @RogerSelwyn
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/5bbc94cc2ef8527678c17fa6c4be28cea4eb549d) - @actions-user
+
+### ✅ Test
+- [Remove aiohttp-zlib-ng dependency](https://github.com/RogerSelwyn/MS365-Mail/commit/3c0082d70476c1bcbc3e596c5a102cb9cb216256) - @RogerSelwyn
+- [Update python to 3.13](https://github.com/RogerSelwyn/MS365-Mail/commit/eee5dc416ee7fed2c617bb85cdb3af33a0a67b39) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.6.1](https://github.com/RogerSelwyn/MS365-Mail/commit/ee2e5c3bed3c2d364a52052953f2eec41d0708a7) - @RogerSelwyn
+
+
+
+
 ## v1.6.0 (2025/06/03)
 ### 🐛 Fixes
 - [Handle race condition for token update](https://github.com/RogerSelwyn/MS365-Mail/commit/fd71fa04ed4ba97dce74c9c52bca5f9d2e71caef) - @RogerSelwyn
