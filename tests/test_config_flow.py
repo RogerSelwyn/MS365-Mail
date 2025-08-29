@@ -4,7 +4,7 @@
 import pytest
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResultType
+from homeassistant.config_entries import ConfigFlowResultType
 from pytest_homeassistant_custom_component.typing import ClientSessionGenerator
 from requests_mock import Mocker
 
@@ -37,7 +37,7 @@ async def test_default_flow(
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -45,7 +45,7 @@ async def test_default_flow(
         user_input=BASE_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -60,7 +60,7 @@ async def test_default_flow(
         },
     )
 
-    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["type"] is ConfigFlowResultType.CREATE_ENTRY
     assert "result" in result
     assert result["result"].state.value == "loaded"
 
@@ -77,7 +77,7 @@ async def test_alt_flow(
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -85,7 +85,7 @@ async def test_alt_flow(
         user_input=ALT_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_alt"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -100,7 +100,7 @@ async def test_alt_flow(
         user_input={},
     )
 
-    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["type"] is ConfigFlowResultType.CREATE_ENTRY
     assert "result" in result
     assert result["result"].state.value == "loaded"
 
@@ -117,7 +117,7 @@ async def test_non_default_country(
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -125,7 +125,7 @@ async def test_non_default_country(
         user_input=COUNTRY_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -140,7 +140,7 @@ async def test_non_default_country(
         },
     )
 
-    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["type"] is ConfigFlowResultType.CREATE_ENTRY
     assert "result" in result
     assert result["result"].state.value == "loaded"
 
@@ -155,7 +155,7 @@ async def test_missing_permissions(
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -163,7 +163,7 @@ async def test_missing_permissions(
         user_input=BASE_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -177,7 +177,7 @@ async def test_missing_permissions(
             "url": build_token_url(result, AUTH_CALLBACK_PATH_DEFAULT),
         },
     )
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert "errors" in result
     assert "url" in result["errors"]
@@ -199,7 +199,7 @@ async def test_missing_permissions_alt_flow(
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -207,7 +207,7 @@ async def test_missing_permissions_alt_flow(
         user_input=ALT_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_alt"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -221,7 +221,7 @@ async def test_missing_permissions_alt_flow(
         result["flow_id"],
         user_input={},
     )
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_alt"
     assert "errors" in result
     assert "url" in result["errors"]
@@ -254,7 +254,7 @@ async def test_invalid_token_url(
         },
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert "errors" in result
     assert "url" in result["errors"]
@@ -289,7 +289,7 @@ async def test_invalid_token(
         },
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert "errors" in result
     assert "url" in result["errors"]
@@ -314,7 +314,7 @@ async def test_json_decode_error(
         user_input=BASE_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
     assert "errors" in result
     assert "entity_name" in result["errors"]
@@ -351,7 +351,7 @@ async def test_already_configured(
         result["flow_id"],
         user_input=BASE_CONFIG_ENTRY,
     )
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
     assert "errors" in result
     assert "entity_name" in result["errors"]
@@ -373,7 +373,7 @@ async def test_reconfigure_flow(
             "entry_id": base_config_entry.entry_id,
         },
     )
-    assert result.get("type") is FlowResultType.FORM
+    assert result.get("type") is ConfigFlowResultType.FORM
     assert result["step_id"] == "user"
 
     result = await hass.config_entries.flow.async_configure(
@@ -381,7 +381,7 @@ async def test_reconfigure_flow(
         user_input=RECONFIGURE_CONFIG_ENTRY,
     )
 
-    assert result["type"] is FlowResultType.FORM
+    assert result["type"] is ConfigFlowResultType.FORM
     assert result["step_id"] == "request_default"
     assert result["description_placeholders"]["auth_url"].startswith(
         f"{TOKEN_URL_ASSERT}{CLIENT_ID}"
@@ -396,7 +396,7 @@ async def test_reconfigure_flow(
         },
     )
 
-    assert result["type"] is FlowResultType.ABORT
+    assert result["type"] is ConfigFlowResultType.ABORT
     assert result["reason"] == "reconfigure_successful"
 
 
