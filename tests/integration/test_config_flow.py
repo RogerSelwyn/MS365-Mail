@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
-from homeassistant.config_entries import ConfigFlowResultType
+from homeassistant.data_entry_flow import FlowResultType
 from requests_mock import Mocker
 
 from custom_components.ms365_mail.integration.const_integration import (
@@ -39,7 +39,7 @@ async def test_options_flow(
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
 
-    assert result["type"] is ConfigFlowResultType.FORM
+    assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "user"
     schema = result["data_schema"].schema
     assert get_schema_default(schema, CONF_IMPORTANCE) is None
@@ -52,9 +52,7 @@ async def test_options_flow(
             CONF_IS_UNREAD: Unread.TRUE,
         },
     )
-    assert result.get("type") is ConfigFlowResultType.CREATE_ENTRY
-    assert "result" in result
-    assert result["result"] is True
+    assert result.get("type") is FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_IMPORTANCE] == ImportanceLevel.HIGH
     assert result["data"][CONF_IS_UNREAD] == Unread.TRUE
 
@@ -68,7 +66,7 @@ async def test_options_flow_empty(
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
 
-    assert result["type"] is ConfigFlowResultType.FORM
+    assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "user"
     schema = result["data_schema"].schema
     assert get_schema_default(schema, CONF_IMPORTANCE) is None
@@ -82,10 +80,7 @@ async def test_options_flow_empty(
             CONF_IS_UNREAD: Unread.NONE,
         },
     )
-    assert result.get("type") is ConfigFlowResultType.CREATE_ENTRY
-    assert "result" in result
-    print(result)
-    assert result["result"] is True
+    assert result.get("type") is FlowResultType.CREATE_ENTRY
     assert CONF_IMPORTANCE not in result["data"]
     assert CONF_HAS_ATTACHMENT not in result["data"]
     assert CONF_IS_UNREAD not in result["data"]
@@ -123,7 +118,7 @@ async def test_shared_email_invalid(
             },
         )
 
-    assert result["type"] is ConfigFlowResultType.CREATE_ENTRY
+    assert result["type"] is FlowResultType.CREATE_ENTRY
 
     assert (
         f"Login email address '{email}' should not be entered as shared email address, config attribute removed"
