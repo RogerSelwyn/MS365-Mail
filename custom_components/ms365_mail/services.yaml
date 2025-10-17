@@ -1,7 +1,5 @@
 auto_reply_enable:
   target:
-    device:
-      integration: ms365_mail
     entity:
       integration: ms365_mail
       domain: sensor
@@ -39,8 +37,6 @@ auto_reply_enable:
 
 auto_reply_disable:
   target:
-    device:
-      integration: ms365_mail
     entity:
       integration: ms365_mail
       domain: sensor
