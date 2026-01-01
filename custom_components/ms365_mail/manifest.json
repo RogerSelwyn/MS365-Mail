@@ -1,20 +1,13 @@
 {
   "domain": "ms365_mail",
   "name": "Microsoft 365 - Mail",
-  "codeowners": [
-    "@RogerSelwyn"
-  ],
+  "codeowners": ["@RogerSelwyn"],
   "config_flow": true,
-  "dependencies": [
-    "http"
-  ],
+  "dependencies": ["http"],
   "documentation": "https://github.com/RogerSelwyn/MS365-Mail",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/RogerSelwyn/MS365-Mail/issues",
-  "loggers": [
-    "custom_components.ms365_mail",
-    "O365"
-  ],
+  "loggers": ["custom_components.ms365_mail", "O365"],
   "requirements": [
     "O365>=2.1.4",
     "BeautifulSoup4>=4.10.0",

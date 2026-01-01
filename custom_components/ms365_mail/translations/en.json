@@ -1,139 +1,139 @@
 {
-    "config": {
-        "abort": {
-            "reconfigure_successful": "Re-configuration was successful"
+  "config": {
+    "abort": {
+      "reconfigure_successful": "Re-configuration was successful"
+    },
+    "error": {
+      "already_configured": "This account name has already been used. Use re-configure.",
+      "error_authenticating": "Error authenticating, token invalid, check log for errors",
+      "invalid_url": "Error, the originating url does not seem to be a valid microsoft redirect",
+      "permissions": "Minimum permissions not granted for account: {entity_name}",
+      "corrupted": "Token file is corrupted after successful authentication, check log for file system errors",
+      "missing": "Token file is missing after successful authentication, check log for file system errors",
+      "token_file_error": "Token file retrieval error, check log for errors from O365. Ensure token has not expired and you are using secret value not secret id."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "entity_name": "Uniquely identifying name for the entities",
+          "client_id": "Client ID",
+          "client_secret": "Client Secret",
+          "alt_auth_method": "Use alternate (more complex) authentication",
+          "enable_update": "Enable update services",
+          "shared_mailbox": "Email address/ID of shared mailbox",
+          "enable_autoreply": "Enable management of autoreply"
         },
-        "error": {
-            "already_configured": "This account name has already been used. Use re-configure.",
-            "error_authenticating": "Error authenticating, token invalid, check log for errors",
-            "invalid_url": "Error, the originating url does not seem to be a valid microsoft redirect",
-            "permissions": "Minimum permissions not granted for account: {entity_name}",
-            "corrupted": "Token file is corrupted after successful authentication, check log for file system errors",
-            "missing": "Token file is missing after successful authentication, check log for file system errors",
-            "token_file_error": "Token file retrieval error, check log for errors from O365. Ensure token has not expired and you are using secret value not secret id."
+        "data_description": {
+          "shared_mailbox": "Do not put your own email address in this box"
         },
-        "step": {
-            "user": {
-                "data": {
-                    "entity_name": "Uniquely identifying name for the entities",
-                    "client_id": "Client ID",
-                    "client_secret": "Client Secret",
-                    "alt_auth_method": "Use alternate (more complex) authentication",
-                    "enable_update": "Enable update services",
-                    "shared_mailbox": "Email address/ID of shared mailbox",
-                    "enable_autoreply": "Enable management of autoreply"
-                },
-                "data_description": {
-                    "shared_mailbox": "Do not put your own email address in this box"
-                },
-                "description": "Enter previously created Entra ID App Registration credentials",
-                "sections": {
-                    "api_options": {
-                        "name": "Advanced API options",
-                        "description": "Advanced options for country specific needs",
-                        "data": {
-                            "country": "API Country"
-                        },
-                        "data_description": {
-                            "country": "Only use if you know you need it since your credentials will be sent to the selected api/country."
-                        }
-                    }
-                }
+        "description": "Enter previously created Entra ID App Registration credentials",
+        "sections": {
+          "api_options": {
+            "name": "Advanced API options",
+            "description": "Advanced options for country specific needs",
+            "data": {
+              "country": "API Country"
             },
-            "request_default": {
-                "title": "Authorization Required - {entity_name}",
-                "description": "Complete the configuration by clicking on the link and copying the returned url into this field afterwards and submit\n\n[Link MS365 account]({auth_url}){failed_permissions}",
-                "data": {
-                    "url": "Returned URL"
-                }
-            },
-            "request_alt": {
-                "title": "Authorization Required - {entity_name}",
-                "description": "To link your MS365 account, click the link, login, and authorize:\n\n[Link MS365 account]({auth_url}){failed_permissions}",
-                "submit": "I authorized successfully"
+            "data_description": {
+              "country": "Only use if you know you need it since your credentials will be sent to the selected api/country."
             }
+          }
         }
-    },
-    "options": {
-        "step": {
-            "user": {
-                "data": {
-                    "folder": "Mail folder to monitor",
-                    "max_items": "Max number of items",
-                    "is_unread": "Unread items",
-                    "from_address": "Only retrieve emails from this email address",
-                    "has_attachment": "Has attachments",
-                    "importance": "Importance Level",
-                    "subject_contains": "Subject contains",
-                    "subject_is": "Subject is",
-                    "body_contains": "Body contains",
-                    "download_attachments": "Show attachment names",
-                    "save_attachments": "Save attachments",
-                    "html_body": "Output HTML body",
-                    "show_body": "Show body on entity"
-                },
-                "description": "Setup options for {entity_name}"
-            }
+      },
+      "request_default": {
+        "title": "Authorization Required - {entity_name}",
+        "description": "Complete the configuration by clicking on the link and copying the returned url into this field afterwards and submit\n\n[Link MS365 account]({auth_url}){failed_permissions}",
+        "data": {
+          "url": "Returned URL"
         }
-    },
-    "issues": {
-        "corrupted": {
-            "title": "Re-authentication required - {domain} - {entity_name}",
-            "description": "The token file is corrupted. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
-        },
-        "expired": {
-            "title": "Re-authentication required - {domain} - {entity_name}",
-            "description": "The token has expired. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
-        },
-        "missing": {
-            "title": "Re-authentication required - {domain} - {entity_name}",
-            "description": "The token file is missing. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
-        },
-        "outdated": {
-            "title": "Re-authentication required - {domain} - {entity_name}",
-            "description": "The token is outdated. Please delete the token, then [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
-        },
-        "permissions": {
-            "title": "Re-authentication required - {domain} - {entity_name}",
-            "description": "Permissions missing. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
-        }
-    },
-    "exceptions": {
-        "not_authorised": {
-            "message": "{required_permission}"
-        }
-    },
-    "services": {
-        "auto_reply_enable": {
-            "name": "Auto reply enable",
-            "description": "Schedules auto reply",
-            "fields": {
-                "external_reply": {
-                    "description": "The message to be send to external emails (or to all emails, if you don't have an organisation email)",
-                    "name": "External reply"
-                },
-                "internal_reply": {
-                    "description": "The message to be send to internal emails",
-                    "name": "Internal Reply"
-                },
-                "start": {
-                    "description": "The start time of the schedule",
-                    "name": "Start date & time"
-                },
-                "end": {
-                    "description": "The end time of the schedule",
-                    "name": "End date & time"
-                },
-                "external_audience": {
-                    "description": "The set of audience external to the signed-in user's organization who will receive the ExternalReplyMessage. The possible values are: none, contactsOnly, all.",
-                    "name": "External Audience"
-                }
-            }
-        },
-        "auto_reply_disable": {
-            "name": "Auto reply disable",
-            "description": "Disables auto reply",
-            "fields": {}
-        }
+      },
+      "request_alt": {
+        "title": "Authorization Required - {entity_name}",
+        "description": "To link your MS365 account, click the link, login, and authorize:\n\n[Link MS365 account]({auth_url}){failed_permissions}",
+        "submit": "I authorized successfully"
+      }
     }
+  },
+  "options": {
+    "step": {
+      "user": {
+        "data": {
+          "folder": "Mail folder to monitor",
+          "max_items": "Max number of items",
+          "is_unread": "Unread items",
+          "from_address": "Only retrieve emails from this email address",
+          "has_attachment": "Has attachments",
+          "importance": "Importance Level",
+          "subject_contains": "Subject contains",
+          "subject_is": "Subject is",
+          "body_contains": "Body contains",
+          "download_attachments": "Show attachment names",
+          "save_attachments": "Save attachments",
+          "html_body": "Output HTML body",
+          "show_body": "Show body on entity"
+        },
+        "description": "Setup options for {entity_name}"
+      }
+    }
+  },
+  "issues": {
+    "corrupted": {
+      "title": "Re-authentication required - {domain} - {entity_name}",
+      "description": "The token file is corrupted. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    },
+    "expired": {
+      "title": "Re-authentication required - {domain} - {entity_name}",
+      "description": "The token has expired. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    },
+    "missing": {
+      "title": "Re-authentication required - {domain} - {entity_name}",
+      "description": "The token file is missing. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    },
+    "outdated": {
+      "title": "Re-authentication required - {domain} - {entity_name}",
+      "description": "The token is outdated. Please delete the token, then [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    },
+    "permissions": {
+      "title": "Re-authentication required - {domain} - {entity_name}",
+      "description": "Permissions missing. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    }
+  },
+  "exceptions": {
+    "not_authorised": {
+      "message": "{required_permission}"
+    }
+  },
+  "services": {
+    "auto_reply_enable": {
+      "name": "Auto reply enable",
+      "description": "Schedules auto reply",
+      "fields": {
+        "external_reply": {
+          "description": "The message to be send to external emails (or to all emails, if you don't have an organisation email)",
+          "name": "External reply"
+        },
+        "internal_reply": {
+          "description": "The message to be send to internal emails",
+          "name": "Internal Reply"
+        },
+        "start": {
+          "description": "The start time of the schedule",
+          "name": "Start date & time"
+        },
+        "end": {
+          "description": "The end time of the schedule",
+          "name": "End date & time"
+        },
+        "external_audience": {
+          "description": "The set of audience external to the signed-in user's organization who will receive the ExternalReplyMessage. The possible values are: none, contactsOnly, all.",
+          "name": "External Audience"
+        }
+      }
+    },
+    "auto_reply_disable": {
+      "name": "Auto reply disable",
+      "description": "Disables auto reply",
+      "fields": {}
+    }
+  }
 }
