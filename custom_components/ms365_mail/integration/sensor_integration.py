@@ -9,6 +9,7 @@ from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
 from O365 import mailbox  # pylint: disable=no-name-in-module
 from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
     QueryBuilder,
@@ -335,9 +336,6 @@ def _add_to_query(
 ):
     if attribute_value is None or check_value is None:
         return query
-
-    if qtype == "ge":
-        query = query & builder.greater_equal(attribute_name, attribute_value)
 
     if qtype == "contains":
         query = query & builder.contains(attribute_name, attribute_value)

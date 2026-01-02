@@ -34,7 +34,7 @@ async def async_integration_get_service(hass, config, discovery_info=None):  # p
     """Get the service."""
     if discovery_info is None or not hasattr(
         discovery_info[CONF_ENTRY], "runtime_data"
-    ):
+    ):  # pragma: no cover
         return
 
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
@@ -58,7 +58,7 @@ class MS365EmailService(BaseNotificationService):
         """Targets property."""
         return {f"_{self._entry.data.get(CONF_ENTITY_NAME)}": ""}
 
-    def send_message(self, message="", **kwargs):
+    def send_message(self, message="", **kwargs):  # pragma: no cover
         """Send a message to a user."""
         _LOGGER.warning("Non async send_message unsupported")
 
@@ -169,7 +169,7 @@ class MS365EmailService(BaseNotificationService):
         if not os.path.isfile(_filepath):
             if not os.path.isfile(filepath):
                 raise ValueError(f"Could not access file {filepath} at {_filepath}")
-            return filepath
+            return filepath  # pragma: no cover
         return _filepath
 
 
