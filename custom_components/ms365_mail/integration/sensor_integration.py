@@ -64,7 +64,7 @@ async def async_integration_setup_entry(
     hass: HomeAssistant,  # pylint: disable=unused-argument
     entry: MS365ConfigEntry,
     async_add_entities: AddEntitiesCallback,
-) -> None:
+) -> bool:
     """Set up the MS365 platform."""
 
     sensor_entities = await _async_sensor_entities(entry, hass)
