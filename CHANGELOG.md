@@ -1,5 +1,38 @@
 # Changelog
 
+## v1.10.0 (2026/02/03)
+### ✨ Enhancements
+- [add tenant_id support for single-tenant app registrations](https://github.com/RogerSelwyn/MS365-Mail/commit/4592a3bc27695ebd50a906abbc31d8f140573403) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Use ConfigFlowResult instead of FlowResult](https://github.com/RogerSelwyn/MS365-Mail/commit/24e5312836ecab512040f7a3600e24fefae017e6) - @RogerSelwyn
+- [Correct ConfigFlowResult usage](https://github.com/RogerSelwyn/MS365-Mail/commit/6f3136e538037d2ea1e7d9e2546fe6103d444895) - @RogerSelwyn
+- [Remove device filter from target selector](https://github.com/RogerSelwyn/MS365-Mail/commit/cbc9a7c041dcdb689e0f8cc7ae7b96ad52e89075) - @RogerSelwyn
+- [Tweaks for code improvement](https://github.com/RogerSelwyn/MS365-Mail/commit/2b56f93ec12e35bd23aab913f3c49cf789fc3aeb) - @RogerSelwyn
+- [Updated JSON formatting](https://github.com/RogerSelwyn/MS365-Mail/commit/51928f90927cfc3004fff6b4892181f42b765ca3) - @RogerSelwyn
+- [Resolve linting error](https://github.com/RogerSelwyn/MS365-Mail/commit/89fa0f272c2ef95f29b406aac7158766fce5b1ef) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [bump actions/checkout from 4 to 5](https://github.com/RogerSelwyn/MS365-Mail/commit/b1c342ede61dcf4ac580da11bbb122a14ee40d6b) - @dependabot[bot]
+- [bump actions/stale from 9 to 10](https://github.com/RogerSelwyn/MS365-Mail/commit/44e169d6e65f5f81d4bd4e080d2412ff3270e71a) - @dependabot[bot]
+- [bump actions/setup-python from 5 to 6](https://github.com/RogerSelwyn/MS365-Mail/commit/bd724d66291f46c37200912562038ea4885f1c97) - @dependabot[bot]
+- [bump github/codeql-action from 3 to 4](https://github.com/RogerSelwyn/MS365-Mail/commit/3b605d58cbd151d25b96a5bb047663129585be48) - @dependabot[bot]
+- [bump actions/checkout from 5 to 6](https://github.com/RogerSelwyn/MS365-Mail/commit/82b17670f335e77dbff3b854732c2db2b94c918b) - @dependabot[bot]
+
+### 📚 Documentation
+- [Update docs to point to generic docs](https://github.com/RogerSelwyn/MS365-Mail/commit/f689a01b24b0c877d7ec2a4d8e73de1db660eae6) - @RogerSelwyn
+- [Update README.md](https://github.com/RogerSelwyn/MS365-Mail/commit/f9b246cbe799902c4d2ccc5eb5fddbee8f07b2fd) - @RogerSelwyn
+
+### ✅ Test
+- [Fix testing](https://github.com/RogerSelwyn/MS365-Mail/commit/27c674478ea24f7b9c71a4cd8bd19bfb97635bd2) - @RogerSelwyn
+- [Update test coverage handling](https://github.com/RogerSelwyn/MS365-Mail/commit/a1b3d277829c1fbef2af0094b21f6538b6187192) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.10.0](https://github.com/RogerSelwyn/MS365-Mail/commit/d894e0b55e5652205a0af25765cd7ad8c522a190) - @RogerSelwyn
+
+
+
+
 ## v1.6.1 (2025/08/06)
 ### 🐛 Fixes
 - [Fix deprecation warning](https://github.com/RogerSelwyn/MS365-Mail/commit/6037dbb97a4a6f1624506decd14969f9ad7124cb) - @RogerSelwyn
