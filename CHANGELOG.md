@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.10.1 (2026/03/09)
+### 🧰 Maintenance
+- [Add local brand logos](https://github.com/RogerSelwyn/MS365-Mail/commit/3bc61b0c7970aaa6f6d7618f06dc740fdf1da187) - @RogerSelwyn
+
+### ✅ Test
+- [Fix tests for CN21V](https://github.com/RogerSelwyn/MS365-Mail/commit/56a9411bacc419cf4532f8cceaad7f08d9d65c2d) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.10.1](https://github.com/RogerSelwyn/MS365-Mail/commit/b3ccce3076f2c5d3afaf1c656919f8f6b1211e0a) - @RogerSelwyn
+
+
+
+
 ## v1.10.0 (2026/02/03)
 ### ✨ Enhancements
 - [add tenant_id support for single-tenant app registrations](https://github.com/RogerSelwyn/MS365-Mail/commit/4592a3bc27695ebd50a906abbc31d8f140573403) - @RogerSelwyn
