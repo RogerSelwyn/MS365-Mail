@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.11.0 (2026/04/24)
+### ✨ Enhancements
+- [Add support for MS365 GCC](https://github.com/RogerSelwyn/MS365-Mail/commit/d31fec3450afa82dab19ade3d7e92131f72c8c6c) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update pygithub requirement from >=1.51 to >=2.9.1](https://github.com/RogerSelwyn/MS365-Mail/commit/eadd349a6f4a6b52d117a955739ca17431ed45f1) - @dependabot[bot]
+- [update o365 requirement from >=2.1.4 to >=2.1.9](https://github.com/RogerSelwyn/MS365-Mail/commit/81aca24476689d1528340d20ca87e149826587fb) - @dependabot[bot]
+- [update pytest-homeassistant-custom-component requirement](https://github.com/RogerSelwyn/MS365-Mail/commit/00010ff910ccdb4b52c02b1f11f26dbabba8d0ba) - @dependabot[bot]
+- [update beautifulsoup4 requirement from >=4.10.0 to >=4.14.3](https://github.com/RogerSelwyn/MS365-Mail/commit/3bbf293e99236336b3b793921d11f953dedbb2d8) - @dependabot[bot]
+- [update portalocker requirement from >=3.1.1 to >=3.2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/e1d08339fc83552944c3faa173baa02d2d55bac4) - @dependabot[bot]
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/b9efd50baf0df6d756c9a90e63a8c403bdbe13ac) - @actions-user
+
+### 📚 Documentation
+- [Update services.md](https://github.com/RogerSelwyn/MS365-Mail/commit/b07041925446d54f9bed66d36f3eded8fca72c19) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.11.0](https://github.com/RogerSelwyn/MS365-Mail/commit/13b7b50da37df2a34754fa7008da723267b31e5b) - @RogerSelwyn
+
+
+
+
 ## v1.10.1 (2026/03/09)
 ### 🧰 Maintenance
 - [Add local brand logos](https://github.com/RogerSelwyn/MS365-Mail/commit/3bc61b0c7970aaa6f6d7618f06dc740fdf1da187) - @RogerSelwyn
