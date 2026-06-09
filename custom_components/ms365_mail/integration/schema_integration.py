@@ -38,7 +38,7 @@ CONFIG_SCHEMA_INTEGRATION = {
 NOTIFY_SERVICE_DATA_SCHEMA = vol.Schema(
     {
         vol.Optional(ATTR_MESSAGE_IS_HTML, default=False): bool,
-        vol.Optional(ATTR_TARGET): cv.string,
+        vol.Optional(ATTR_TARGET): vol.Any(cv.string, [cv.string]),
         vol.Optional(ATTR_SENDER): cv.string,
         vol.Optional(ATTR_ZIP_ATTACHMENTS, default=False): bool,
         vol.Optional(ATTR_ZIP_NAME): cv.string,

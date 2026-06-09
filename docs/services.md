@@ -70,3 +70,16 @@ data:
     photos:
       - "/config/documents/image.jpg"
 ```
+
+You can send to multiple targets by structuring the target value as a list.
+```yaml
+service: notify.ms365_mail_xxxxxxxx
+data:
+  message: The garage door has been open for 10 minutes.
+  title: Your Garage Door Friend
+  data:
+    target: 
+      - joebloggs@hotmail.com
+      - janeblogs@hotmail.com
+
+```

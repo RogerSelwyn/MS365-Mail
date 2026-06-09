@@ -84,17 +84,21 @@ class MS365EmailService(BaseNotificationService):
         title = kwargs.get(ATTR_TITLE, "Notification from Home Assistant")
 
         if data and data.get(ATTR_TARGET, None):
-            target = data.get(ATTR_TARGET)
+            if isinstance(data.get(ATTR_TARGET), list):
+                targets = data.get(ATTR_TARGET)
+            else:
+                targets = [data.get(ATTR_TARGET)]
         else:
             resp = await self.hass.async_add_executor_job(
                 self.account.get_current_user_data
             )
-            target = resp.mail
+            targets = [resp.mail]
 
         new_message = await self.hass.async_add_executor_job(self.account.new_message)
         message = self._build_message(data, message, new_message.attachments)
         self._build_attachments(data, new_message.attachments)
-        new_message.to.add(target)
+        for target in targets:
+            new_message.to.add(target)
         if data:
             if data.get(ATTR_SENDER, None):
                 new_message.sender = data.get(ATTR_SENDER)
