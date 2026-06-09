@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.12.0 (2026/06/09)
+### ✨ Enhancements
+- [Add ability to have multiple targets](https://github.com/RogerSelwyn/MS365-Mail/commit/22ac2ad38ed708027e878799e37ce099f3dd237a) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Updated to remove deprecation warning](https://github.com/RogerSelwyn/MS365-Mail/commit/9e62b5aab44ffce4b1597e4d5a3fa4287c5521b1) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update o365 requirement from >=2.1.4 to >=2.1.9](https://github.com/RogerSelwyn/MS365-Mail/commit/7cd06a20eacea054fec91836f647a723a59c8f37) - @dependabot[bot]
+- [update portalocker requirement from >=3.1.1 to >=3.2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/d2620635eff119fffa19a35d9a7a9b15eecf8919) - @dependabot[bot]
+- [update beautifulsoup4 requirement from >=4.10.0 to >=4.14.3](https://github.com/RogerSelwyn/MS365-Mail/commit/1f261ed2c6e44dda81cb93a07086512f8ac65617) - @dependabot[bot]
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/dcecf0fab705eda831771fe2046faac2898cd70e) - @actions-user
+
+### 📚 Documentation
+- [Update changelog with release notes](https://github.com/RogerSelwyn/MS365-Mail/commit/4908f8e99fc7da035e5a0db0962db498166672a9) - @actions-user
+- [Update countries available](https://github.com/RogerSelwyn/MS365-Mail/commit/2cf1548dec4a9f780b0d469d638e1263cf635fca) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.12.0](https://github.com/RogerSelwyn/MS365-Mail/commit/2994fc70a05e0449f144410447111aeadb5020e6) - @RogerSelwyn
+
+
+
+
 ## v1.11.0 (2026/04/24)
 ### ✨ Enhancements
 - [Add support for MS365 GCC](https://github.com/RogerSelwyn/MS365-Mail/commit/d31fec3450afa82dab19ade3d7e92131f72c8c6c) - @RogerSelwyn
