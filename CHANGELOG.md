@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.13.0 (2026/06/10)
+### ✨ Enhancements
+- [Add mail_send action with full description for parameters](https://github.com/RogerSelwyn/MS365-Mail/commit/75441cde601d46b8a0dee0bbb4fb0c7ccc591638) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.13.0](https://github.com/RogerSelwyn/MS365-Mail/commit/5dbc5e7333d681eedf0ffc1581a099a1d19ff670) - @RogerSelwyn
+
+
+
+
 ## v1.12.0 (2026/06/09)
 ### ✨ Enhancements
 - [Add ability to have multiple targets](https://github.com/RogerSelwyn/MS365-Mail/commit/22ac2ad38ed708027e878799e37ce099f3dd237a) - @RogerSelwyn
