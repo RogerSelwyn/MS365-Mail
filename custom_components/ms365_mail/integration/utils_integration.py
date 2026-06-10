@@ -1,9 +1,20 @@
 """Mail utilities processes."""
 
+import os
+import zipfile
+from pathlib import Path
+
 from bs4 import BeautifulSoup
 
 from ..const import DATETIME_FORMAT
 from ..helpers.utils import clean_html
+from .const_integration import (
+    ATTR_ATTACHMENTS,
+    ATTR_MESSAGE_IS_HTML,
+    ATTR_PHOTOS,
+    ATTR_ZIP_ATTACHMENTS,
+    ATTR_ZIP_NAME,
+)
 
 
 def get_email_attributes(mail, download_attachments, html_body, show_body):
@@ -44,3 +55,92 @@ def _safe_html(html):
                 tag.extract()
         return str(soup.find("body"))
     return html
+
+
+def build_message(hass, data, message, new_message_attachments):
+    """Build a message to send"""
+    is_html = False
+    photos = []
+    if data:
+        is_html = data.get(ATTR_MESSAGE_IS_HTML, False)
+        photos = data.get(ATTR_PHOTOS, [])
+    if is_html or photos:
+        message = f"""
+            <html>
+                <body>
+                    {message}"""
+        message += _build_photo_content(hass, photos, new_message_attachments)
+        message += "</body></html>"
+
+    return message
+
+
+def _build_photo_content(hass, photos, new_message_attachments):
+    photos_content = ""
+    for i, photo in enumerate(photos, start=1):
+        if photo.startswith("http"):
+            photos_content += f'<br><img src="{photo}">'
+        else:
+            photo = _get_ha_filepath(hass, photo)
+            new_message_attachments.add(photo)
+            att = new_message_attachments[-1]
+            att.is_inline = True
+            att.content_id = str(i)
+            photos_content += f'<br><img src="cid:{att.content_id}">'
+
+    return photos_content
+
+
+def build_attachments(hass, data, new_message_attachments):
+    """Build the attachments"""
+    attachments = []
+    zip_attachments = False
+    zip_name = None
+    cleanup_files = []
+    if data:
+        attachments = data.get(ATTR_ATTACHMENTS, [])
+        zip_attachments = data.get(ATTR_ZIP_ATTACHMENTS, False)
+        zip_name = data.get(ATTR_ZIP_NAME, None)
+
+    attachments = [_get_ha_filepath(hass, x) for x in attachments]
+    if attachments and zip_attachments:
+        z_file = _zip_files(attachments, zip_name)
+        new_message_attachments.add(z_file)
+        cleanup_files.append(z_file)
+
+    else:
+        for attachment in attachments:
+            new_message_attachments.add(attachment)
+    return cleanup_files
+
+
+def cleanup(cleanup_files):
+    """Cleanup any files."""
+    for filename in cleanup_files:
+        os.remove(filename)
+
+
+def _get_ha_filepath(hass, filepath):
+    """Get the file path."""
+    _filepath = Path(filepath)
+    if _filepath.parts[0] == "/" and _filepath.parts[1] == "config":
+        _filepath = os.path.join(hass.config.config_dir, *_filepath.parts[2:])
+
+    if not os.path.isfile(_filepath):
+        if not os.path.isfile(filepath):
+            raise ValueError(f"Could not access file {filepath} at {_filepath}")
+        return filepath  # pragma: no cover
+    return _filepath
+
+
+def _zip_files(filespaths, zip_name):
+    """Zip the files."""
+    if not zip_name:
+        zip_name = "archive.zip"
+    if Path(zip_name).suffix != ".zip":
+        zip_name += ".zip"
+
+    with zipfile.ZipFile(zip_name, mode="w") as zip_file:
+        for file_path in filespaths:
+            zip_file.write(file_path, os.path.basename(file_path))
+    return zip_name

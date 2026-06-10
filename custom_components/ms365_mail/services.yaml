@@ -40,3 +40,60 @@ auto_reply_disable:
     entity:
       integration: ms365_mail
       domain: sensor
+
+mail_send:
+  target:
+    entity:
+      integration: ms365_mail
+      domain: sensor
+  fields:
+    subject:
+      required: true
+      example: "Your Garage Door Friend"
+      selector:
+        text:
+    message:
+      required: true
+      example: The garage door has been open for 10 minutes.
+      selector:
+        text:
+    to:
+      example: "- joeblogs@nomail.com"
+      selector:
+        object:
+    from:
+      example: mgmt@noname.org.uk
+      selector:
+        text:
+    importance:
+      example: medium
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - label: "Low"
+              value: "low"
+            - label: "Medium"
+              value: "medium"
+            - label: "High"
+              value: "high"
+    message_is_html:
+      example: false
+      selector:
+        boolean:
+    photos:
+      example: "- /config/documents/image.jpg"
+      selector:
+        object:
+    attachments:
+      example: "- /config/documents/sendfile.txt"
+      selector:
+        object:
+    zip_attachments:
+      example: false
+      selector:
+        boolean:
+    zip_name:
+      example: zipfile.zip
+      selector:
+        text:

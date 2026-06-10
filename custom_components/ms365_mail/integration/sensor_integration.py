@@ -9,7 +9,6 @@ from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-
 from O365 import mailbox  # pylint: disable=no-name-in-module
 from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
     QueryBuilder,
@@ -30,9 +29,12 @@ from .const_integration import (
     ATTR_END,
     ATTR_EXTERNAL_AUDIENCE,
     ATTR_EXTERNALREPLY,
+    ATTR_FROM,
+    ATTR_IMPORTANCE,
     ATTR_INTERNALREPLY,
     ATTR_START,
     ATTR_STATE,
+    ATTR_TO,
     CONF_BODY_CONTAINS,
     CONF_DOWNLOAD_ATTACHMENTS,
     CONF_ENABLE_AUTOREPLY,
@@ -45,6 +47,7 @@ from .const_integration import (
     CONF_SHOW_BODY,
     CONF_SUBJECT_CONTAINS,
     CONF_SUBJECT_IS,
+    PERM_MAIL_SEND,
     PERM_MAILBOX_SETTINGS,
     SENSOR_AUTO_REPLY,
     SENSOR_EMAIL,
@@ -54,8 +57,14 @@ from .const_integration import (
 from .schema_integration import (
     AUTO_REPLY_SERVICE_DISABLE_SCHEMA,
     AUTO_REPLY_SERVICE_ENABLE_SCHEMA,
+    MAIL_SEND_SCHEMA,
 )
-from .utils_integration import get_email_attributes
+from .utils_integration import (
+    build_attachments,
+    build_message,
+    cleanup,
+    get_email_attributes,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -117,11 +126,10 @@ async def _async_setup_mailbox_services(entry, perms):
     if not entry.data.get(CONF_ENABLE_UPDATE):
         return
 
-    if not entry.data.get(CONF_ENABLE_AUTOREPLY):
-        return
-
     platform = entity_platform.async_get_current_platform()
-    if perms.validate_authorization(PERM_MAILBOX_SETTINGS):
+    if entry.data.get(CONF_ENABLE_AUTOREPLY) and perms.validate_authorization(
+        PERM_MAILBOX_SETTINGS
+    ):
         platform.async_register_entity_service(
             "auto_reply_enable",
             AUTO_REPLY_SERVICE_ENABLE_SCHEMA,
@@ -131,6 +139,12 @@ async def _async_setup_mailbox_services(entry, perms):
             "auto_reply_disable",
             AUTO_REPLY_SERVICE_DISABLE_SCHEMA,
             "async_auto_reply_disable",
+        )
+    if perms.validate_authorization(PERM_MAIL_SEND):
+        platform.async_register_entity_service(
+            "mail_send",
+            MAIL_SEND_SCHEMA,
+            "async_mail_send",
         )
 
 
@@ -144,6 +158,7 @@ class MS365MailSensor(MS365Entity, SensorEntity):
     ):
         """Initialise the MS365 Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
+        self.account = entry.runtime_data.ha_account.account
         download_attachments = entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
         save_attachments = entry.options.get(CONF_SAVE_ATTACHMENTS)
         self._fetch_attachments = download_attachments or save_attachments
@@ -181,6 +196,47 @@ class MS365MailSensor(MS365Entity, SensorEntity):
             )
             for x in data
         ]
+
+    async def async_mail_send(self, subject, message, **kwargs):
+        """Send an async mail to a user."""
+
+        if not self._entry.runtime_data.permissions.validate_authorization(
+            PERM_MAIL_SEND
+        ):
+            _LOGGER.error(
+                "Not authorised to send mail - requires permission: %s",
+                f"{PERM_MAIL_SEND}(.Shared)",
+            )
+            return
+
+        if kwargs.get(ATTR_TO, None):
+            targets = kwargs.get(ATTR_TO)
+        else:
+            resp = await self.hass.async_add_executor_job(
+                self.account.get_current_user_data
+            )
+            targets = [resp.mail]
+
+        new_message = await self.hass.async_add_executor_job(self.account.new_message)
+        message = await self.hass.async_add_executor_job(
+            build_message, self.hass, kwargs, message, new_message.attachments
+        )
+        cleanup_files = await self.hass.async_add_executor_job(
+            build_attachments, self.hass, kwargs, new_message.attachments
+        )
+        for target in targets:
+            new_message.to.add(target)
+
+        if kwargs.get(ATTR_FROM, None):
+            new_message.sender = kwargs.get(ATTR_FROM)
+        if kwargs.get(ATTR_IMPORTANCE, None):
+            new_message.importance = kwargs.get(ATTR_IMPORTANCE)
+
+        new_message.subject = subject
+        new_message.body = message
+        await self.hass.async_add_executor_job(new_message.send)
+
+        cleanup(cleanup_files)
 
 
 class MS365AutoReplySensor(MS365Entity, SensorEntity):

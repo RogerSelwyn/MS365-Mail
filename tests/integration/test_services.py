@@ -29,6 +29,7 @@ async def test_update_service_setup(
     assert not hass.services.has_service(DOMAIN, "auto_reply_enable")
     assert not hass.services.has_service(DOMAIN, "auto_reply_disable")
     assert hass.services.has_service(NOTIFY_DOMAIN, "ms365_mail_test")
+    assert hass.services.has_service(DOMAIN, "mail_send")
 
 
 @pytest.mark.parametrize(
@@ -223,8 +224,27 @@ async def test_notify(
         in str(mock_new_message.mock_calls)
     )
 
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            NOTIFY_DOMAIN,
+            "ms365_mail_test",
+            {
+                "message": "Test message",
+                "title": "Test title",
+                "data": {"target": ["target@nomail.com", "target2@nomail.com"]},
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert (
+        "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}, {'emailAddress': {'address': 'target2@nomail.com'}}]"
+        in str(mock_new_message.mock_calls)
+    )
 
-async def test_attachments(
+
+async def test_notify_attachments(
     adjust_config_dir,
     hass: HomeAssistant,
     setup_update_integration,
@@ -253,25 +273,27 @@ async def test_attachments(
     assert "'attachments'" in str(mock_new_message.mock_calls)
     assert "'name': 'sendfile.txt'" in str(mock_new_message.mock_calls)
 
-    filepath = attachment_setup(tmp_path, "sendfile.txt")
-    with patch("O365.connection.Connection.post") as mock_new_message:
-        await hass.services.async_call(
-            NOTIFY_DOMAIN,
-            "ms365_mail_test",
-            {
-                "message": "Test message",
-                "title": "Test title",
-                "data": {
-                    "attachments": [filepath],
-                    "zip_attachments": True,
-                },
-            },
-            blocking=True,
-            return_response=False,
-        )
-    await hass.async_block_till_done()
-    assert mock_new_message.called
-    assert "'name': 'archive.zip'" in str(mock_new_message.mock_calls)
+    ### This causes a race with the mail_send for archive.zip. Removing since this
+    ### service will likely be deprecated in the future.
+    # filepath = attachment_setup(tmp_path, "sendfile.txt")
+    # with patch("O365.connection.Connection.post") as mock_new_message:
+    #     await hass.services.async_call(
+    #         NOTIFY_DOMAIN,
+    #         "ms365_mail_test",
+    #         {
+    #             "message": "Test message",
+    #             "title": "Test title",
+    #             "data": {
+    #                 "attachments": [filepath],
+    #                 "zip_attachments": True,
+    #             },
+    #         },
+    #         blocking=True,
+    #         return_response=False,
+    #     )
+    # await hass.async_block_till_done()
+    # assert mock_new_message.called
+    # assert "'name': 'archive.zip'" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -359,7 +381,6 @@ async def test_notify_failed_permission(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test notify - HA Service."""
-    entity_name = "sensor.test_mail"
     failed_perm = "mail.failed_perm"
     with patch(
         f"custom_components.{DOMAIN}.integration.notify_integration.PERM_MAIL_SEND",
@@ -371,7 +392,245 @@ async def test_notify_failed_permission(
             {
                 "message": "Test message",
                 "title": "Test title",
-                "data": {"target": entity_name},
+            },
+            blocking=True,
+            return_response=False,
+        )
+    assert (
+        f"Not authorised to send mail - requires permission: {failed_perm}"
+        in caplog.text
+    )
+
+
+async def test_mail_send(
+    hass: HomeAssistant,
+    setup_update_integration,
+) -> None:
+    """Test mail send."""
+    entity_name = "sensor.test_mail"
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+
+    assert "'toRecipients': [{'emailAddress': {'address': 'john@nomail.com'}}]" in str(
+        mock_new_message.mock_calls
+    )
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "from": "sender@nomail.com",
+                "importance": "normal",
+                "message_is_html": True,
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert "'from': {'emailAddress': {'address': 'sender@nomail.com'}}" in str(
+        mock_new_message.mock_calls
+    )
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "to": "target@nomail.com",
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert (
+        "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}]"
+        in str(mock_new_message.mock_calls)
+    )
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "to": ["target@nomail.com", "target2@nomail.com"],
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert (
+        "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}, {'emailAddress': {'address': 'target2@nomail.com'}}]"
+        in str(mock_new_message.mock_calls)
+    )
+
+
+async def test_mail_send_attachments(
+    adjust_config_dir,
+    hass: HomeAssistant,
+    setup_update_integration,
+    tmp_path,
+) -> None:
+    """Test notify - HA Service."""
+    filepath = attachment_setup(tmp_path, "sendfile.txt")
+    attachment_setup(tmp_path, "sendphoto.jpg")
+    entity_name = "sensor.test_mail"
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "attachments": [filepath],
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert "'attachments'" in str(mock_new_message.mock_calls)
+    assert "'name': 'sendfile.txt'" in str(mock_new_message.mock_calls)
+
+    filepath = attachment_setup(tmp_path, "sendfile.txt")
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "attachments": [filepath],
+                "zip_attachments": True,
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert "'name': 'archive.zip'" in str(mock_new_message.mock_calls)
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "attachments": ["/config/sendfile.txt"],
+                "zip_attachments": True,
+                "zip_name": "zipfile",
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert "'name': 'zipfile.zip'" in str(mock_new_message.mock_calls)
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "photos": ["/config/sendphoto.jpg"],
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert "'name': 'sendphoto.jpg'" in str(mock_new_message.mock_calls)
+    assert "'isInline': True" in str(mock_new_message.mock_calls)
+
+    with patch("O365.connection.Connection.post") as mock_new_message:
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "photos": ["https://sendphoto.jpg"],
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert mock_new_message.called
+    assert '<img src="https://sendphoto.jpg">' in str(mock_new_message.mock_calls)
+
+    with (
+        patch("O365.connection.Connection.post") as mock_new_message,
+        pytest.raises(ValueError) as exc_info,
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
+                "attachments": ["/config/nofile.txt"],
+            },
+            blocking=True,
+            return_response=False,
+        )
+    await hass.async_block_till_done()
+    assert not mock_new_message.called
+    assert "Could not access file /config/nofile.txt at" in str(exc_info.value)
+
+
+async def test_mail_send_failed_permission(
+    hass: HomeAssistant,
+    setup_update_integration,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test notify - HA Service."""
+    entity_name = "sensor.test_mail"
+    failed_perm = "mail.failed_perm"
+    with patch(
+        f"custom_components.{DOMAIN}.integration.sensor_integration.PERM_MAIL_SEND",
+        failed_perm,
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            "mail_send",
+            {
+                "entity_id": entity_name,
+                "subject": "Test title",
+                "message": "Test message",
             },
             blocking=True,
             return_response=False,

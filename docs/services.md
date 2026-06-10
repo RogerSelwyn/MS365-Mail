@@ -27,7 +27,36 @@ data:
   external_audience: all
 ```
 
-##  Notify Services
+
+## Mail Send Service
+This services must be targeted at `mail` sensors. 
+
+### ms365_mail.send_mail
+Send an email - All parameters are shown in the available parameter list on the Developer Tools/Services tab.
+
+#### Example send mail service call
+```yaml
+action: ms365_mail.mail_send
+target:
+  entity_id: sensor.my_mail
+data:
+  subject: Your Garage Door Friend
+  message: The garage door has been open for 10 minutes.
+  to:
+    - joebloggs@hotmail.com
+    - janebloggs@hotmail.com
+  from: mgmt@noname.org.uk
+  photos:
+    - /config/documents/sendfile.txt
+  attachments:
+    - /config/documents/image.jpg
+  importance: low
+  message_is_html: true
+  zip_attachments: true
+  zip_name: zipfile.zip
+```
+
+##  Notify Service
 
 ### notify.ms365_mail_xxxxxxxx
 

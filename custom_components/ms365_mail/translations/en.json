@@ -134,6 +134,52 @@
       "name": "Auto reply disable",
       "description": "Disables auto reply",
       "fields": {}
+    },
+    "mail_send": {
+      "name": "Mail Send",
+      "description": "Sends a mail",
+      "fields": {
+        "subject": {
+          "description": "The subject of the email",
+          "name": "Subject"
+        },
+        "message": {
+          "description": "The body of the email to send",
+          "name": "Message"
+        },
+        "to": {
+          "description": "Who to send the email to (defaults to logged in user)",
+          "name": "To"
+        },
+        "from": {
+          "description": "Who to send the email from (defaults to logged in user)",
+          "name": "From"
+        },
+        "importance": {
+          "description": "Low, Medium or High",
+          "name": "Importance"
+        },
+        "message_is_html": {
+          "description": "Is the message formatted as HTML",
+          "name": "Message is HTML"
+        },
+        "photos": {
+          "description": "File paths or URLs of pictures to embed into the email body",
+          "name": "Photos"
+        },
+        "attachments": {
+          "description": "File paths to attach to email",
+          "name": "Attachments"
+        },
+        "zip_attachments": {
+          "description": "Zip files from attachments into a zip file before sending",
+          "name": "ZIP attachments"
+        },
+        "zip_name": {
+          "description": "Name of the generated zip file",
+          "name": "ZIP file name"
+        }
+      }
     }
   }
 }

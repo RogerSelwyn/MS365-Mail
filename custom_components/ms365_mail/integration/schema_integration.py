@@ -4,6 +4,7 @@ import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.components.notify import (
     ATTR_DATA,
+    ATTR_MESSAGE,
     ATTR_TARGET,
     ATTR_TITLE,
 )
@@ -18,12 +19,15 @@ from .const_integration import (
     ATTR_END,
     ATTR_EXTERNAL_AUDIENCE,
     ATTR_EXTERNALREPLY,
+    ATTR_FROM,
     ATTR_IMPORTANCE,
     ATTR_INTERNALREPLY,
     ATTR_MESSAGE_IS_HTML,
     ATTR_PHOTOS,
     ATTR_SENDER,
     ATTR_START,
+    ATTR_SUBJECT,
+    ATTR_TO,
     ATTR_ZIP_ATTACHMENTS,
     ATTR_ZIP_NAME,
     CONF_ENABLE_AUTOREPLY,
@@ -65,3 +69,16 @@ AUTO_REPLY_SERVICE_ENABLE_SCHEMA = {
 }
 
 AUTO_REPLY_SERVICE_DISABLE_SCHEMA = {}
+
+MAIL_SEND_SCHEMA = {
+    vol.Required(ATTR_SUBJECT): cv.string,
+    vol.Required(ATTR_MESSAGE): cv.string,
+    vol.Optional(ATTR_TO): vol.All(cv.ensure_list, [cv.string]),
+    vol.Optional(ATTR_MESSAGE_IS_HTML, default=False): bool,
+    vol.Optional(ATTR_FROM): cv.string,
+    vol.Optional(ATTR_ZIP_ATTACHMENTS, default=False): bool,
+    vol.Optional(ATTR_ZIP_NAME): cv.string,
+    vol.Optional(ATTR_PHOTOS, default=[]): [cv.string],
+    vol.Optional(ATTR_ATTACHMENTS, default=[]): [cv.string],
+    vol.Optional(ATTR_IMPORTANCE): vol.Coerce(ImportanceLevel),
+}
