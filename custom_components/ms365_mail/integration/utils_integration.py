@@ -1,13 +1,13 @@
 """Mail utilities processes."""
 
 import os
+import warnings
 import zipfile
 from pathlib import Path
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
 
 from ..const import DATETIME_FORMAT
-from ..helpers.utils import clean_html
 from .const_integration import (
     ATTR_ATTACHMENTS,
     ATTR_MESSAGE_IS_HTML,
@@ -15,6 +15,26 @@ from .const_integration import (
     ATTR_ZIP_ATTACHMENTS,
     ATTR_ZIP_NAME,
 )
+
+warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning)
+
+
+def clean_html(html):
+    """Clean the HTML."""
+    soup = BeautifulSoup(html, features="html.parser")
+    if body := soup.find("body"):
+        # get text
+        text = body.get_text()
+
+        # break into lines and remove leading and trailing space on each
+        lines = (line.strip() for line in text.splitlines())
+        # break multi-headlines into a line each
+        chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+        # drop blank lines
+        text = "\n".join(chunk for chunk in chunks if chunk)
+        return text.replace("\xa0", " ")
+
+    return html
 
 
 def get_email_attributes(mail, download_attachments, html_body, show_body):

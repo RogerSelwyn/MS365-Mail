@@ -9,6 +9,7 @@ from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
 from O365 import mailbox  # pylint: disable=no-name-in-module
 from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
     QueryBuilder,
@@ -23,7 +24,6 @@ from ..const import (
     CONF_ENTITY_TYPE,
     DATETIME_FORMAT,
 )
-from ..helpers.utils import clean_html
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,
     ATTR_END,
@@ -62,6 +62,7 @@ from .schema_integration import (
 from .utils_integration import (
     build_attachments,
     build_message,
+    clean_html,
     cleanup,
     get_email_attributes,
 )
