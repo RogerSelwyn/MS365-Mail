@@ -64,8 +64,8 @@ data:
 
 Key | Type | Required | Description
 -- | -- | -- | --
-`message` | `string` | `True` | The email body.
-`title` | `string` | `False` | The email subject.
+`message` | `string` | `True` | The email body
+`title` | `string` | `False` | The email subject
 `data` | `dict<data>` | `False` | Additional attributes - see table below
 
 #### Extended data
