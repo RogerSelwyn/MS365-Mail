@@ -1,5 +1,45 @@
 # Changelog
 
+## v1.13.1 (2026/07/04)
+### 🧰 Maintenance
+- [Add icon for mail send service](https://github.com/RogerSelwyn/MS365-Mail/commit/5132f37d50410cca42c17294890f98a1fb7aaf2d) - @RogerSelwyn
+- [Add integration diagnostics stub](https://github.com/RogerSelwyn/MS365-Mail/commit/cd7dfeae60fd3c09bb03c0701f4063892095b44e) - @RogerSelwyn
+- [Break out update_requirements workflow](https://github.com/RogerSelwyn/MS365-Mail/commit/98df0b8cfaa55428539f256a39bec655d13723d5) - @RogerSelwyn
+- [Tidy up beautifulsoup](https://github.com/RogerSelwyn/MS365-Mail/commit/6219c448c48fc4be50e61c52f3bc1f149c328107) - @RogerSelwyn
+- [Remove wokflow run on PR](https://github.com/RogerSelwyn/MS365-Mail/commit/b394beded6b644be5a13d58317fa889e2575daaa) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Bump portalocker to 3.2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/22df114684250b5ee56321bb035b010afcea913b) - @RogerSelwyn
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/66d73900c236c9af107c28e30557753f9ade2ed7) - @actions-user
+- [bump actions/checkout from 6 to 7](https://github.com/RogerSelwyn/MS365-Mail/commit/8c8822be36a61d5bf7c63d51a765733b3a164861) - @dependabot[bot]
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/e44dd2496e9c5c7c0c1a5fe599e5c7808d887309) - @actions-user
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/9e54d6d0afc926fec1721cdfb90440548a31f110) - @actions-user
+
+### 📚 Documentation
+- [Get the docs deploying again](https://github.com/RogerSelwyn/MS365-Mail/commit/14bf18afe7195fef51133ffbe09251de9c8e921e) - @RogerSelwyn
+- [Fix pages](https://github.com/RogerSelwyn/MS365-Mail/commit/5ff53b161c4db73aa2be2ca1b1e63195f1a67c85) - @RogerSelwyn
+- [Remove github action to deploy pages](https://github.com/RogerSelwyn/MS365-Mail/commit/bc39b2e837e3b37755346476c3789122181461f4) - @RogerSelwyn
+
+### ✅ Test
+- [Increase python version to HA default](https://github.com/RogerSelwyn/MS365-Mail/commit/afc2a55eee760bd792f891f4863ac4f0812ea3b8) - @RogerSelwyn
+- [Identify services](https://github.com/RogerSelwyn/MS365-Mail/commit/7cc56134f7afe7fc3da1f2d4cd11b665e35161ca) - @RogerSelwyn
+- [Remove test for service](https://github.com/RogerSelwyn/MS365-Mail/commit/1f5219f21b94e99f74da57ffc4cf3171dbb49d50) - @RogerSelwyn
+- [Revert to python 3.13](https://github.com/RogerSelwyn/MS365-Mail/commit/ffb9b7e07d541c1f9e1819fbaad9c8f478562a52) - @RogerSelwyn
+- [Move testing to python 3.14](https://github.com/RogerSelwyn/MS365-Mail/commit/c491bcf909e0515dc00fb2bb5da6f7f4905a61fd) - @RogerSelwyn
+- [Migrate to uv](https://github.com/RogerSelwyn/MS365-Mail/commit/2766f68ac702949f064e537ee7814ea753395596) - @RogerSelwyn
+- [Add name to test workflow](https://github.com/RogerSelwyn/MS365-Mail/commit/609189274eea979d1f07019e63c8fc0fe43c7cc4) - @RogerSelwyn
+
+### 🔖 Release
+- [Release 1.13.1](https://github.com/RogerSelwyn/MS365-Mail/commit/afb601104352e27bfab316404f3860f443fc0532) - @RogerSelwyn
+- [Auto update manifest.json](https://github.com/RogerSelwyn/MS365-Mail/commit/6c4e214bd45a6a8a15ea3a1da341132b58507e60) - @actions-user
+- [Auto update manifest.json](https://github.com/RogerSelwyn/MS365-Mail/commit/2f38d7257634700b902a65af055625247ea35916) - @actions-user
+
+### Other
+- [Add GitHub Actions workflow for Jekyll deployment](https://github.com/RogerSelwyn/MS365-Mail/commit/2d4d2f93c810f60b8ffebbaa32194d3207846704) - @RogerSelwyn
+
+
+
+
 ## v1.13.0 (2026/06/10)
 ### ✨ Enhancements
 - [Add mail_send action with full description for parameters](https://github.com/RogerSelwyn/MS365-Mail/commit/75441cde601d46b8a0dee0bbb4fb0c7ccc591638) - @RogerSelwyn
