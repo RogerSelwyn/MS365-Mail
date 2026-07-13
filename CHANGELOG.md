@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.13.2 (2026/07/13)
+### 🐛 Fixes
+- [Reinstate async_update_reload_and_abort to reload on reconfigure](https://github.com/RogerSelwyn/MS365-Mail/commit/f4e387592a1184e88a9aba5558a983ee8d6030eb) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update pytest-homeassistant-custom-component requirement](https://github.com/RogerSelwyn/MS365-Mail/commit/3ece15edfab5a976c76c55c982c573def06bf52a) - @dependabot[bot]
+- [Add versioning strategy to Dependabot config](https://github.com/RogerSelwyn/MS365-Mail/commit/668ee6290722d629c50f8ac78fada710c471dd60) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.13.2](https://github.com/RogerSelwyn/MS365-Mail/commit/cadd89567ebccd7b28b2553996c823c17ffcd4b8) - @RogerSelwyn
+
+
+
+
 ## v1.13.1 (2026/07/04)
 ### 🧰 Maintenance
 - [Add icon for mail send service](https://github.com/RogerSelwyn/MS365-Mail/commit/5132f37d50410cca42c17294890f98a1fb7aaf2d) - @RogerSelwyn
