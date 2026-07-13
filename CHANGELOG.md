@@ -157,8 +157,9 @@
 ### 🔖 Release
 - [Release v1.10.0](https://github.com/RogerSelwyn/MS365-Mail/commit/d894e0b55e5652205a0af25765cd7ad8c522a190) - @RogerSelwyn
 
-
-
+## Past Changes
+<details>
+  <summary>Changes 2025</summary>
 
 ## v1.6.1 (2025/08/06)
 ### 🐛 Fixes
@@ -321,6 +322,11 @@
 ### 🔖 Release
 - [Release v1.1.0](https://github.com/RogerSelwyn/MS365-Mail/commit/23b06fb48c4169ccc11420a3b9167cde4ad044a0) - @RogerSelwyn
 
+</details>
+<details>
+  <summary>Changes 2024</summary>
+
+
 ## v1.0.1 (2024/11/30)
 ### 🧰 Maintenance
 - [Update .gitignore](https://github.com/RogerSelwyn/MS365-Mail/commit/f258697a81ea7227a485c958dabae88288689771) - @RogerSelwyn
@@ -461,3 +467,4 @@
 ## v0.0.1 (2024/06/04)
 Initial release
 
+</details>
