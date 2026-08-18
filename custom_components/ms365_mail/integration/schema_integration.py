@@ -1,13 +1,14 @@
 """Schema for MS365 Integration."""
 
-import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+
 from homeassistant.components.notify import (
     ATTR_DATA,
     ATTR_MESSAGE,
     ATTR_TARGET,
     ATTR_TITLE,
 )
+import homeassistant.helpers.config_validation as cv
 from O365.mailbox import (  # pylint: disable=no-name-in-module, import-error
     ExternalAudience,
 )

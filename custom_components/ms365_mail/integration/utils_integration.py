@@ -1,11 +1,13 @@
 """Mail utilities processes."""
 
 import os
+from pathlib import Path
 import warnings
 import zipfile
-from pathlib import Path
 
 from bs4 import BeautifulSoup, MarkupResemblesLocatorWarning
+
+from homeassistant.core import HomeAssistant
 
 from ..const import DATETIME_FORMAT
 from .const_integration import (
@@ -77,8 +79,8 @@ def _safe_html(html):
     return html
 
 
-def build_message(hass, data, message, new_message_attachments):
-    """Build a message to send"""
+def build_message(hass: HomeAssistant, data, message, new_message_attachments):
+    """Build a message to send."""
     is_html = False
     photos = []
     if data:
@@ -95,7 +97,7 @@ def build_message(hass, data, message, new_message_attachments):
     return message
 
 
-def _build_photo_content(hass, photos, new_message_attachments):
+def _build_photo_content(hass: HomeAssistant, photos, new_message_attachments):
     photos_content = ""
     for i, photo in enumerate(photos, start=1):
         if photo.startswith("http"):
@@ -111,8 +113,8 @@ def _build_photo_content(hass, photos, new_message_attachments):
     return photos_content
 
 
-def build_attachments(hass, data, new_message_attachments):
-    """Build the attachments"""
+def build_attachments(hass: HomeAssistant, data, new_message_attachments):
+    """Build the attachments."""
     attachments = []
     zip_attachments = False
     zip_name = None
@@ -140,7 +142,7 @@ def cleanup(cleanup_files):
         os.remove(filename)
 
 
-def _get_ha_filepath(hass, filepath):
+def _get_ha_filepath(hass: HomeAssistant, filepath):
     """Get the file path."""
     _filepath = Path(filepath)
     if _filepath.parts[0] == "/" and _filepath.parts[1] == "config":

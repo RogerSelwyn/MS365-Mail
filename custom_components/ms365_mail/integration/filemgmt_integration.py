@@ -3,11 +3,13 @@
 import base64
 import os
 
+from homeassistant.core import HomeAssistant
+
 from ..helpers.filemgmt import build_config_file_path
 from .const_integration import ATTACHMENT_FOLDER
 
 
-def check_and_create_attachments_folder(hass):
+def check_and_create_attachments_folder(hass: HomeAssistant):
     """Check if attachments folder exists and create if needed."""
 
     directory = build_config_file_path(hass, ATTACHMENT_FOLDER)
@@ -15,7 +17,7 @@ def check_and_create_attachments_folder(hass):
         os.makedirs(directory)
 
 
-def save_attachments_to_disk(hass, data):
+def save_attachments_to_disk(hass: HomeAssistant, data):
     """Save attachments."""
     for mail in data:
         for x in mail.attachments:

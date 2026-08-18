@@ -35,7 +35,7 @@ async def test_options_flow(
     setup_base_integration,
     base_config_entry: MS365MockConfigEntry,
 ) -> None:
-    """Test the options flow"""
+    """Test the options flow."""
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
 
@@ -62,7 +62,7 @@ async def test_options_flow_empty(
     setup_base_integration,
     base_config_entry: MS365MockConfigEntry,
 ) -> None:
-    """Test the options flow"""
+    """Test the options flow."""
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
 

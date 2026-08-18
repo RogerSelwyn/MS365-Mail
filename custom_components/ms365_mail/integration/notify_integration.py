@@ -8,31 +8,25 @@ from homeassistant.components.notify import (
     ATTR_TITLE,
     BaseNotificationService,
 )
+from homeassistant.core import HomeAssistant
 
 from ..classes.config_entry import MS365ConfigEntry
 from ..const import CONF_ENTITY_NAME
-from .const_integration import (
-    ATTR_IMPORTANCE,
-    ATTR_SENDER,
-    CONF_ENTRY,
-    PERM_MAIL_SEND,
-)
+from .const_integration import ATTR_IMPORTANCE, ATTR_SENDER, CONF_ENTRY, PERM_MAIL_SEND
 from .schema_integration import NOTIFY_SERVICE_BASE_SCHEMA
-from .utils_integration import (
-    build_attachments,
-    build_message,
-    cleanup,
-)
+from .utils_integration import build_attachments, build_message, cleanup
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_integration_get_service(hass, config, discovery_info=None):  # pylint: disable=unused-argument
+async def async_integration_get_service(
+    hass: HomeAssistant, config, discovery_info=None
+):  # pylint: disable=unused-argument
     """Get the service."""
     if discovery_info is None or not hasattr(
         discovery_info[CONF_ENTRY], "runtime_data"
     ):  # pragma: no cover
-        return
+        return None
 
     entry: MS365ConfigEntry = discovery_info[CONF_ENTRY]
     account = entry.runtime_data.ha_account.account
@@ -43,7 +37,7 @@ async def async_integration_get_service(hass, config, discovery_info=None):  # p
 class MS365EmailService(BaseNotificationService):
     """Implement the notification service for MS365."""
 
-    def __init__(self, account, entry: MS365ConfigEntry):
+    def __init__(self, account, entry: MS365ConfigEntry) -> None:
         """Initialize the service."""
         self.account = account
         self._entry = entry

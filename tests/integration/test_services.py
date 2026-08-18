@@ -350,7 +350,7 @@ async def test_notify_attachments(
         )
     await hass.async_block_till_done()
     assert mock_new_message.called
-    print(mock_new_message.mock_calls)
+    # print(mock_new_message.mock_calls)
     assert '<img src="https://sendphoto.jpg">' in str(mock_new_message.mock_calls)
 
     with (
@@ -642,7 +642,7 @@ async def test_mail_send_failed_permission(
 
 
 def attachment_setup(tmp_path, infile):
-    """Setup a token file"""
+    """Create a token file."""
     fromfile = TEST_DATA_INTEGRATION_LOCATION / "files" / infile
     tofile = tmp_path / infile
     shutil.copy(fromfile, tofile)

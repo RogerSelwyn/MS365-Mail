@@ -9,7 +9,6 @@ from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-
 from O365 import mailbox  # pylint: disable=no-name-in-module
 from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
     QueryBuilder,
@@ -87,7 +86,7 @@ async def async_integration_setup_entry(
     return True
 
 
-async def _async_sensor_entities(entry, hass):
+async def _async_sensor_entities(entry, hass: HomeAssistant):
     entities = [
         MS365AutoReplySensor(
             entry.runtime_data.coordinator,
@@ -156,7 +155,7 @@ class MS365MailSensor(MS365Entity, SensorEntity):
 
     def __init__(
         self, coordinator, entry: MS365ConfigEntry, name, entity_id, unique_id
-    ):
+    ) -> None:
         """Initialise the MS365 Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
         self.account = entry.runtime_data.ha_account.account
@@ -210,7 +209,7 @@ class MS365MailSensor(MS365Entity, SensorEntity):
             )
             return
 
-        if kwargs.get(ATTR_TO, None):
+        if kwargs.get(ATTR_TO):
             targets = kwargs.get(ATTR_TO)
         else:
             resp = await self.hass.async_add_executor_job(
@@ -228,9 +227,9 @@ class MS365MailSensor(MS365Entity, SensorEntity):
         for target in targets:
             new_message.to.add(target)
 
-        if kwargs.get(ATTR_FROM, None):
+        if kwargs.get(ATTR_FROM):
             new_message.sender = kwargs.get(ATTR_FROM)
-        if kwargs.get(ATTR_IMPORTANCE, None):
+        if kwargs.get(ATTR_IMPORTANCE):
             new_message.importance = kwargs.get(ATTR_IMPORTANCE)
 
         new_message.subject = subject
@@ -247,15 +246,15 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
 
     def __init__(
         self, coordinator, entry: MS365ConfigEntry, name, entity_id, unique_id
-    ):
+    ) -> None:
         """Initialise the Auto reply Sensor."""
         super().__init__(coordinator, entry, name, entity_id, unique_id)
         self._entry = entry
         self._account = self._entry.runtime_data.ha_account.account
         self.mailbox = None
 
-    async def async_init(self, hass):
-        """async initialise."""
+    async def async_init(self, hass: HomeAssistant):
+        """Async initialise."""
         self.mailbox = await hass.async_add_executor_job(self._account.mailbox)
 
     @property
@@ -305,7 +304,7 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
         return self._validate_permissions(
             PERM_MAILBOX_SETTINGS,
             "Not authorised to update auto reply - requires permission: "
-            + f"{PERM_MAILBOX_SETTINGS}",
+            f"{PERM_MAILBOX_SETTINGS}",
         )
 
 
@@ -378,9 +377,8 @@ async def async_build_mail_query(sensor_conf, builder: QueryBuilder):
     query = _add_to_query(query, builder, "equals", "hasAttachments", has_attachment)
     query = _add_to_query(query, builder, "equals", "from", email_from)
     query = _add_to_query(query, builder, "equals", "IsRead", not is_unread, is_unread)
-    query = _add_to_query(query, builder, "equals", "importance", importance)
 
-    return query
+    return _add_to_query(query, builder, "equals", "importance", importance)
 
 
 def _add_to_query(

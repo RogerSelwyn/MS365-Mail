@@ -1,8 +1,8 @@
 """Sensor processing."""
 
+from datetime import timedelta
 import functools as ft
 import logging
-from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
@@ -12,12 +12,7 @@ from O365.utils.query import (  # pylint: disable=no-name-in-module, import-erro
     QueryBuilder,
 )
 
-from ..const import (
-    ATTR_DATA,
-    CONF_ENTITY_KEY,
-    CONF_ENTITY_NAME,
-    CONF_ENTITY_TYPE,
-)
+from ..const import ATTR_DATA, CONF_ENTITY_KEY, CONF_ENTITY_NAME, CONF_ENTITY_TYPE
 from ..helpers.utils import build_entity_id
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,
@@ -45,7 +40,7 @@ _LOGGER = logging.getLogger(__name__)
 class MS365SensorCoordinator(DataUpdateCoordinator):
     """MS365 sensor data update coordinator."""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, account):
+    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, account) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,
