@@ -24,7 +24,7 @@ async def async_do_setup(hass: HomeAssistant, entry: ConfigEntry, account):
 
 
 async def async_extra_platform_setup(hass: HomeAssistant, entry: ConfigEntry):
-    """Setup notify platform."""
+    """Create notify platform."""
 
     if entry.data[CONF_ENABLE_UPDATE]:
         hass.async_create_task(

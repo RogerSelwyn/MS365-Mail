@@ -8,7 +8,7 @@ from ...helpers.mock_config_entry import MS365MockConfigEntry
 async def update_options(
     hass: HomeAssistant, base_config_entry: MS365MockConfigEntry, options
 ) -> None:
-    """Test the options flow"""
+    """Test the options flow."""
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
     result = await hass.config_entries.options.async_configure(
