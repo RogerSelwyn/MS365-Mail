@@ -1,6 +1,6 @@
 """MS365 mail sensors."""
 
-import datetime
+import datetime as dt
 import logging
 from operator import itemgetter
 
@@ -368,7 +368,7 @@ async def async_build_mail_query(sensor_conf, builder: QueryBuilder):
         or is_unread is not None
     ):
         query = query & builder.greater_equal(
-            "receivedDateTime", datetime.datetime(1900, 5, 1)
+            "receivedDateTime", dt.datetime(1900, 5, 1)
         )
 
     query = _add_to_query(query, builder, "contains", "body", body_contains)
