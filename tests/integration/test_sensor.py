@@ -4,15 +4,11 @@
 from unittest.mock import patch
 
 import pytest
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er
 from requests_mock import Mocker
 
-from custom_components.ms365_mail.integration.const_integration import (
-    Attachment,
-    ImportanceLevel,
-    Unread,
-)
+from custom_components.ms365_mail.integration.const_integration import Attachment, ImportanceLevel, Unread
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 
 from ..helpers.mock_config_entry import MS365MockConfigEntry
 from ..helpers.utils import check_entity_state, mock_call  # , utcnow
@@ -35,9 +31,7 @@ async def test_get_data(
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test get data."""
-    entities = er.async_entries_for_config_entry(
-        entity_registry, base_config_entry.entry_id
-    )
+    entities = er.async_entries_for_config_entry(entity_registry, base_config_entry.entry_id)
     assert len(entities) == 1
 
     check_entity_state(hass, "sensor.test_mail", "2", BASE_MESSAGES)
@@ -48,9 +42,7 @@ async def test_get_data(
     [{"enable_autoreply": True, "enable_update": True}],
     indirect=True,
 )
-@pytest.mark.parametrize(
-    "base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True
-)
+@pytest.mark.parametrize("base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True)
 async def test_get_autoreply(
     hass: HomeAssistant,
     setup_base_integration,
@@ -58,9 +50,7 @@ async def test_get_autoreply(
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test get data."""
-    entities = er.async_entries_for_config_entry(
-        entity_registry, base_config_entry.entry_id
-    )
+    entities = er.async_entries_for_config_entry(entity_registry, base_config_entry.entry_id)
     assert len(entities) == 2
 
     check_entity_state(hass, "sensor.test_autoreply", "disabled", BASE_AUTOREPLY)
@@ -113,9 +103,7 @@ async def test_run_update(
 ) -> None:
     """Test running coordinator update."""
     coordinator = base_config_entry.runtime_data.coordinator
-    with patch(
-        "homeassistant.helpers.entity.Entity.async_write_ha_state"
-    ) as mock_async_write_ha_state:
+    with patch("homeassistant.helpers.entity.Entity.async_write_ha_state") as mock_async_write_ha_state:
         await coordinator.async_refresh()
     await hass.async_block_till_done()
 

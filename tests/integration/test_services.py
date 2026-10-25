@@ -5,14 +5,12 @@ import shutil
 from unittest.mock import patch
 
 import pytest
+
+from custom_components.ms365_mail.const import CONF_ENABLE_UPDATE
+from custom_components.ms365_mail.integration.const_integration import CONF_ENABLE_AUTOREPLY
 from homeassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ServiceValidationError
-
-from custom_components.ms365_mail.const import CONF_ENABLE_UPDATE
-from custom_components.ms365_mail.integration.const_integration import (
-    CONF_ENABLE_AUTOREPLY,
-)
 
 from ..conftest import MS365MockConfigEntry
 from ..const import TEST_DATA_INTEGRATION_LOCATION
@@ -37,9 +35,7 @@ async def test_update_service_setup(
     [{"enable_autoreply": True, "enable_update": True}],
     indirect=True,
 )
-@pytest.mark.parametrize(
-    "base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True
-)
+@pytest.mark.parametrize("base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True)
 async def test_autoreply_service_setup(
     hass: HomeAssistant,
     setup_base_integration,
@@ -56,9 +52,7 @@ async def test_autoreply_service_setup(
     [{"enable_autoreply": True, "enable_update": True}],
     indirect=True,
 )
-@pytest.mark.parametrize(
-    "base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True
-)
+@pytest.mark.parametrize("base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True)
 async def test_autoreply(
     hass: HomeAssistant,
     setup_base_integration,
@@ -102,9 +96,7 @@ async def test_autoreply(
     [{"enable_autoreply": True, "enable_update": True}],
     indirect=True,
 )
-@pytest.mark.parametrize(
-    "base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True
-)
+@pytest.mark.parametrize("base_token", ["Mail.Read Mail.Send MailboxSettings.ReadWrite"], indirect=True)
 async def test_autoreply_failed_permission(
     hass: HomeAssistant,
     setup_base_integration,
@@ -134,10 +126,7 @@ async def test_autoreply_failed_permission(
             blocking=True,
             return_response=False,
         )
-    assert (
-        f"Not authorised to update auto reply - requires permission: {failed_perm}"
-        in str(exc_info.value)
-    )
+    assert f"Not authorised to update auto reply - requires permission: {failed_perm}" in str(exc_info.value)
     with (
         patch(
             f"custom_components.{DOMAIN}.integration.sensor_integration.PERM_MAILBOX_SETTINGS",
@@ -154,10 +143,7 @@ async def test_autoreply_failed_permission(
             blocking=True,
             return_response=False,
         )
-    assert (
-        f"Not authorised to update auto reply - requires permission: {failed_perm}"
-        in str(exc_info.value)
-    )
+    assert f"Not authorised to update auto reply - requires permission: {failed_perm}" in str(exc_info.value)
 
 
 async def test_notify(
@@ -179,9 +165,7 @@ async def test_notify(
     await hass.async_block_till_done()
     assert mock_new_message.called
 
-    assert "'toRecipients': [{'emailAddress': {'address': 'john@nomail.com'}}]" in str(
-        mock_new_message.mock_calls
-    )
+    assert "'toRecipients': [{'emailAddress': {'address': 'john@nomail.com'}}]" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -201,9 +185,7 @@ async def test_notify(
         )
     await hass.async_block_till_done()
     assert mock_new_message.called
-    assert "'from': {'emailAddress': {'address': 'sender@nomail.com'}}" in str(
-        mock_new_message.mock_calls
-    )
+    assert "'from': {'emailAddress': {'address': 'sender@nomail.com'}}" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -219,10 +201,7 @@ async def test_notify(
         )
     await hass.async_block_till_done()
     assert mock_new_message.called
-    assert (
-        "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}]"
-        in str(mock_new_message.mock_calls)
-    )
+    assert "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}]" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -396,10 +375,7 @@ async def test_notify_failed_permission(
             blocking=True,
             return_response=False,
         )
-    assert (
-        f"Not authorised to send mail - requires permission: {failed_perm}"
-        in caplog.text
-    )
+    assert f"Not authorised to send mail - requires permission: {failed_perm}" in caplog.text
 
 
 async def test_mail_send(
@@ -423,9 +399,7 @@ async def test_mail_send(
     await hass.async_block_till_done()
     assert mock_new_message.called
 
-    assert "'toRecipients': [{'emailAddress': {'address': 'john@nomail.com'}}]" in str(
-        mock_new_message.mock_calls
-    )
+    assert "'toRecipients': [{'emailAddress': {'address': 'john@nomail.com'}}]" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -444,9 +418,7 @@ async def test_mail_send(
         )
     await hass.async_block_till_done()
     assert mock_new_message.called
-    assert "'from': {'emailAddress': {'address': 'sender@nomail.com'}}" in str(
-        mock_new_message.mock_calls
-    )
+    assert "'from': {'emailAddress': {'address': 'sender@nomail.com'}}" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -463,10 +435,7 @@ async def test_mail_send(
         )
     await hass.async_block_till_done()
     assert mock_new_message.called
-    assert (
-        "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}]"
-        in str(mock_new_message.mock_calls)
-    )
+    assert "'toRecipients': [{'emailAddress': {'address': 'target@nomail.com'}}]" in str(mock_new_message.mock_calls)
 
     with patch("O365.connection.Connection.post") as mock_new_message:
         await hass.services.async_call(
@@ -635,10 +604,7 @@ async def test_mail_send_failed_permission(
             blocking=True,
             return_response=False,
         )
-    assert (
-        f"Not authorised to send mail - requires permission: {failed_perm}"
-        in caplog.text
-    )
+    assert f"Not authorised to send mail - requires permission: {failed_perm}" in caplog.text
 
 
 def attachment_setup(tmp_path, infile):

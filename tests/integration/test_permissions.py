@@ -4,6 +4,7 @@
 from unittest.mock import patch
 
 import pytest
+
 from homeassistant.components.notify import DOMAIN as NOTIFY_DOMAIN
 from homeassistant.core import HomeAssistant
 
@@ -52,9 +53,7 @@ async def test_shared_permissions(
     [{"shared_mailbox": "jane.doe@nomail.com", "enable_update": True}],
     indirect=True,
 )
-@pytest.mark.parametrize(
-    "base_token", ["Mail.Read.Shared Mail.Send.Shared"], indirect=True
-)
+@pytest.mark.parametrize("base_token", ["Mail.Read.Shared Mail.Send.Shared"], indirect=True)
 async def test_update_shared_permissions(
     hass: HomeAssistant,
     setup_base_integration,
@@ -77,9 +76,7 @@ async def test_missing_permissions(
     build_token_file(tmp_path, "")
 
     base_config_entry.add_to_hass(hass)
-    with patch(
-        "homeassistant.helpers.issue_registry.async_create_issue"
-    ) as mock_async_create_issue:
+    with patch("homeassistant.helpers.issue_registry.async_create_issue") as mock_async_create_issue:
         await hass.config_entries.async_setup(base_config_entry.entry_id)
 
     assert "Minimum required permissions: 'Mail.Read'" in caplog.text

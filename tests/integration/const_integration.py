@@ -5,15 +5,8 @@ from copy import deepcopy
 from enum import Enum
 
 from custom_components.ms365_mail.config_flow import MS365ConfigFlow  # noqa: F401
-from custom_components.ms365_mail.const import (  # noqa: F401
-    AUTH_CALLBACK_PATH_ALT,
-    COUNTRY_URLS,
-    OAUTH_REDIRECT_URL,
-    CountryOptions,
-)
-from custom_components.ms365_mail.integration.const_integration import (
-    DOMAIN,  # noqa: F401
-)
+from custom_components.ms365_mail.const import AUTH_CALLBACK_PATH_ALT, COUNTRY_URLS, OAUTH_REDIRECT_URL, CountryOptions  # noqa: F401
+from custom_components.ms365_mail.integration.const_integration import DOMAIN  # noqa: F401
 
 from ..const import CLIENT_ID, CLIENT_SECRET, ENTITY_NAME
 
@@ -65,20 +58,17 @@ FULL_INIT_ENTITY_NO = 1
 class URL(Enum):
     """List of URLs."""
 
-    OPENID = (
-        "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration"
-    )
+    OPENID = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration"
     ME = "https://graph.microsoft.com/v1.0/me"
     INBOX = "https://graph.microsoft.com/v1.0/me/mailFolders/Inbox/messages"
     AUTOREPLY = "https://graph.microsoft.com/v1.0/me/mailboxSettings"
     ATTACHMENT = "https://graph.microsoft.com/v1.0/me/messages/mail1/attachments"
     ROOTFOLDER = "https://graph.microsoft.com/v1.0/me/mailFolders"
     CHILDFOLDER = "https://graph.microsoft.com/v1.0/me/mailFolders/rootfolderid/childFolders?%24filter=displayName+eq+%27SubFolder%27&%24top=1"
-    CHILDMESSAGES = (
-        "https://graph.microsoft.com/v1.0/me/mailFolders/childfolderid/messages"
-    )
+    CHILDMESSAGES = "https://graph.microsoft.com/v1.0/me/mailFolders/childfolderid/messages"
     BADFOLDER = "https://graph.microsoft.com/v1.0/me/mailFolders/rootfolderid/childFolders?%24filter=displayName+eq+%27BadFolder%27&%24top=1"
     SHARED_INBOX = "https://graph.microsoft.com/v1.0/users/jane.doe@nomail.com/mailFolders/Inbox/messages"
+
 
 class CN21VURL(Enum):
     """List of URLs."""

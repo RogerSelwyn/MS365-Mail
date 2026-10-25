@@ -3,14 +3,13 @@
 
 from unittest.mock import patch
 
-from homeassistant.core import HomeAssistant
-
 from custom_components.ms365_mail.integration.const_integration import (
     CONF_IMPORTANCE,
     CONF_IS_UNREAD,
     ImportanceLevel,
     Unread,
 )
+from homeassistant.core import HomeAssistant
 
 from ..helpers.mock_config_entry import MS365MockConfigEntry
 
@@ -23,9 +22,7 @@ async def test_reload(
     """Test for reload."""
 
     result = await hass.config_entries.options.async_init(base_config_entry.entry_id)
-    with patch(
-        "homeassistant.config_entries.ConfigEntries.async_reload"
-    ) as mock_async_reload:
+    with patch("homeassistant.config_entries.ConfigEntries.async_reload") as mock_async_reload:
         result = await hass.config_entries.options.async_configure(
             result["flow_id"],
             user_input={

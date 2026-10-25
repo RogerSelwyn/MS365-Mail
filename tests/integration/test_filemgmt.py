@@ -2,8 +2,9 @@
 """Test main sensors testing."""
 
 import pytest
-from homeassistant.core import HomeAssistant
 from requests_mock import Mocker
+
+from homeassistant.core import HomeAssistant
 
 from ..helpers.mock_config_entry import MS365MockConfigEntry
 from ..helpers.utils import check_entity_state
