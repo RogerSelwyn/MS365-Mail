@@ -1,5 +1,47 @@
 # Changelog
 
+## v1.13.3 (2026/10/29)
+### 🐛 Fixes
+- [Show reconfigure succesful transalation](https://github.com/RogerSelwyn/MS365-Mail/commit/fd442c4da943c269269b1d84764106d7e60500d6) - @RogerSelwyn
+- [Apply fixes from calendar base changes](https://github.com/RogerSelwyn/MS365-Mail/commit/0c20d7068945396f2f68874ec6e7235f00b29410) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Remove double reload after config change](https://github.com/RogerSelwyn/MS365-Mail/commit/aa8f460c9f2da618db8bdfd7cc36167c77b677c6) - @RogerSelwyn
+- [Update to HA Ruff standards](https://github.com/RogerSelwyn/MS365-Mail/commit/70e12cc0fff51b7a7e9db9186e66d76bd0b10c42) - @RogerSelwyn
+- [Minor ruff tweaks](https://github.com/RogerSelwyn/MS365-Mail/commit/ab8fdeab86c6d432f7cd754839d09edb1cbcacc9) - @RogerSelwyn
+- [Sync uv.lock](https://github.com/RogerSelwyn/MS365-Mail/commit/b47dbeab738c4ce70f8c789de98f66dd954b4d6f) - @RogerSelwyn
+- [Ruff format change](https://github.com/RogerSelwyn/MS365-Mail/commit/d814185352cbb2cee58e8baee3cb0bbb7964eac7) - @RogerSelwyn
+- [Remove deprecated attribute](https://github.com/RogerSelwyn/MS365-Mail/commit/bf6656dcd5f31fbb3eaf40b029d1ad4b4197ac33) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [bump actions/setup-python from 6 to 7](https://github.com/RogerSelwyn/MS365-Mail/commit/4440f7991b783e7448b1d647783a486b65416cbb) - @dependabot[bot]
+- [bump actions/stale from 10 to 11](https://github.com/RogerSelwyn/MS365-Mail/commit/6da5ca1d83fb14b25d8b0bbee741d416ecb1f16f) - @dependabot[bot]
+- [bump github/codeql-action from 4 to 4.37.4](https://github.com/RogerSelwyn/MS365-Mail/commit/aaaf0ee5e3a32a0396147c86c2f99d59a9f9b18b) - @dependabot[bot]
+- [bump astral-sh/setup-uv from 8.1.0 to 10.0.1](https://github.com/RogerSelwyn/MS365-Mail/commit/f125511aa607dc66a02e36a68baceb0b59286292) - @dependabot[bot]
+- [update pygithub requirement from >=2.9.1 to >=2.10.0](https://github.com/RogerSelwyn/MS365-Mail/commit/0d0ed7adec0bbd9b5d71b179a6d381e9af463dd6) - @dependabot[bot]
+- [bump github/codeql-action from 4.37.4 to 4.38.2](https://github.com/RogerSelwyn/MS365-Mail/commit/49b8963f677ad0320880d5f168efa6ccf41bce14) - @dependabot[bot]
+- [bump astral-sh/setup-uv from 10.0.1 to 10.2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/7188928a0286fdfeecacc1a4a4564d8a23470277) - @dependabot[bot]
+- [update pytest-homeassistant-custom-component requirement](https://github.com/RogerSelwyn/MS365-Mail/commit/30bf82699323183c18caa2f4ae196f30b1d4e0df) - @dependabot[bot]
+- [bump github/codeql-action from 4.38.2 to 4.39.1](https://github.com/RogerSelwyn/MS365-Mail/commit/a6f83e1e81558723a2b1deb6c11929b252668ec2) - @dependabot[bot]
+- [bump astral-sh/setup-uv from 10.2.0 to 10.3.2](https://github.com/RogerSelwyn/MS365-Mail/commit/d09c0241087ec89283b7f87e1e45f6038a67ef84) - @dependabot[bot]
+- [update pytest-homeassistant-custom-component requirement](https://github.com/RogerSelwyn/MS365-Mail/commit/635fbd4366a93ce9b593a5189a4c5f2b00eb574c) - @dependabot[bot]
+- [Bump HA Core to 2025.6.0](https://github.com/RogerSelwyn/MS365-Mail/commit/f671ff3578dbd485b2f1c7e9d4385b31e4ade63c) - @RogerSelwyn
+
+### 📚 Documentation
+- [Tidy up changelog](https://github.com/RogerSelwyn/MS365-Mail/commit/fd5c2e9416cda92f135331ea37ffd0c4b9c0e04f) - @RogerSelwyn
+
+### ✅ Test
+- [Format tests with Ruff](https://github.com/RogerSelwyn/MS365-Mail/commit/4bf0f233c007b99f212974973009fd72eb009e32) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.13.3](https://github.com/RogerSelwyn/MS365-Mail/commit/767a8e6ff5eeca58425f762e3033132fc19c02d4) - @RogerSelwyn
+
+### Other
+- [Update ruff version to 0.16.3](https://github.com/RogerSelwyn/MS365-Mail/commit/8d17be2a38bb1f140f9ad20670ac20ab71418d52) - @RogerSelwyn
+
+
+
+
 ## v1.13.2 (2026/07/13)
 ### 🐛 Fixes
 - [Reinstate async_update_reload_and_abort to reload on reconfigure](https://github.com/RogerSelwyn/MS365-Mail/commit/f4e387592a1184e88a9aba5558a983ee8d6030eb) - @RogerSelwyn
