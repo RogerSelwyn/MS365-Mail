@@ -57,9 +57,7 @@ async def test_get_autoreply(
 
 
 async def test_get_query_build(
-    hass: HomeAssistant,
-    setup_base_integration,
-    base_config_entry: MS365MockConfigEntry,
+    adjust_config_dir, hass: HomeAssistant, setup_base_integration, base_config_entry: MS365MockConfigEntry
 ) -> None:
     """Test get data."""
     await update_options(hass, base_config_entry, {"body_contains": "body_text"})
