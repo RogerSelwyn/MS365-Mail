@@ -1,7 +1,6 @@
 # pylint: disable=line-too-long, unused-argument
 """Test the config flow."""
 
-from copy import deepcopy
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -19,9 +18,10 @@ from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from ..helpers.mock_config_entry import MS365MockConfigEntry
+from ..const import BASE_CONFIG_ENTRY
+from ..helpers.mock_config_entry import MS365MockConfigEntry, config_entry_setup
 from ..helpers.utils import build_token_url, get_schema_default, mock_token
-from .const_integration import AUTH_CALLBACK_PATH_DEFAULT, BASE_CONFIG_ENTRY, DOMAIN, SHARED_TOKEN_PERMS
+from .const_integration import AUTH_CALLBACK_PATH_DEFAULT, DOMAIN, SHARED_TOKEN_PERMS
 from .helpers_integration.mocks import MS365MOCKS
 
 
@@ -92,9 +92,8 @@ async def test_shared_email_invalid(
 
     result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
 
-    user_input = deepcopy(BASE_CONFIG_ENTRY)
     email = "john@nomail.com"
-    user_input["shared_mailbox"] = email
+    user_input = config_entry_setup(BASE_CONFIG_ENTRY, {"shared_mailbox": email})
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
         user_input=user_input,
