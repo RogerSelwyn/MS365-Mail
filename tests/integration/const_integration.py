@@ -11,7 +11,6 @@ AUTH_CALLBACK_PATH_DEFAULT = COUNTRY_URLS[CountryOptions.DEFAULT][OAUTH_REDIRECT
 BASE_CONFIG_ENTRY_INTEGRATION = {
     "enable_update": False,
     "enable_autoreply": False,
-    "api_options": {"country": "Default"},
 }
 BASE_TOKEN_PERMS = "Mail.Read"
 BASE_MISSING_PERMS = BASE_TOKEN_PERMS
