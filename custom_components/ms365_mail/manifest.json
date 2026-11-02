@@ -1,6 +1,10 @@
 {
   "domain": "ms365_mail",
   "name": "Microsoft 365 - Mail",
+  "categories": [
+    "messaging_notifications.email_sms_calls",
+    "productivity_information"
+  ],
   "codeowners": ["@RogerSelwyn"],
   "config_flow": true,
   "dependencies": ["http"],
