@@ -1,5 +1,35 @@
 # Changelog
 
+## v1.14.0 (2026/11/05)
+### ✨ Enhancements
+- [Add External Secret support](https://github.com/RogerSelwyn/MS365-Mail/commit/a2b9d326c6605acc38ac6dad1503bf3374548128) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Remove dependencies that exist in HA Core](https://github.com/RogerSelwyn/MS365-Mail/commit/d91051c5260679b747ade0850557091e5b5af18d) - @RogerSelwyn
+- [Add categories and bump HA core to 2026.11.0](https://github.com/RogerSelwyn/MS365-Mail/commit/b164789ec14eb4640c2ae4d606caebf89de9aa03) - @RogerSelwyn
+- [Remove redundant delete_issues](https://github.com/RogerSelwyn/MS365-Mail/commit/da9bdfa71f777cf7188048bf8cbf5efac7dd7a27) - @RogerSelwyn
+- [Config entry methods now return None](https://github.com/RogerSelwyn/MS365-Mail/commit/dfa0405ea84c76731a40ee0fd1c850deb1d5095d) - @RogerSelwyn
+- [Config entry unload methods should return None](https://github.com/RogerSelwyn/MS365-Mail/commit/37dace2388bd6400e12bd9453232996e4fcc9453) - @RogerSelwyn
+- [Config entry unload methods should return None](https://github.com/RogerSelwyn/MS365-Mail/commit/ab2a2215642b5fd2931cd6b4c257da38e85dd7f9) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/79060ad2703d8c774c0457ee0d2156e6ebd36add) - @actions-user
+- [Auto update requirements.txt](https://github.com/RogerSelwyn/MS365-Mail/commit/8945b55fe4ab935b49f061af2c499e7f8b74d89f) - @actions-user
+
+### ✅ Test
+- [Migrate to pytest_homeassistant](https://github.com/RogerSelwyn/MS365-Mail/commit/2912781c43f5dba009a693f62d0aa4ffb31ca40f) - @RogerSelwyn
+- [Tweak tests to stop files being left behind](https://github.com/RogerSelwyn/MS365-Mail/commit/96a9003382a6a5872aa4db9f50e5060658a4c976) - @RogerSelwyn
+- [Update testing for completeness](https://github.com/RogerSelwyn/MS365-Mail/commit/58de1e0cdbd1a621c121eb8c3497a27760c171a8) - @RogerSelwyn
+- [Minor tweak](https://github.com/RogerSelwyn/MS365-Mail/commit/56dae3072d6cdb890c9de07f13f8a1d8991dce0f) - @RogerSelwyn
+- [Update test exclusions](https://github.com/RogerSelwyn/MS365-Mail/commit/9565138458c7a3124cb43b60f81cd1a988f02b00) - @RogerSelwyn
+- [Add environment secret default to tests](https://github.com/RogerSelwyn/MS365-Mail/commit/9bc138ff40c18b8f49595da6108b7fcc244b59a2) - @RogerSelwyn
+
+### Other
+- [Revert "maint: Remove dependencies that exist in HA Core"](https://github.com/RogerSelwyn/MS365-Mail/commit/a3e1231c86bdf774284bad20060be6c3ebb68ee9) - @RogerSelwyn
+
+
+
+
 ## v1.13.3 (2026/10/29)
 ### 🐛 Fixes
 - [Show reconfigure succesful transalation](https://github.com/RogerSelwyn/MS365-Mail/commit/fd442c4da943c269269b1d84764106d7e60500d6) - @RogerSelwyn
