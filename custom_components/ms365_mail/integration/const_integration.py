@@ -53,6 +53,8 @@ PERM_MAIL_SEND = "Mail.Send"
 SENSOR_EMAIL = "inbox"
 SENSOR_AUTO_REPLY = "auto_reply"
 
+SUBENTRY_MAIL = "mail"
+
 
 class Unread(StrEnum):
     """Mail Unread."""

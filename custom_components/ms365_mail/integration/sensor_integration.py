@@ -10,9 +10,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from O365 import mailbox  # pylint: disable=no-name-in-module
-from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
-    QueryBuilder,
-)
+from O365.utils.query import QueryBuilder  # pylint: disable=no-name-in-module, import-error
 
 from ..classes.config_entry import MS365ConfigEntry
 from ..classes.entity import MS365Entity
@@ -76,26 +74,26 @@ async def async_integration_setup_entry(
 ) -> bool:
     """Set up the MS365 platform."""
 
-    sensor_entities = await _async_sensor_entities(entry, hass)
-    email_entities = _email_entities(entry)
-    entities = sensor_entities + email_entities
-
-    async_add_entities(entities, False)
+    for coordinator in entry.runtime_data.coordinator:
+        sensor_entities = await _async_sensor_entities(coordinator, entry, hass)
+        email_entities = _email_entities(coordinator, entry)
+        entities = sensor_entities + email_entities
+        async_add_entities(entities, False)
     await _async_setup_register_services(entry)
 
     return True
 
 
-async def _async_sensor_entities(entry, hass: HomeAssistant):
+async def _async_sensor_entities(coordinator, entry, hass: HomeAssistant):
     entities = [
         MS365AutoReplySensor(
-            entry.runtime_data.coordinator,
+            coordinator,
             entry,
             key[CONF_NAME],
             key[CONF_ENTITY_KEY],
             key[CONF_UNIQUE_ID],
         )
-        for key in entry.runtime_data.sensors
+        for key in coordinator.keys
         if key[CONF_ENTITY_TYPE] == SENSOR_AUTO_REPLY
     ]
     for entity in entities:
@@ -103,16 +101,15 @@ async def _async_sensor_entities(entry, hass: HomeAssistant):
     return entities
 
 
-def _email_entities(entry):
+def _email_entities(coordinator, entry):
     return [
         MS365MailSensor(
-            entry.runtime_data.coordinator,
+            coordinator,
             entry,
             key[CONF_NAME],
             key[CONF_ENTITY_KEY],
-            key[CONF_UNIQUE_ID],
         )
-        for key in entry.runtime_data.sensors
+        for key in coordinator.keys
         if key[CONF_ENTITY_TYPE] == SENSOR_EMAIL
     ]
 
@@ -154,16 +151,21 @@ class MS365MailSensor(MS365Entity, SensorEntity):
     _attr_translation_key = "mail"
 
     def __init__(
-        self, coordinator, entry: MS365ConfigEntry, name, entity_id, unique_id
+        self,
+        coordinator,
+        entry: MS365ConfigEntry,
+        name,
+        entity_id,
     ) -> None:
         """Initialise the MS365 Sensor."""
-        super().__init__(coordinator, entry, name, entity_id, unique_id)
+        subentry = coordinator.subentry
+        super().__init__(coordinator, entry, name, entity_id, subentry.unique_id)
         self.account = entry.runtime_data.ha_account.account
-        download_attachments = entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
-        save_attachments = entry.options.get(CONF_SAVE_ATTACHMENTS)
+        download_attachments = subentry.data.get(CONF_DOWNLOAD_ATTACHMENTS)
+        save_attachments = subentry.data.get(CONF_SAVE_ATTACHMENTS)
         self._fetch_attachments = download_attachments or save_attachments
-        self._html_body = entry.options.get(CONF_HTML_BODY)
-        self._show_body = entry.options.get(CONF_SHOW_BODY)
+        self._html_body = subentry.data.get(CONF_HTML_BODY)
+        self._show_body = subentry.data.get(CONF_SHOW_BODY)
         self._state = None
         self._extra_attributes = None
         self._update_status()

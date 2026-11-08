@@ -4,7 +4,13 @@
 from enum import Enum
 
 from custom_components.ms365_mail.config_flow import MS365ConfigFlow  # noqa: F401
-from custom_components.ms365_mail.const import AUTH_CALLBACK_PATH_ALT, COUNTRY_URLS, OAUTH_REDIRECT_URL, CountryOptions  # noqa: F401
+from custom_components.ms365_mail.const import (  # noqa: F401
+    AUTH_CALLBACK_PATH_ALT,
+    CONF_ENTITY_NAME,
+    COUNTRY_URLS,
+    OAUTH_REDIRECT_URL,
+    CountryOptions,
+)
 from custom_components.ms365_mail.integration.const_integration import DOMAIN  # noqa: F401
 
 AUTH_CALLBACK_PATH_DEFAULT = COUNTRY_URLS[CountryOptions.DEFAULT][OAUTH_REDIRECT_URL]
@@ -14,14 +20,17 @@ BASE_CONFIG_ENTRY_INTEGRATION = {
 }
 BASE_TOKEN_PERMS = "Mail.Read"
 BASE_MISSING_PERMS = BASE_TOKEN_PERMS
+BASE_SUBENTRY = {
+    "data": {CONF_ENTITY_NAME: "test"},
+    "subentry_type": "mail",
+    "title": "test",
+    "unique_id": "ms365_mail_test_test",
+}
+
 SHARED_TOKEN_PERMS = "Mail.Read.Shared"
 UPDATE_TOKEN_PERMS = "Mail.Read Mail.Send MailboxSettings.ReadWrite"
 UPDATE_OPTIONS = {"enable_update": True}
 
-
-MIGRATION_CONFIG_ENTRY = {
-    "options": {},
-}
 
 DIAGNOSTIC_GRANTED_PERMISSIONS = [
     "Mail.Read",

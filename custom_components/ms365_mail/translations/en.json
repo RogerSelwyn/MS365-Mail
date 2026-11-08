@@ -5,6 +5,8 @@
     },
     "error": {
       "already_configured": "This account name has already been used. Use re-configure.",
+      "environment_variable_empty": "The specified variable is empty in the environment",
+      "environment_variable_invalid": "The specified variable does not exist in the environment",
       "error_authenticating": "Error authenticating, token invalid, check log for errors",
       "invalid_url": "Error, the originating url does not seem to be a valid microsoft redirect",
       "permissions": "Minimum permissions not granted for account: {entity_name}",
@@ -16,8 +18,10 @@
       "user": {
         "data": {
           "entity_name": "Uniquely identifying name for the entities",
+          "environment_secret": "Use client secret from environment (default False)",
           "client_id": "Client ID",
           "client_secret": "Client Secret",
+          "client_sec_environment_variable": "Client Secret environment variable",
           "alt_auth_method": "Use alternate (more complex) authentication",
           "enable_update": "Enable update services",
           "shared_mailbox": "Email address/ID of shared mailbox",
@@ -55,31 +59,23 @@
     }
   },
   "options": {
-    "step": {
-      "user": {
-        "data": {
-          "folder": "Mail folder to monitor",
-          "max_items": "Max number of items",
-          "is_unread": "Unread items",
-          "from_address": "Only retrieve emails from this email address",
-          "has_attachment": "Has attachments",
-          "importance": "Importance Level",
-          "subject_contains": "Subject contains",
-          "subject_is": "Subject is",
-          "body_contains": "Body contains",
-          "download_attachments": "Show attachment names",
-          "save_attachments": "Save attachments",
-          "html_body": "Output HTML body",
-          "show_body": "Show body on entity"
-        },
-        "description": "Setup options for {entity_name}"
-      }
+    "step": {},
+    "abort": {
+      "use_subentry": "Reconfigure subentry to modify folder configuration"
     }
   },
   "issues": {
     "corrupted": {
       "title": "Re-authentication required - {domain} - {entity_name}",
       "description": "The token file is corrupted. Please [Reconfigure]({url}) the integration and re-authenticate to re-create the token file."
+    },
+    "environment_variable_empty": {
+      "title": "The specified client secret environment variable - {client_sec_variable} - is empty",
+      "description": "Please [Reconfigure]({url}) the integration with a valid environment variable."
+    },
+    "environment_variable_invalid": {
+      "title": "The specified client secret environment variable - {client_sec_variable} - does not exist",
+      "description": "Please [Reconfigure]({url}) the integration with a valid environment variable."
     },
     "expired": {
       "title": "Re-authentication required - {domain} - {entity_name}",
@@ -199,6 +195,56 @@
         "zip_name": {
           "description": "Name of the generated zip file",
           "name": "ZIP file name"
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "mail": {
+      "entry_type": "Mail",
+      "initiate_flow": {
+        "user": "Add mail folder",
+        "reconfigure": "Change mail folder"
+      },
+      "step": {
+        "user": {
+          "title": "Add mail folder",
+          "description": "Add folder for {entity_name}",
+          "data": {
+            "entity_name": "Name to identify this folder",
+            "folder": "Mail folder to monitor",
+            "max_items": "Max number of items",
+            "is_unread": "Unread items",
+            "from_address": "Only retrieve emails from this email address",
+            "has_attachment": "Has attachments",
+            "importance": "Importance Level",
+            "subject_contains": "Subject contains",
+            "subject_is": "Subject is",
+            "body_contains": "Body contains",
+            "download_attachments": "Show attachment names",
+            "save_attachments": "Save attachments",
+            "html_body": "Output HTML body",
+            "show_body": "Show body on entity"
+          }
+        },
+        "reconfigure": {
+          "title": "Change mail folder",
+          "description": "Change {entity_name} folder",
+          "data": {
+            "folder": "Mail folder to monitor",
+            "max_items": "Max number of items",
+            "is_unread": "Unread items",
+            "from_address": "Only retrieve emails from this email address",
+            "has_attachment": "Has attachments",
+            "importance": "Importance Level",
+            "subject_contains": "Subject contains",
+            "subject_is": "Subject is",
+            "body_contains": "Body contains",
+            "download_attachments": "Show attachment names",
+            "save_attachments": "Save attachments",
+            "html_body": "Output HTML body",
+            "show_body": "Show body on entity"
+          }
         }
       }
     }

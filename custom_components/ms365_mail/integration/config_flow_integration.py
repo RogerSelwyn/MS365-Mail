@@ -1,49 +1,48 @@
 """Configuration flow for the skyq platform."""
 
-import voluptuous as vol
+from copy import deepcopy
+from typing import Any
+
+import probatio
 
 from homeassistant import config_entries
-from homeassistant.config_entries import ConfigFlowResult
-from homeassistant.core import HomeAssistant
+from homeassistant.config_entries import (
+    ConfigFlowResult,
+    ConfigSubentryFlow,
+    SubentryFlowResult,
+)
 import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.selector import BooleanSelector
 
 from ..classes.config_entry import MS365ConfigEntry
 from ..const import CONF_ENABLE_UPDATE, CONF_ENTITY_NAME, CONF_SHARED_MAILBOX
 from .const_integration import (
-    CONF_BODY_CONTAINS,
-    CONF_DOWNLOAD_ATTACHMENTS,
     CONF_ENABLE_AUTOREPLY,
-    CONF_FOLDER,
     CONF_HAS_ATTACHMENT,
-    CONF_HTML_BODY,
     CONF_IMPORTANCE,
     CONF_IS_UNREAD,
-    CONF_MAIL_FROM,
-    CONF_MAX_ITEMS,
-    CONF_SAVE_ATTACHMENTS,
-    CONF_SHOW_BODY,
-    CONF_SUBJECT_CONTAINS,
-    CONF_SUBJECT_IS,
+    DOMAIN,
+    SUBENTRY_MAIL,
     Attachment,
     ImportanceLevel,
     Unread,
 )
+from .schema_integration import MAIL_FOLDER_SCHEMA
 
-BOOLEAN_SELECTOR = BooleanSelector()
+INTEGRATION_CONFIG_VERSION = 2
+INRTEGRATION_CONFIG_MINOR_VERSION = 1
 
 
 def integration_reconfigure_schema(entry_data):
     """Extend the schame with integration specific attributes."""
     return {
-        vol.Optional(
+        probatio.Optional(
             CONF_ENABLE_UPDATE, default=entry_data[CONF_ENABLE_UPDATE]
         ): cv.boolean,
-        vol.Optional(
+        probatio.Optional(
             CONF_SHARED_MAILBOX,
             description={"suggested_value": entry_data.get(CONF_SHARED_MAILBOX, None)},
         ): cv.string,
-        vol.Optional(
+        probatio.Optional(
             CONF_ENABLE_AUTOREPLY, default=entry_data[CONF_ENABLE_AUTOREPLY]
         ): cv.boolean,
     }
@@ -54,9 +53,90 @@ def integration_validate_schema(user_input):  # pylint: disable=unused-argument
     return {}
 
 
-async def async_integration_imports(hass: HomeAssistant, import_data):  # pylint: disable=unused-argument
-    """Do the integration  level import tasks."""
-    return
+def integration_subentry_flows():
+    """Provide the subentry flows."""
+    return {SUBENTRY_MAIL: MailSubentryFlow}
+
+
+def subentry_setup(name):
+    """Setup a basic subentry."""
+    return [
+        {
+            "data": {CONF_ENTITY_NAME: name},
+            "subentry_type": SUBENTRY_MAIL,
+            "title": name,
+            "unique_id": f"{DOMAIN}_{name}_{name}",
+        }
+    ]
+
+
+class MailSubentryFlow(ConfigSubentryFlow):
+    """Add and change a mail folder."""
+
+    async def async_step_user(
+        self, user_input: dict[str, Any] | None = None
+    ) -> SubentryFlowResult:
+        """Handle a flow initialized by the user."""
+        errors = {}
+        config_entry = self._get_entry()
+
+        if user_input:
+            if user_input.get(CONF_IS_UNREAD) == Unread.NONE:
+                del user_input[CONF_IS_UNREAD]
+            if user_input.get(CONF_HAS_ATTACHMENT) == Attachment.NONE:
+                del user_input[CONF_HAS_ATTACHMENT]
+            if user_input.get(CONF_IMPORTANCE) == ImportanceLevel.NONE:
+                del user_input[CONF_IMPORTANCE]
+            return self.async_create_entry(
+                title=user_input[CONF_ENTITY_NAME],
+                unique_id=f"{DOMAIN}_{config_entry.data[CONF_ENTITY_NAME]}_{user_input[CONF_ENTITY_NAME]}",
+                data=user_input,
+            )
+
+        return self.async_show_form(
+            step_id="user",
+            data_schema=probatio.Schema(MAIL_FOLDER_SCHEMA),
+            description_placeholders={
+                CONF_ENTITY_NAME: config_entry.data[CONF_ENTITY_NAME]
+            },
+            errors=errors,
+            last_step=True,
+        )
+
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> SubentryFlowResult:
+        """Change an existing mail folder."""
+        entry = self._get_entry()
+        subentry = self._get_reconfigure_subentry()
+
+        if user_input:
+            user_input[CONF_ENTITY_NAME] = subentry.data[CONF_ENTITY_NAME]
+            if user_input.get(CONF_IS_UNREAD) == Unread.NONE:
+                del user_input[CONF_IS_UNREAD]
+            if user_input.get(CONF_HAS_ATTACHMENT) == Attachment.NONE:
+                del user_input[CONF_HAS_ATTACHMENT]
+            if user_input.get(CONF_IMPORTANCE) == ImportanceLevel.NONE:
+                del user_input[CONF_IMPORTANCE]
+            if user_input == subentry.data:
+                return self.async_update_and_abort(
+                    entry, subentry, data_updates=user_input
+                )
+            return self.async_update_reload_and_abort(
+                entry, subentry, data_updates=user_input
+            )
+
+        data_schema = deepcopy(MAIL_FOLDER_SCHEMA)
+        del data_schema[CONF_ENTITY_NAME]
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=self.add_suggested_values_to_schema(
+                probatio.Schema(data_schema), subentry.data
+            ),
+            description_placeholders={
+                CONF_ENTITY_NAME: subentry.data[CONF_ENTITY_NAME]
+            },
+        )
 
 
 class MS365OptionsFlowHandler(config_entries.OptionsFlow):
@@ -71,141 +151,4 @@ class MS365OptionsFlowHandler(config_entries.OptionsFlow):
     ) -> ConfigFlowResult:
         """Set up the option flow."""
 
-        return await self.async_step_user()
-
-    async def async_step_user(self, user_input=None) -> ConfigFlowResult:
-        """Handle a flow initialized by the user."""
-        errors = {}
-
-        if user_input:
-            if user_input.get(CONF_IS_UNREAD) == Unread.NONE:
-                del user_input[CONF_IS_UNREAD]
-            if user_input.get(CONF_HAS_ATTACHMENT) == Attachment.NONE:
-                del user_input[CONF_HAS_ATTACHMENT]
-            if user_input.get(CONF_IMPORTANCE) == ImportanceLevel.NONE:
-                del user_input[CONF_IMPORTANCE]
-            return await self._async_tidy_up(user_input)
-
-        return self.async_show_form(
-            step_id="user",
-            description_placeholders={
-                CONF_ENTITY_NAME: self.config_entry.data[CONF_ENTITY_NAME]
-            },
-            data_schema=vol.Schema(
-                {
-                    vol.Optional(
-                        CONF_FOLDER,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_FOLDER
-                            )
-                        },
-                    ): cv.string,
-                    vol.Optional(
-                        CONF_MAX_ITEMS,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_MAX_ITEMS, 5
-                            )
-                        },
-                    ): int,
-                    vol.Optional(
-                        CONF_IS_UNREAD,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_IS_UNREAD, Unread.NONE
-                            )
-                        },
-                    ): vol.In(Unread),
-                    vol.Optional(
-                        CONF_MAIL_FROM,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_MAIL_FROM
-                            )
-                        },
-                    ): cv.string,
-                    vol.Optional(
-                        CONF_HAS_ATTACHMENT,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_HAS_ATTACHMENT, Attachment.NONE
-                            )
-                        },
-                    ): vol.In(Attachment),
-                    vol.Optional(
-                        CONF_IMPORTANCE,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_IMPORTANCE, ImportanceLevel.NONE
-                            )
-                        },
-                    ): vol.In(ImportanceLevel),
-                    vol.Exclusive(
-                        CONF_SUBJECT_CONTAINS,
-                        "subject_contains_or_is",
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_SUBJECT_CONTAINS
-                            )
-                        },
-                    ): cv.string,
-                    vol.Exclusive(
-                        CONF_SUBJECT_IS,
-                        "subject_contains_or_is",
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_SUBJECT_IS
-                            )
-                        },
-                    ): cv.string,
-                    vol.Optional(
-                        CONF_DOWNLOAD_ATTACHMENTS,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_DOWNLOAD_ATTACHMENTS, True
-                            )
-                        },
-                    ): BOOLEAN_SELECTOR,
-                    vol.Optional(
-                        CONF_SAVE_ATTACHMENTS,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_SAVE_ATTACHMENTS, False
-                            )
-                        },
-                    ): BOOLEAN_SELECTOR,
-                    vol.Optional(
-                        CONF_HTML_BODY,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_HTML_BODY, False
-                            )
-                        },
-                    ): BOOLEAN_SELECTOR,
-                    vol.Optional(
-                        CONF_SHOW_BODY,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_SHOW_BODY, True
-                            )
-                        },
-                    ): BOOLEAN_SELECTOR,
-                    vol.Optional(
-                        CONF_BODY_CONTAINS,
-                        description={
-                            "suggested_value": self.config_entry.options.get(
-                                CONF_BODY_CONTAINS
-                            )
-                        },
-                    ): cv.string,
-                }
-            ),
-            errors=errors,
-            last_step=True,
-        )
-
-    async def _async_tidy_up(self, user_input):
-        update = self.async_create_entry(title="", data=user_input)
-        await self.hass.config_entries.async_reload(self._config_entry_id)
-        return update
+        return self.async_abort(reason="use_subentry")

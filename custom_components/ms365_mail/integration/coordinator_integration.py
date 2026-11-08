@@ -4,13 +4,11 @@ from datetime import timedelta
 import functools as ft
 import logging
 
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.config_entries import ConfigEntry, ConfigSubentry
 from homeassistant.const import CONF_NAME, CONF_UNIQUE_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from O365.utils.query import (  # pylint: disable=no-name-in-module, import-error
-    QueryBuilder,
-)
+from O365.utils.query import QueryBuilder  # pylint: disable=no-name-in-module, import-error
 
 from ..const import ATTR_DATA, CONF_ENTITY_KEY, CONF_ENTITY_NAME, CONF_ENTITY_TYPE
 from ..helpers.utils import build_entity_id
@@ -40,7 +38,14 @@ _LOGGER = logging.getLogger(__name__)
 class MS365SensorCoordinator(DataUpdateCoordinator):
     """MS365 sensor data update coordinator."""
 
-    def __init__(self, hass: HomeAssistant, entry: ConfigEntry, account) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        entry: ConfigEntry,
+        subentry: ConfigSubentry,
+        account,
+        autoreply,
+    ) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,
@@ -53,8 +58,15 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         )
         self._hass = hass
         self._entry = entry
+        self.subentry = subentry
         self._account = account
-        self._entity_name = entry.data[CONF_ENTITY_NAME]
+        self._autoreply = autoreply
+        subentity_name = (
+            f"_{subentry.data[CONF_ENTITY_NAME]}"
+            if subentry.data[CONF_ENTITY_NAME] != entry.data[CONF_ENTITY_NAME]
+            else ""
+        )
+        self._entity_name = f"{entry.data[CONF_ENTITY_NAME]}{subentity_name}"
         self.keys = []
         self._data = {}
         self._builder = QueryBuilder(protocol=account.protocol)
@@ -62,14 +74,16 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
     async def _async_setup(self):
         """Do the initial setup of the entities."""
         email_keys = await self._async_email_sensors()
-        auto_reply_entities = await self._async_auto_reply_sensors()
+        auto_reply_entities = (
+            await self._async_auto_reply_sensors() if self._autoreply else []
+        )
         self.keys = email_keys + auto_reply_entities
         return self.keys
 
     async def _async_email_sensors(self):
         if mail_folder := await self._async_get_mail_folder():
-            name = f"{self._entry.data[CONF_ENTITY_NAME]}_mail"
-            if self._entry.options.get(CONF_SAVE_ATTACHMENTS):
+            name = f"{self._entity_name}_mail"
+            if self.subentry.data.get(CONF_SAVE_ATTACHMENTS):
                 check_and_create_attachments_folder(self._hass)
 
             new_key = {
@@ -81,7 +95,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_EMAIL,
                 CONF_QUERY: await async_build_mail_query(
-                    self._entry.options, self._builder
+                    self.subentry.data, self._builder
                 ),
             }
             return [new_key]
@@ -92,7 +106,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         """Get the configured folder."""
         mailbox = await self.hass.async_add_executor_job(self._account.mailbox)
         _LOGGER.debug("Get mail folder: %s", self._entry.data[CONF_ENTITY_NAME])
-        if mail_folder_conf := self._entry.options.get(CONF_FOLDER):
+        if mail_folder_conf := self.subentry.data.get(CONF_FOLDER):
             return await self._async_get_configured_mail_folder(
                 mail_folder_conf, mailbox
             )
@@ -155,10 +169,10 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
     async def _async_email_update(self, key):
         """Update code."""
 
-        download_attachments = self._entry.options.get(CONF_DOWNLOAD_ATTACHMENTS)
-        save_attachments = self._entry.options.get(CONF_SAVE_ATTACHMENTS)
+        download_attachments = self.subentry.data.get(CONF_DOWNLOAD_ATTACHMENTS)
+        save_attachments = self.subentry.data.get(CONF_SAVE_ATTACHMENTS)
         fetch_attachments = download_attachments or save_attachments
-        max_items = self._entry.options.get(CONF_MAX_ITEMS, 5)
+        max_items = self.subentry.data.get(CONF_MAX_ITEMS, 5)
         mail_folder = key[CONF_MS365_MAIL_FOLDER]
         entity_key = key[CONF_ENTITY_KEY]
         query = key[CONF_QUERY]

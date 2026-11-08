@@ -14,7 +14,7 @@ from .data_integration.state import ATTACHMENT_MESSAGES
 
 @pytest.mark.parametrize(
     "base_config_entry",
-    [{"options": {"save_attachments": True}}],
+    [{"subentry": {"save_attachments": True}}],
     indirect=True,
 )
 async def test_attachment_download(
@@ -38,7 +38,7 @@ async def test_attachment_download(
     assert attachment_file.is_file()
     assert len(list(attachment_folder.glob("*"))) == 1
 
-    coordinator = base_config_entry.runtime_data.coordinator
+    coordinator = base_config_entry.runtime_data.coordinator[0]
     await coordinator.async_refresh()
     await hass.async_block_till_done()
     assert attachment_file.is_file()

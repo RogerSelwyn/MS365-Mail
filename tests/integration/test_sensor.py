@@ -21,7 +21,7 @@ from .data_integration.state import (
     SAFE_HTML_MESSAGES,
 )
 from .helpers_integration.mocks import MS365MOCKS
-from .helpers_integration.utils_integration import update_options
+from .helpers_integration.utils_integration import update_subentry
 
 
 async def test_get_data(
@@ -60,37 +60,37 @@ async def test_get_query_build(
     adjust_config_dir, hass: HomeAssistant, setup_base_integration, base_config_entry: MS365MockConfigEntry
 ) -> None:
     """Test get data."""
-    await update_options(hass, base_config_entry, {"body_contains": "body_text"})
+    await update_subentry(hass, base_config_entry, {"body_contains": "body_text"})
     _check_filter(base_config_entry, "contains(body/content, 'body_text')")
 
-    await update_options(hass, base_config_entry, {"subject_contains": "subject_text"})
+    await update_subentry(hass, base_config_entry, {"subject_contains": "subject_text"})
     _check_filter(base_config_entry, "contains(subject, 'subject_text'")
 
-    await update_options(hass, base_config_entry, {"subject_is": "subject_text"})
+    await update_subentry(hass, base_config_entry, {"subject_is": "subject_text"})
     _check_filter(base_config_entry, "subject eq 'subject_text'")
 
-    await update_options(hass, base_config_entry, {"has_attachment": Attachment.TRUE})
+    await update_subentry(hass, base_config_entry, {"has_attachment": Attachment.TRUE})
     _check_filter(base_config_entry, "hasAttachments eq true")
 
-    await update_options(hass, base_config_entry, {"from": "spam@nomail.com"})
+    await update_subentry(hass, base_config_entry, {"from": "spam@nomail.com"})
     _check_filter(base_config_entry, "from/emailAddress/address eq 'spam@nomail.com'")
 
-    await update_options(hass, base_config_entry, {"is_unread": Unread.TRUE})
+    await update_subentry(hass, base_config_entry, {"is_unread": Unread.TRUE})
     _check_filter(base_config_entry, "isRead eq false")
 
-    await update_options(hass, base_config_entry, {"importance": ImportanceLevel.HIGH})
+    await update_subentry(hass, base_config_entry, {"importance": ImportanceLevel.HIGH})
     _check_filter(base_config_entry, "importance eq 'High'")
 
-    await update_options(hass, base_config_entry, {"html_body": True})
+    await update_subentry(hass, base_config_entry, {"html_body": True})
     _check_select(base_config_entry, "body")
 
-    await update_options(hass, base_config_entry, {"show_body": True})
+    await update_subentry(hass, base_config_entry, {"show_body": True})
     _check_select(base_config_entry, "body")
 
-    await update_options(hass, base_config_entry, {"download_attachments": True})
+    await update_subentry(hass, base_config_entry, {"download_attachments": True})
     _check_select(base_config_entry, "attachments")
 
-    await update_options(hass, base_config_entry, {"save_attachments": True})
+    await update_subentry(hass, base_config_entry, {"save_attachments": True})
     _check_select(base_config_entry, "attachments")
 
 
@@ -100,7 +100,7 @@ async def test_run_update(
     base_config_entry: MS365MockConfigEntry,
 ) -> None:
     """Test running coordinator update."""
-    coordinator = base_config_entry.runtime_data.coordinator
+    coordinator = base_config_entry.runtime_data.coordinator[0]
     with patch("homeassistant.helpers.entity.Entity.async_write_ha_state") as mock_async_write_ha_state:
         await coordinator.async_refresh()
     await hass.async_block_till_done()
@@ -110,7 +110,7 @@ async def test_run_update(
 
 @pytest.mark.parametrize(
     "base_config_entry",
-    [{"options": {"html_body": True}}],
+    [{"subentry": {"html_body": True}}],
     indirect=True,
 )
 async def test_safe_html(
@@ -124,7 +124,7 @@ async def test_safe_html(
 
 @pytest.mark.parametrize(
     "base_config_entry",
-    [{"options": {"show_body": True}}],
+    [{"subentry": {"show_body": True}}],
     indirect=True,
 )
 async def test_show_body(
@@ -138,7 +138,7 @@ async def test_show_body(
 
 @pytest.mark.parametrize(
     "base_config_entry",
-    [{"options": {"folder": "RootFolder/SubFolder"}}],
+    [{"subentry": {"folder": "RootFolder/SubFolder"}}],
     indirect=True,
 )
 async def test_subfolder(
@@ -162,7 +162,7 @@ async def test_subfolder(
 
 @pytest.mark.parametrize(
     "base_config_entry",
-    [{"options": {"folder": "RootFolder/BadFolder"}}],
+    [{"subentry": {"folder": "RootFolder/BadFolder"}}],
     indirect=True,
 )
 async def test_bad_subfolder(
@@ -188,8 +188,8 @@ async def test_bad_subfolder(
 
 
 def _check_filter(base_config_entry, filterdata):
-    assert filterdata in str(base_config_entry.runtime_data.sensors[0]["query"].filters)
+    assert filterdata in str(base_config_entry.runtime_data.sensors[0][0]["query"].filters)
 
 
 def _check_select(base_config_entry, selectdata):
-    assert selectdata in base_config_entry.runtime_data.sensors[0]["query"].select
+    assert selectdata in base_config_entry.runtime_data.sensors[0][0]["query"].select
