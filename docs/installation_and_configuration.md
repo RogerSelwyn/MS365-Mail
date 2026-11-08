@@ -10,7 +10,7 @@ This page details the configuration details for this integration. General instru
 
 Key | Type | Required | Description
 -- | -- | -- | --
-`entity_name` | `string` | `True` | Uniquely identifying name for the account. Mail entity names will be prefixed with this. `todo.{name}_mail`. Do not use email address or spaces.
+`entity_name` | `string` | `True` | Uniquely identifying name for the account. Do not use email address or spaces.
 `client_id` | `string` | `True` | Client ID from your Entra ID App Registration.
 `environment_secret` | `boolean` | `True` | If True (**default is False**) uses client secret from environment variable defined by `client_sec_variable`. If False uses client secret entered by config dialogue.
 `client_secret` | `string` | `True` | Client Secret from your Entra ID App Registration. Used if `environment_secret` is False.
@@ -28,10 +28,19 @@ Key | Type | Required | Description
 `country` | `string` | `True` | Selection of an alternate country specific API. Currently only 21Vianet from China and MS365 GCC.
 `tenant_id` | `string` | `False` | Azure tenant ID for single-tenant app registrations. Leave blank for multi-tenant apps.
 
-### Options variables
+## Subentry
+
+The first subentry for a configuration entry will be created when you add the integration. It will have no options set apart from it's name will be set the same as the main cconfig entry `entity_name`. 
+
+Each subentry will use the configuration and permissions set by the main config entry.
+
+Only one autoreply entity will be created named `sensor.{entity_name}_autoreply`.
+
+### Subentry options
 
 Key | Type | Required | Description
 -- | -- | -- | --
+`name` | `string` | `True` | Uniquely identifying within this configuration. Mail entity names will be prefixed with this. Where the `name` matches the config `entity_name` the  entity will be called`todo.{entity_name}_mail`. Where the values are different, the entity will be called. `todo.{entity_name}_{name}_mail`.
 `folder` | `string` | `False` | Mail folder to monitor, for nested calendars separate with '/' ex. "Inbox/SubFolder/FinalFolder" Default is Inbox
 `max_items` | `integer` | `False` | Max number of items to retrieve (default 5)
 `is_unread` | `boolean` | `False` | True=Only get unread, False=Only get read, Not set=Get all
