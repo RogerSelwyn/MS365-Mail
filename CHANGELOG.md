@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.15.0 (2026/11/08)
+### ✨ Enhancements
+- [Add config subentry support](https://github.com/RogerSelwyn/MS365-Mail/commit/1402c40302ab771802959384f5f61193debdee78) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Remove linting error](https://github.com/RogerSelwyn/MS365-Mail/commit/a6eff078ced360efcd2c2c26418cc7f4f71f7969) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.15.0](https://github.com/RogerSelwyn/MS365-Mail/commit/c806de2beecdb83a9e704a1696b09a7dea59c055) - @RogerSelwyn
+
+### Other
+- [Update README.md with Marketplace badge](https://github.com/RogerSelwyn/MS365-Mail/commit/5f4891bc9366c69152f979162eab1d9418a06538) - @RogerSelwyn
+
+
+
+
 ## v1.14.0 (2026/11/05)
 ### ✨ Enhancements
 - [Add External Secret support](https://github.com/RogerSelwyn/MS365-Mail/commit/a2b9d326c6605acc38ac6dad1503bf3374548128) - @RogerSelwyn
