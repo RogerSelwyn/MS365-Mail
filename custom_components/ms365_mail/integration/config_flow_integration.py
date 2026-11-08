@@ -118,13 +118,8 @@ class MailSubentryFlow(ConfigSubentryFlow):
                 del user_input[CONF_HAS_ATTACHMENT]
             if user_input.get(CONF_IMPORTANCE) == ImportanceLevel.NONE:
                 del user_input[CONF_IMPORTANCE]
-            if user_input == subentry.data:
-                return self.async_update_and_abort(
-                    entry, subentry, data_updates=user_input
-                )
-            return self.async_update_reload_and_abort(
-                entry, subentry, data_updates=user_input
-            )
+
+            return self.async_update_and_abort(entry, subentry, data_updates=user_input)
 
         data_schema = deepcopy(MAIL_FOLDER_SCHEMA)
         del data_schema[CONF_ENTITY_NAME]

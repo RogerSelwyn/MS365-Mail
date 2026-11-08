@@ -83,6 +83,15 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
     async def _async_email_sensors(self):
         if mail_folder := await self._async_get_mail_folder():
             name = f"{self._entity_name}_mail"
+            # Why is this like this. Legacy it uses the folder_id from Graph,
+            # but the folder_id changes if the user changes the folder to monitor/
+            # So better to use the non-changeble entity name.
+            unique_id = (
+                self._entity_name
+                if self.subentry.data[CONF_ENTITY_NAME]
+                != self._entry.data[CONF_ENTITY_NAME]
+                else f"{mail_folder.folder_id}_{self._entity_name}"
+            )
             if self.subentry.data.get(CONF_SAVE_ATTACHMENTS):
                 check_and_create_attachments_folder(self._hass)
 
@@ -90,7 +99,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
                 CONF_ENTITY_KEY: build_entity_id(
                     self.hass, ENTITY_ID_FORMAT_SENSOR, name
                 ),
-                CONF_UNIQUE_ID: f"{mail_folder.folder_id}_{self._entity_name}",
+                CONF_UNIQUE_ID: unique_id,
                 CONF_MS365_MAIL_FOLDER: mail_folder,
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_EMAIL,

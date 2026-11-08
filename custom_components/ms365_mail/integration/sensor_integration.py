@@ -75,16 +75,17 @@ async def async_integration_setup_entry(
     """Set up the MS365 platform."""
 
     for coordinator in entry.runtime_data.coordinator:
-        sensor_entities = await _async_sensor_entities(coordinator, entry, hass)
-        email_entities = _email_entities(coordinator, entry)
-        entities = sensor_entities + email_entities
-        async_add_entities(entities, False)
+        await _async_sensor_entities(coordinator, entry, hass, async_add_entities)
+        _email_entities(coordinator, entry, async_add_entities)
+
     await _async_setup_register_services(entry)
 
     return True
 
 
-async def _async_sensor_entities(coordinator, entry, hass: HomeAssistant):
+async def _async_sensor_entities(
+    coordinator, entry, hass: HomeAssistant, async_add_entities
+):
     entities = [
         MS365AutoReplySensor(
             coordinator,
@@ -98,20 +99,27 @@ async def _async_sensor_entities(coordinator, entry, hass: HomeAssistant):
     ]
     for entity in entities:
         await entity.async_init(hass)
-    return entities
+
+    async_add_entities(entities, update_before_add=False)
 
 
-def _email_entities(coordinator, entry):
-    return [
+def _email_entities(coordinator, entry, async_add_entities):
+    entities = [
         MS365MailSensor(
             coordinator,
             entry,
             key[CONF_NAME],
             key[CONF_ENTITY_KEY],
+            key[CONF_UNIQUE_ID],
         )
         for key in coordinator.keys
         if key[CONF_ENTITY_TYPE] == SENSOR_EMAIL
     ]
+    async_add_entities(
+        entities,
+        update_before_add=False,
+        config_subentry_id=coordinator.subentry.subentry_id,
+    )
 
 
 async def _async_setup_register_services(entry):
@@ -156,10 +164,11 @@ class MS365MailSensor(MS365Entity, SensorEntity):
         entry: MS365ConfigEntry,
         name,
         entity_id,
+        unique_id,
     ) -> None:
         """Initialise the MS365 Sensor."""
         subentry = coordinator.subentry
-        super().__init__(coordinator, entry, name, entity_id, subentry.unique_id)
+        super().__init__(coordinator, entry, name, entity_id, unique_id)
         self.account = entry.runtime_data.ha_account.account
         download_attachments = subentry.data.get(CONF_DOWNLOAD_ATTACHMENTS)
         save_attachments = subentry.data.get(CONF_SAVE_ATTACHMENTS)
