@@ -59,7 +59,7 @@ def integration_subentry_flows():
 
 
 def subentry_setup(name):
-    """Setup a basic subentry."""
+    """Create basic subentry."""
     return [
         {
             "data": {CONF_ENTITY_NAME: name},
