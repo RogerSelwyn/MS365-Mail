@@ -4,6 +4,29 @@
 ### ✨ Enhancements
 - [Add config subentry support](https://github.com/RogerSelwyn/MS365-Mail/commit/1402c40302ab771802959384f5f61193debdee78) - @RogerSelwyn
 
+### 🐛 Fixes
+- [Fix duplication of entries at migration to 2.1 config](https://github.com/RogerSelwyn/MS365-Mail/commit/a1d9ddeaec5507f643912aaf04f5f31b1389bf68) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Remove linting error](https://github.com/RogerSelwyn/MS365-Mail/commit/a6eff078ced360efcd2c2c26418cc7f4f71f7969) - @RogerSelwyn
+
+### 📚 Documentation
+- [Update changelog with release notes](https://github.com/RogerSelwyn/MS365-Mail/commit/15127460b56e61d8b2b5b28dd0375c83fc9ecee8) - @actions-user
+- [Add docs for subentry](https://github.com/RogerSelwyn/MS365-Mail/commit/4f21ceae9cadd50dfc690bff11e6489a4f43557d) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.15.0](https://github.com/RogerSelwyn/MS365-Mail/commit/c806de2beecdb83a9e704a1696b09a7dea59c055) - @RogerSelwyn
+
+### Other
+- [Update README.md with Marketplace badge](https://github.com/RogerSelwyn/MS365-Mail/commit/5f4891bc9366c69152f979162eab1d9418a06538) - @RogerSelwyn
+
+
+
+
+## v1.15.0 (2026/11/08)
+### ✨ Enhancements
+- [Add config subentry support](https://github.com/RogerSelwyn/MS365-Mail/commit/1402c40302ab771802959384f5f61193debdee78) - @RogerSelwyn
+
 ### 🧰 Maintenance
 - [Remove linting error](https://github.com/RogerSelwyn/MS365-Mail/commit/a6eff078ced360efcd2c2c26418cc7f4f71f7969) - @RogerSelwyn
 
