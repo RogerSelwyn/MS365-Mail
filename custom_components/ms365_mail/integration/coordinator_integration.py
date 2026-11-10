@@ -59,7 +59,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         self._hass = hass
         self._entry = entry
         self.subentry = subentry
-        self._account = account
+        self.account = account
         self._autoreply = autoreply
         subentity_name = (
             f"_{subentry.data[CONF_ENTITY_NAME]}"
@@ -113,7 +113,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
 
     async def _async_get_mail_folder(self):
         """Get the configured folder."""
-        mailbox = await self.hass.async_add_executor_job(self._account.mailbox)
+        mailbox = await self.hass.async_add_executor_job(self.account.mailbox)
         _LOGGER.debug("Get mail folder: %s", self._entry.data[CONF_ENTITY_NAME])
         if mail_folder_conf := self.subentry.data.get(CONF_FOLDER):
             return await self._async_get_configured_mail_folder(
@@ -206,7 +206,7 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
         """Update state."""
         entity_key = key[CONF_ENTITY_KEY]
         if data := await self.hass.async_add_executor_job(
-            self._account.mailbox().get_settings
+            self.account.mailbox().get_settings
         ):
             self._data[entity_key] = {
                 ATTR_STATE: data.automaticrepliessettings.status.value,
