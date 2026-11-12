@@ -1,5 +1,35 @@
 # Changelog
 
+## v1.15.1 (2026/11/12)
+### 🐛 Fixes
+- [Ensure entities aren't duplicated on folder change](https://github.com/RogerSelwyn/MS365-Mail/commit/92e3d66f2390887c21a513eaf4da5e52673c06c4) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Replace voluptuous with probatio](https://github.com/RogerSelwyn/MS365-Mail/commit/084729eff401ae591b6c0ef2c9f1fa021c72344d) - @RogerSelwyn
+- [Configure Renovate and remove Dependabot](https://github.com/RogerSelwyn/MS365-Mail/commit/effa245ee9978272fd7f0f397d8a5adbc7b2dbf1) - @RogerSelwyn
+- [Add support for personal account identification](https://github.com/RogerSelwyn/MS365-Mail/commit/e10c8e7b998b27b9e74efb003f30bffea802bd5f) - @RogerSelwyn
+- [Correct minor typo](https://github.com/RogerSelwyn/MS365-Mail/commit/f97a164b0d058491bff9d14a976e112c9af69063) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update astral-sh/setup-uv action to v10.3.3](https://github.com/RogerSelwyn/MS365-Mail/commit/f78b0cd45ec1cdbd2d2b7546770b6c8e7b5914bd) - @renovate[bot]
+- [update github/codeql-action action to v4.39.3](https://github.com/RogerSelwyn/MS365-Mail/commit/8c075078e0f5fbd296491e001ceaa56479ddf355) - @renovate[bot]
+- [update dependency ruff to v0.17.4](https://github.com/RogerSelwyn/MS365-Mail/commit/e21a167466645b8ec6ba49d7529cba6e747c9097) - @renovate[bot]
+- [update dependency python to 3.15](https://github.com/RogerSelwyn/MS365-Mail/commit/b0e62ae09af005212502cdca62a475dd4d2240af) - @renovate[bot]
+
+### ✅ Test
+- [Change test HA to 2026.11.0](https://github.com/RogerSelwyn/MS365-Mail/commit/a096aecd2a2304a00126b4e9093d7f64b94abee8) - @RogerSelwyn
+- [Add testing support for personal accounts](https://github.com/RogerSelwyn/MS365-Mail/commit/bfd9eaba0e029a425c9e5d1ad3aa5d4fc5ce1a7f) - @RogerSelwyn
+- [Update testing requirements](https://github.com/RogerSelwyn/MS365-Mail/commit/280cb086a4b721526847210da6ab08d73724ebc8) - @RogerSelwyn
+
+### 🔖 Release
+- [Release v1.15.1](https://github.com/RogerSelwyn/MS365-Mail/commit/959ed3758d6649403d8c31d80f9208950d1b93ef) - @RogerSelwyn
+
+### Other
+- [Add renovate.json](https://github.com/RogerSelwyn/MS365-Mail/commit/915be5fdef19ad830148a82303bd685b19eb7afb) - @renovate[bot]
+
+
+
+
 ## v1.15.0 (2026/11/08)
 ### ✨ Enhancements
 - [Add config subentry support](https://github.com/RogerSelwyn/MS365-Mail/commit/1402c40302ab771802959384f5f61193debdee78) - @RogerSelwyn
