@@ -4,7 +4,7 @@ import logging
 
 from homeassistant.config_entries import ConfigEntry, ConfigSubentry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import discovery
+from homeassistant.helpers import discovery, entity_registry as er
 
 from ..const import CONF_ENABLE_UPDATE, CONF_ENTITY_NAME
 from .const_integration import CONF_ENTRY, DOMAIN, PLATFORMS, SUBENTRY_MAIL
@@ -69,6 +69,19 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry):
             unique_id=f"{DOMAIN}_{name}_{name}",
         )
         hass.config_entries.async_add_subentry(entry, subentry)
+
+        for key in entry.subentries:
+            new_subentry_id = key
+        entity_registry = er.async_get(hass)
+        entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
+        for entity in entities:
+            if "autoreply" not in entity.unique_id:
+                unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail"
+                entity_registry.async_update_entity(
+                    entity.entity_id,
+                    new_unique_id=unique_id,
+                    config_subentry_id=new_subentry_id,
+                )
 
         hass.config_entries.async_update_entry(
             entry,

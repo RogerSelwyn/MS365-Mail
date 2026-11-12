@@ -530,5 +530,6 @@ exclude_also = [
     'if not constraint and resource == "Presence"',
     'if operation == "ReadBasic"',
     'if self._check_higher_permissions\(permission\)',
-    'async_check_personal_account'
+    'async_check_personal_account',
+    'build_entity_id'
 ]

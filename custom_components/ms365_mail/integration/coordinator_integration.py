@@ -11,7 +11,6 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from O365.utils.query import QueryBuilder  # pylint: disable=no-name-in-module, import-error
 
 from ..const import ATTR_DATA, CONF_ENTITY_KEY, CONF_ENTITY_NAME, CONF_ENTITY_TYPE
-from ..helpers.utils import build_entity_id
 from .const_integration import (
     ATTR_AUTOREPLIESSETTINGS,
     ATTR_STATE,
@@ -22,7 +21,6 @@ from .const_integration import (
     CONF_MS365_MAIL_FOLDER,
     CONF_QUERY,
     CONF_SAVE_ATTACHMENTS,
-    ENTITY_ID_FORMAT_SENSOR,
     SENSOR_AUTO_REPLY,
     SENSOR_EMAIL,
 )
@@ -82,24 +80,16 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
 
     async def _async_email_sensors(self):
         if mail_folder := await self._async_get_mail_folder():
-            name = f"{self._entity_name}_mail"
+            name = f"{self._entity_name}_Mail"
             # Why is this like this. Legacy it uses the folder_id from Graph,
             # but the folder_id changes if the user changes the folder to monitor/
             # So better to use the non-changeble entity name.
-            unique_id = (
-                self._entity_name
-                if self.subentry.data[CONF_ENTITY_NAME]
-                != self._entry.data[CONF_ENTITY_NAME]
-                else f"{mail_folder.folder_id}_{self._entity_name}"
-            )
             if self.subentry.data.get(CONF_SAVE_ATTACHMENTS):
                 check_and_create_attachments_folder(self._hass)
 
             new_key = {
-                CONF_ENTITY_KEY: build_entity_id(
-                    self.hass, ENTITY_ID_FORMAT_SENSOR, name
-                ),
-                CONF_UNIQUE_ID: unique_id,
+                CONF_ENTITY_KEY: name.lower(),
+                CONF_UNIQUE_ID: name.lower(),
                 CONF_MS365_MAIL_FOLDER: mail_folder,
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_EMAIL,
@@ -148,12 +138,10 @@ class MS365SensorCoordinator(DataUpdateCoordinator):
 
     async def _async_auto_reply_sensors(self):
         if self._entry.data[CONF_ENABLE_AUTOREPLY]:
-            name = f"{self._entry.data[CONF_ENTITY_NAME]}_autoreply"
+            name = f"{self._entry.data[CONF_ENTITY_NAME]}_Autoreply"
             new_key = {
-                CONF_ENTITY_KEY: build_entity_id(
-                    self.hass, ENTITY_ID_FORMAT_SENSOR, name
-                ),
-                CONF_UNIQUE_ID: name,
+                CONF_ENTITY_KEY: name.lower(),
+                CONF_UNIQUE_ID: name.lower(),
                 CONF_NAME: name,
                 CONF_ENTITY_TYPE: SENSOR_AUTO_REPLY,
             }

@@ -44,8 +44,6 @@ CONF_SHOW_BODY = "show_body"
 CONF_SUBJECT_CONTAINS = "subject_contains"
 CONF_SUBJECT_IS = "subject_is"
 
-ENTITY_ID_FORMAT_SENSOR = "sensor.{}"
-
 PERM_MAILBOX_SETTINGS = "MailboxSettings.ReadWrite"
 PERM_MAIL_READ = "Mail.Read"
 PERM_MAIL_SEND = "Mail.Send"

@@ -42,7 +42,7 @@ BASE_AUTOREPLY = {
     "external_audience": "all",
     "start": "2024-11-06T18:00:00+0000",
     "end": "2024-11-07T18:00:00+0000",
-    "friendly_name": "test_autoreply",
+    "friendly_name": "test_Autoreply",
 }
 
 CHILD_MESSAGES = [
