@@ -6,6 +6,7 @@
 
 ### 🧰 Maintenance
 - [Replace voluptuous with probatio](https://github.com/RogerSelwyn/MS365-Mail/commit/084729eff401ae591b6c0ef2c9f1fa021c72344d) - @RogerSelwyn
+- [Add renovate.json](https://github.com/RogerSelwyn/MS365-Mail/commit/915be5fdef19ad830148a82303bd685b19eb7afb) - @renovate[bot]
 - [Configure Renovate and remove Dependabot](https://github.com/RogerSelwyn/MS365-Mail/commit/effa245ee9978272fd7f0f397d8a5adbc7b2dbf1) - @RogerSelwyn
 - [Add support for personal account identification](https://github.com/RogerSelwyn/MS365-Mail/commit/e10c8e7b998b27b9e74efb003f30bffea802bd5f) - @RogerSelwyn
 - [Correct minor typo](https://github.com/RogerSelwyn/MS365-Mail/commit/f97a164b0d058491bff9d14a976e112c9af69063) - @RogerSelwyn
@@ -23,10 +24,6 @@
 
 ### 🔖 Release
 - [Release v1.15.1](https://github.com/RogerSelwyn/MS365-Mail/commit/959ed3758d6649403d8c31d80f9208950d1b93ef) - @RogerSelwyn
-
-### Other
-- [Add renovate.json](https://github.com/RogerSelwyn/MS365-Mail/commit/915be5fdef19ad830148a82303bd685b19eb7afb) - @renovate[bot]
-
 
 
 
