@@ -29,7 +29,7 @@ from .const_integration import (
 from .schema_integration import MAIL_FOLDER_SCHEMA
 
 INTEGRATION_CONFIG_VERSION = 2
-INRTEGRATION_CONFIG_MINOR_VERSION = 1
+INTEGRATION_CONFIG_MINOR_VERSION = 1
 
 
 def integration_reconfigure_schema(entry_data):
