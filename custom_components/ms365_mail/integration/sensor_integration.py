@@ -163,12 +163,12 @@ class MS365MailSensor(MS365Entity, SensorEntity):
         coordinator,
         entry: MS365ConfigEntry,
         name,
-        entity_id,
+        entity_key,
         unique_id,
     ) -> None:
         """Initialise the MS365 Sensor."""
         subentry = coordinator.subentry
-        super().__init__(coordinator, entry, name, entity_id, unique_id)
+        super().__init__(coordinator, entry, name, entity_key, unique_id)
         self.account = entry.runtime_data.ha_account.account
         download_attachments = subentry.data.get(CONF_DOWNLOAD_ATTACHMENTS)
         save_attachments = subentry.data.get(CONF_SAVE_ATTACHMENTS)
@@ -256,10 +256,10 @@ class MS365AutoReplySensor(MS365Entity, SensorEntity):
     _attr_translation_key = "auto_reply"
 
     def __init__(
-        self, coordinator, entry: MS365ConfigEntry, name, entity_id, unique_id
+        self, coordinator, entry: MS365ConfigEntry, name, entity_key, unique_id
     ) -> None:
         """Initialise the Auto reply Sensor."""
-        super().__init__(coordinator, entry, name, entity_id, unique_id)
+        super().__init__(coordinator, entry, name, entity_key, unique_id)
         self._entry = entry
         self._account = self.coordinator.account
         self.mailbox = None
