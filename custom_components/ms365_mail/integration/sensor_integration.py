@@ -75,7 +75,7 @@ async def async_integration_setup_entry(
     """Set up the MS365 platform."""
 
     for coordinator in entry.runtime_data.coordinator:
-        await _async_sensor_entities(coordinator, entry, hass, async_add_entities)
+        await _async_autoreply_entities(coordinator, entry, hass, async_add_entities)
         _email_entities(coordinator, entry, async_add_entities)
 
     await _async_setup_register_services(entry)
@@ -83,7 +83,7 @@ async def async_integration_setup_entry(
     return True
 
 
-async def _async_sensor_entities(
+async def _async_autoreply_entities(
     coordinator, entry, hass: HomeAssistant, async_add_entities
 ):
     entities = [
@@ -100,7 +100,8 @@ async def _async_sensor_entities(
     for entity in entities:
         await entity.async_init(hass)
 
-    async_add_entities(entities, update_before_add=False)
+    if entities:
+        async_add_entities(entities, update_before_add=False)
 
 
 def _email_entities(coordinator, entry, async_add_entities):
@@ -115,11 +116,12 @@ def _email_entities(coordinator, entry, async_add_entities):
         for key in coordinator.keys
         if key[CONF_ENTITY_TYPE] == SENSOR_EMAIL
     ]
-    async_add_entities(
-        entities,
-        update_before_add=False,
-        config_subentry_id=coordinator.subentry.subentry_id,
-    )
+    if entities:
+        async_add_entities(
+            entities,
+            update_before_add=False,
+            config_subentry_id=coordinator.subentry.subentry_id,
+        )
 
 
 async def _async_setup_register_services(entry):

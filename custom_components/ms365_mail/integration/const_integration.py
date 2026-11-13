@@ -48,7 +48,7 @@ PERM_MAILBOX_SETTINGS = "MailboxSettings.ReadWrite"
 PERM_MAIL_READ = "Mail.Read"
 PERM_MAIL_SEND = "Mail.Send"
 
-SENSOR_EMAIL = "inbox"
+SENSOR_EMAIL = "email"
 SENSOR_AUTO_REPLY = "auto_reply"
 
 SUBENTRY_MAIL = "mail"
