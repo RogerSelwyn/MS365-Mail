@@ -40,6 +40,7 @@ async def _async_setup_coordinators(hass: HomeAssistant, account, entry: ConfigE
     keys = []
     autoreply = True
     for subentry in entry.get_subentries_of_type(SUBENTRY_MAIL):
+        email_coordinator = MS365EmailSensorCoordinator(
             hass, entry, subentry, account, autoreply
         )
         await email_coordinator.async_config_entry_first_refresh()
@@ -76,34 +77,36 @@ async def async_extra_platform_setup(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Migrate the integration specific entry."""
-    if entry.version == 2 and entry.minor_version == 0:
-        name = entry.data[CONF_ENTITY_NAME]
-        data = dict(entry.options)
-        data[CONF_ENTITY_NAME] = name
-        subentry = ConfigSubentry(
-            data=data,
-            subentry_type=SUBENTRY_MAIL,
-            title=name,
-            unique_id=f"{DOMAIN}_{name}_{name}",
-        )
-        hass.config_entries.async_add_subentry(entry, subentry)
+    if entry.version != 2 or entry.minor_version != 0:
+        return
 
-        for key in entry.subentries:
-            new_subentry_id = key
-        entity_registry = er.async_get(hass)
-        entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
-        for entity in entities:
-            if "autoreply" not in entity.unique_id:
-                unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail"
-                entity_registry.async_update_entity(
-                    entity.entity_id,
-                    new_unique_id=unique_id,
-                    config_subentry_id=new_subentry_id,
-                )
+    name = entry.data[CONF_ENTITY_NAME]
+    data = dict(entry.options)
+    data[CONF_ENTITY_NAME] = name
+    subentry = ConfigSubentry(
+        data=data,
+        subentry_type=SUBENTRY_MAIL,
+        title=name,
+        unique_id=f"{DOMAIN}_{name}_{name}",
+    )
+    hass.config_entries.async_add_subentry(entry, subentry)
 
-        hass.config_entries.async_update_entry(
-            entry,
-            options={},
-            version=2,
-            minor_version=1,
-        )
+    for key in entry.subentries:
+        new_subentry_id = key
+    entity_registry = er.async_get(hass)
+    entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
+    for entity in entities:
+        if "autoreply" not in entity.unique_id:
+            unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail"
+            entity_registry.async_update_entity(
+                entity.entity_id,
+                new_unique_id=unique_id,
+                config_subentry_id=new_subentry_id,
+            )
+
+    hass.config_entries.async_update_entry(
+        entry,
+        options={},
+        version=2,
+        minor_version=1,
+    )
