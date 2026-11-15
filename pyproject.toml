@@ -531,5 +531,6 @@ exclude_also = [
     'if operation == "ReadBasic"',
     'if self._check_higher_permissions\(permission\)',
     'async_check_personal_account',
-    'build_entity_id'
+    'build_entity_id',
+    'if entry.version != 2 or entry.minor_version != 0'
 ]

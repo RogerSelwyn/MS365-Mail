@@ -105,7 +105,8 @@ async def _async_autoreply_entities(
 
 
 def _email_entities(coordinator, entry, async_add_entities):
-    entities = [
+
+    if entities := [
         MS365MailSensor(
             coordinator,
             entry,
@@ -115,8 +116,7 @@ def _email_entities(coordinator, entry, async_add_entities):
         )
         for key in coordinator.keys
         if key[CONF_ENTITY_TYPE] == SENSOR_EMAIL
-    ]
-    if entities:
+    ]:
         async_add_entities(
             entities,
             update_before_add=False,
