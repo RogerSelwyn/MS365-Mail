@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.15.2 (2026/11/19)
+### 🐛 Fixes
+- [Fix unique_id naming on migration from 2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/54f5e687ab5c3a51a6eccb0c1255ae4a686918e1) - @RogerSelwyn
+
+### 🧰 Maintenance
+- [Minor code tidy up](https://github.com/RogerSelwyn/MS365-Mail/commit/4cc2a468d2f053393c26a30837e0d5792526fea0) - @RogerSelwyn
+- [Split email and autoreply coordinators](https://github.com/RogerSelwyn/MS365-Mail/commit/7ed19e4379ab0dcefabd7efcf01c47f3c4e8c59a) - @RogerSelwyn
+- [Sourcery code recommendation](https://github.com/RogerSelwyn/MS365-Mail/commit/5a0c0d693d7c3e4b6b97765bdd030be7307bb5c1) - @RogerSelwyn
+- [Update workflows](https://github.com/RogerSelwyn/MS365-Mail/commit/561cc6714ae878e27f82a0d46a093c542ad3769c) - @RogerSelwyn
+- [Sourcery recommendations](https://github.com/RogerSelwyn/MS365-Mail/commit/53280449a1b3c11ded5785a03a26085bb21f7fa0) - @RogerSelwyn
+- [Use central renovate config](https://github.com/RogerSelwyn/MS365-Mail/commit/6f2bd79ff1a582843c1adc31b991077bc6d82b7a) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update dependency ruff to v0.17.5 (#107)](https://github.com/RogerSelwyn/MS365-Mail/commit/fcb9a5399794c09f476b41a29cb82b5daa661567) - @renovate[bot]
+
+### 🔖 Release
+- [Release 1.15.2](https://github.com/RogerSelwyn/MS365-Mail/commit/a6275626f7256c7522bfbbf9898d17c50bee48a2) - @RogerSelwyn
+
+
+
+
 ## v1.15.1 (2026/11/12)
 ### 🐛 Fixes
 - [Ensure entities aren't duplicated on folder change](https://github.com/RogerSelwyn/MS365-Mail/commit/92e3d66f2390887c21a513eaf4da5e52673c06c4) - @RogerSelwyn
