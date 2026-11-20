@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.15.3 (2026/11/20)
+### 🐛 Fixes
+- [Fix unique id migration for all entities](https://github.com/RogerSelwyn/MS365-Mail/commit/f14058e6a054b507a80736b8cf368b6bbdc7de1b) - @RogerSelwyn
+
+### ⬆️ Dependencies
+- [update dependency ruff to v0.17.6 (#108)](https://github.com/RogerSelwyn/MS365-Mail/commit/5abb5dd48ec53f350b4c2ea87db0706e22b4348d) - @renovate[bot]
+
+### 🔖 Release
+- [Release v1.15.3](https://github.com/RogerSelwyn/MS365-Mail/commit/ca81bf346cdcb233f6222277123d6133b8744ca1) - @RogerSelwyn
+
+
+
+
 ## v1.15.2 (2026/11/19)
 ### 🐛 Fixes
 - [Fix unique_id naming on migration from 2.0](https://github.com/RogerSelwyn/MS365-Mail/commit/54f5e687ab5c3a51a6eccb0c1255ae4a686918e1) - @RogerSelwyn
