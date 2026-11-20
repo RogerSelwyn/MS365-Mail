@@ -126,7 +126,7 @@ async def test_expired_token(
     ):
         await hass.config_entries.async_setup(base_config_entry.entry_id)
     await hass.async_block_till_done()
-    assert "Token has expired for account: 'test'. Please re-configure and re-authenticate." in caplog.text
+    assert f"Token has expired for account: '{ENTITY_NAME}'. Please re-configure and re-authenticate." in caplog.text
 
 
 async def test_other_runtime_error(

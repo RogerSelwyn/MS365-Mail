@@ -96,14 +96,19 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry):
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
     for entity in entities:
-        if "autoreply" not in entity.unique_id:
+        if "autoreply" not in entity.unique_id.lower():
             unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail".lower()
             entity_registry.async_update_entity(
                 entity.entity_id,
                 new_unique_id=unique_id,
                 config_subentry_id=new_subentry_id,
             )
-
+        else:
+            unique_id = f"{entry.data[CONF_ENTITY_NAME]}_autoreply".lower()
+            entity_registry.async_update_entity(
+                entity.entity_id,
+                new_unique_id=unique_id,
+            )
     hass.config_entries.async_update_entry(
         entry,
         options={},

@@ -10,6 +10,7 @@ from custom_components.ms365_mail.integration.const_integration import Attachmen
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
+from ..const import ENTITY_NAME
 from ..helpers.mock_config_entry import MS365MockConfigEntry
 from ..helpers.utils import check_entity_state, mock_call  # , utcnow
 from .const_integration import URL
@@ -182,7 +183,7 @@ async def test_bad_subfolder(
     await hass.async_block_till_done()
 
     assert (
-        "Folder - BadFolder - not found from test config entry - RootFolder/BadFolder - entity not created"
+        f"Folder - BadFolder - not found from {ENTITY_NAME} config entry - RootFolder/BadFolder - entity not created"
         in caplog.text
     )
 
