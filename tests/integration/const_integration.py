@@ -21,9 +21,9 @@ BASE_CONFIG_ENTRY_INTEGRATION = {
 BASE_TOKEN_PERMS = "Mail.Read"
 BASE_MISSING_PERMS = BASE_TOKEN_PERMS
 BASE_SUBENTRY = {
-    "data": {CONF_ENTITY_NAME: "Test"},
+    "data": {CONF_ENTITY_NAME: "test"},
     "subentry_type": "mail",
-    "title": "Test",
+    "title": "test",
     "unique_id": "ms365_mail_test_test",
 }
 

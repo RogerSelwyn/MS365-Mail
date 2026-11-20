@@ -66,6 +66,6 @@ async def test_migrate_v2_v21(
     assert inbox_entity.unique_id == "test_mail"
     assert inbox_entity.config_subentry_id is not None
     ar_entity = entity_registry.async_get("sensor.test_autoreply")
-    assert ar_entity.previous_unique_id is ar_unique_id
+    assert ar_entity.previous_unique_id == ar_unique_id
     assert ar_entity.unique_id == "test_autoreply"
     assert ar_entity.config_subentry_id is None

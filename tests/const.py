@@ -7,7 +7,7 @@ from .integration.const_integration import BASE_CONFIG_ENTRY_INTEGRATION
 
 CLIENT_ID = "1234"
 CLIENT_SECRET = "5678"
-ENTITY_NAME = "Test"
+ENTITY_NAME = "test"
 
 LEGACY_TOKEN = {
     "access_token": "fakelegacytoken",
