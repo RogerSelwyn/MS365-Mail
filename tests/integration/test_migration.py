@@ -165,7 +165,9 @@ async def test_migrate_v2_v21_preserves_already_migrated_entities(
         object_id_base="test_autoreply",
     )
 
-    with patch.object(entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity) as update:
+    with patch.object(
+        entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity
+    ) as update:
         await async_migrate_entry(hass, entry)
         update.assert_not_called()
 
@@ -176,6 +178,8 @@ async def test_migrate_v2_v21_preserves_already_migrated_entities(
     assert entity_registry.async_get(autoreply_entity.entity_id) == autoreply_entity
 
     # A further migration attempt must not alter an already-completed entry.
-    with patch.object(entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity) as update:
+    with patch.object(
+        entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity
+    ) as update:
         await async_migrate_entry(hass, entry)
         update.assert_not_called()
