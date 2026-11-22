@@ -1,6 +1,8 @@
 # pylint: disable=unused-argument
 """Test migration."""
 
+from unittest.mock import patch
+
 import pytest
 from requests_mock import Mocker
 
@@ -127,3 +129,53 @@ async def test_migrate_v2_v21_reuses_existing_mail_subentry(
         assert migrated.unique_id == "test_mail"
         assert migrated.config_subentry_id == inbox.subentry_id
         assert entity_registry.async_get(other_entity.entity_id) == other_entity
+
+
+async def test_migrate_v2_v21_preserves_already_migrated_entities(
+    hass: HomeAssistant,
+    entity_registry: er.EntityRegistry,
+):
+    """Finish a partial migration without renaming already-migrated entities."""
+    entry = MS365MockConfigEntry(
+        domain=DOMAIN,
+        title=ENTITY_NAME,
+        unique_id=DOMAIN,
+        data=config_entry_setup(BASE_CONFIG_ENTRY),
+        options={"legacy": True},
+        version=2,
+        minor_version=0,
+    )
+    entry.add_to_hass(hass)
+    inbox = ConfigSubentry(**BASE_SUBENTRY)
+    hass.config_entries.async_add_subentry(entry, inbox)
+
+    mail_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="test_mail",
+        config_entry=entry,
+        config_subentry_id=inbox.subentry_id,
+        object_id_base="test_mail",
+    )
+    autoreply_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="test_autoreply",
+        config_entry=entry,
+        object_id_base="test_autoreply",
+    )
+
+    with patch.object(entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity) as update:
+        await async_migrate_entry(hass, entry)
+        update.assert_not_called()
+
+    assert (entry.version, entry.minor_version) == (2, 1)
+    assert not entry.options
+    assert entry.subentries[inbox.subentry_id] == inbox
+    assert entity_registry.async_get(mail_entity.entity_id) == mail_entity
+    assert entity_registry.async_get(autoreply_entity.entity_id) == autoreply_entity
+
+    # A further migration attempt must not alter an already-completed entry.
+    with patch.object(entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity) as update:
+        await async_migrate_entry(hass, entry)
+        update.assert_not_called()
