@@ -108,17 +108,22 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry):
             continue
         if "autoreply" not in entity.unique_id.lower():
             unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail".lower()
-            entity_registry.async_update_entity(
-                entity.entity_id,
-                new_unique_id=unique_id,
-                config_subentry_id=subentry.subentry_id,
-            )
+            if (
+                entity.unique_id != unique_id
+                or entity.config_subentry_id != subentry.subentry_id
+            ):
+                entity_registry.async_update_entity(
+                    entity.entity_id,
+                    new_unique_id=unique_id,
+                    config_subentry_id=subentry.subentry_id,
+                )
         else:
             unique_id = f"{entry.data[CONF_ENTITY_NAME]}_autoreply".lower()
-            entity_registry.async_update_entity(
-                entity.entity_id,
-                new_unique_id=unique_id,
-            )
+            if entity.unique_id != unique_id:
+                entity_registry.async_update_entity(
+                    entity.entity_id,
+                    new_unique_id=unique_id,
+                )
     hass.config_entries.async_update_entry(
         entry,
         options={},
