@@ -1,16 +1,21 @@
 # pylint: disable=unused-argument
 """Test migration."""
 
+from unittest.mock import patch
+
 import pytest
 from requests_mock import Mocker
 
+from homeassistant.config_entries import ConfigSubentry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
+from custom_components.ms365_mail.integration.setup_integration import async_migrate_entry
+
 from ..const import BASE_CONFIG_ENTRY, ENTITY_NAME
 from ..helpers.mock_config_entry import MS365MockConfigEntry, config_entry_setup
-from ..integration.const_integration import DOMAIN
+from ..integration.const_integration import BASE_SUBENTRY, DOMAIN
 from .helpers_integration.mocks import MS365MOCKS
 
 
@@ -69,3 +74,112 @@ async def test_migrate_v2_v21(
     assert ar_entity.previous_unique_id == ar_unique_id
     assert ar_entity.unique_id == "test_autoreply"
     assert ar_entity.config_subentry_id is None
+
+
+async def test_migrate_v2_v21_reuses_existing_mail_subentry(
+    hass: HomeAssistant,
+    entity_registry: er.EntityRegistry,
+):
+    """Resume migration when the inbox subentry was already created."""
+    entry = MS365MockConfigEntry(
+        domain=DOMAIN,
+        title=ENTITY_NAME,
+        unique_id=DOMAIN,
+        data=config_entry_setup(BASE_CONFIG_ENTRY),
+        options={"legacy": True},
+        version=2,
+        minor_version=0,
+    )
+    entry.add_to_hass(hass)
+    inbox = ConfigSubentry(**BASE_SUBENTRY)
+    other = ConfigSubentry(
+        data={**BASE_SUBENTRY["data"]},
+        subentry_type=inbox.subentry_type,
+        title="Other inbox",
+        unique_id=f"{DOMAIN}_other_other",
+    )
+    hass.config_entries.async_add_subentry(entry, inbox)
+    hass.config_entries.async_add_subentry(entry, other)
+
+    legacy_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="Inbox_test",
+        config_entry=entry,
+        object_id_base="test_mail",
+    )
+    other_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="other_mail",
+        config_entry=entry,
+        config_subentry_id=other.subentry_id,
+        object_id_base="other_mail",
+    )
+
+    for _ in range(2):
+        await async_migrate_entry(hass, entry)
+        assert (entry.version, entry.minor_version) == (2, 1)
+        assert not entry.options
+        assert dict(entry.subentries) == {
+            inbox.subentry_id: inbox,
+            other.subentry_id: other,
+        }
+        migrated = entity_registry.async_get(legacy_entity.entity_id)
+        assert migrated.unique_id == "test_mail"
+        assert migrated.config_subentry_id == inbox.subentry_id
+        assert entity_registry.async_get(other_entity.entity_id) == other_entity
+
+
+async def test_migrate_v2_v21_preserves_already_migrated_entities(
+    hass: HomeAssistant,
+    entity_registry: er.EntityRegistry,
+):
+    """Finish a partial migration without renaming already-migrated entities."""
+    entry = MS365MockConfigEntry(
+        domain=DOMAIN,
+        title=ENTITY_NAME,
+        unique_id=DOMAIN,
+        data=config_entry_setup(BASE_CONFIG_ENTRY),
+        options={"legacy": True},
+        version=2,
+        minor_version=0,
+    )
+    entry.add_to_hass(hass)
+    inbox = ConfigSubentry(**BASE_SUBENTRY)
+    hass.config_entries.async_add_subentry(entry, inbox)
+
+    mail_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="test_mail",
+        config_entry=entry,
+        config_subentry_id=inbox.subentry_id,
+        object_id_base="test_mail",
+    )
+    autoreply_entity = entity_registry.async_get_or_create(
+        platform=DOMAIN,
+        domain=Platform.SENSOR,
+        unique_id="test_autoreply",
+        config_entry=entry,
+        object_id_base="test_autoreply",
+    )
+
+    with patch.object(
+        entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity
+    ) as update:
+        await async_migrate_entry(hass, entry)
+        update.assert_not_called()
+
+    assert (entry.version, entry.minor_version) == (2, 1)
+    assert not entry.options
+    assert entry.subentries[inbox.subentry_id] == inbox
+    assert entity_registry.async_get(mail_entity.entity_id) == mail_entity
+    assert entity_registry.async_get(autoreply_entity.entity_id) == autoreply_entity
+
+    # A further migration attempt must not alter an already-completed entry.
+    with patch.object(
+        entity_registry, "async_update_entity", wraps=entity_registry.async_update_entity
+    ) as update:
+        await async_migrate_entry(hass, entry)
+        update.assert_not_called()

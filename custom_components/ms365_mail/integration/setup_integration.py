@@ -81,34 +81,49 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry):
         return
 
     name = entry.data[CONF_ENTITY_NAME]
-    data = dict(entry.options)
-    data[CONF_ENTITY_NAME] = name
-    subentry = ConfigSubentry(
-        data=data,
-        subentry_type=SUBENTRY_MAIL,
-        title=name,
-        unique_id=f"{DOMAIN}_{name}_{name}",
+    subentry_unique_id = f"{DOMAIN}_{name}_{name}"
+    subentry = next(
+        (
+            existing
+            for existing in entry.subentries.values()
+            if existing.unique_id == subentry_unique_id
+        ),
+        None,
     )
-    hass.config_entries.async_add_subentry(entry, subentry)
+    if subentry is None:
+        data = dict(entry.options)
+        data[CONF_ENTITY_NAME] = name
+        subentry = ConfigSubentry(
+            data=data,
+            subentry_type=SUBENTRY_MAIL,
+            title=name,
+            unique_id=subentry_unique_id,
+        )
+        hass.config_entries.async_add_subentry(entry, subentry)
 
-    for key in entry.subentries:
-        new_subentry_id = key
     entity_registry = er.async_get(hass)
     entities = er.async_entries_for_config_entry(entity_registry, entry.entry_id)
     for entity in entities:
+        if entity.config_subentry_id not in (None, subentry.subentry_id):
+            continue
         if "autoreply" not in entity.unique_id.lower():
             unique_id = f"{entry.data[CONF_ENTITY_NAME]}_mail".lower()
-            entity_registry.async_update_entity(
-                entity.entity_id,
-                new_unique_id=unique_id,
-                config_subentry_id=new_subentry_id,
-            )
+            if (
+                entity.unique_id != unique_id
+                or entity.config_subentry_id != subentry.subentry_id
+            ):
+                entity_registry.async_update_entity(
+                    entity.entity_id,
+                    new_unique_id=unique_id,
+                    config_subentry_id=subentry.subentry_id,
+                )
         else:
             unique_id = f"{entry.data[CONF_ENTITY_NAME]}_autoreply".lower()
-            entity_registry.async_update_entity(
-                entity.entity_id,
-                new_unique_id=unique_id,
-            )
+            if entity.unique_id != unique_id:
+                entity_registry.async_update_entity(
+                    entity.entity_id,
+                    new_unique_id=unique_id,
+                )
     hass.config_entries.async_update_entry(
         entry,
         options={},
