@@ -39,15 +39,39 @@ def clean_html(html):
     return html
 
 
-def get_email_attributes(mail, download_attachments, html_body, show_body):
+def parse_email(mail, html_body, show_body, cached=None):
+    """Get the email attributes that require the HTML body to be parsed.
+
+    Parsing the body with BeautifulSoup is expensive and this is called from
+    the event loop on every coordinator refresh, so the previous result for
+    the email is reused for as long as its body is unchanged. Without a body
+    (it is only requested when it is shown) there is nothing to parse and
+    nothing is reused.
+
+    Returns a tuple of (raw body, has_attachments, body to show or None).
+    """
+    raw_body = mail.body
+    if raw_body and cached is not None and cached[0] == raw_body:
+        return cached
+
+    # has_attachments parses the body to look for inline attachments
+    has_attachments = mail.has_attachments
+    body = None
+    if show_body or html_body:
+        body = _safe_html(raw_body) if html_body else clean_html(raw_body)
+    return (raw_body, has_attachments, body)
+
+
+def get_email_attributes(mail, download_attachments, parsed):
     """Get the email attributes."""
+    _, has_attachments, body = parsed
     data = {
         "subject": mail.subject,
         "received": mail.received.strftime(DATETIME_FORMAT),
         "to": [x.address for x in mail.to],
         "cc": [x.address for x in mail.cc],
         "sender": mail.sender.address,
-        "has_attachments": mail.has_attachments,
+        "has_attachments": has_attachments,
         "importance": mail.importance.value,
         "is_read": mail.is_read,
         "flag": {
@@ -58,8 +82,8 @@ def get_email_attributes(mail, download_attachments, html_body, show_body):
         },
     }
 
-    if show_body or html_body:
-        data["body"] = _safe_html(mail.body) if html_body else clean_html(mail.body)
+    if body is not None:
+        data["body"] = body
     if download_attachments:
         data["attachments"] = [x.name for x in mail.attachments]
 

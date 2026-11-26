@@ -62,6 +62,7 @@ from .utils_integration import (
     clean_html,
     cleanup,
     get_email_attributes,
+    parse_email,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -179,6 +180,7 @@ class MS365MailSensor(MS365Entity, SensorEntity):
         self._show_body = subentry.data.get(CONF_SHOW_BODY)
         self._state = None
         self._extra_attributes = None
+        self._parsed = {}
         self._update_status()
 
     @property
@@ -203,9 +205,17 @@ class MS365MailSensor(MS365Entity, SensorEntity):
         self._extra_attributes = {ATTR_DATA: attrs}
 
     def _get_attributes(self, data):
+        # Only parse the HTML of emails not seen on the previous update, and
+        # forget the emails that are no longer returned.
+        self._parsed = {
+            x.object_id: parse_email(
+                x, self._html_body, self._show_body, self._parsed.get(x.object_id)
+            )
+            for x in data
+        }
         return [
             get_email_attributes(
-                x, self._fetch_attachments, self._html_body, self._show_body
+                x, self._fetch_attachments, self._parsed[x.object_id]
             )
             for x in data
         ]
