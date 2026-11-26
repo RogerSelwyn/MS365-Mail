@@ -7,12 +7,13 @@ import pytest
 from requests_mock import Mocker
 
 from custom_components.ms365_mail.integration.const_integration import Attachment, ImportanceLevel, Unread
+from custom_components.ms365_mail.integration.utils_integration import clean_html
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
 from ..const import ENTITY_NAME
 from ..helpers.mock_config_entry import MS365MockConfigEntry
-from ..helpers.utils import check_entity_state, mock_call  # , utcnow
+from ..helpers.utils import check_entity_state, load_json, mock_call  # , utcnow
 from .const_integration import URL
 from .data_integration.state import (
     BASE_AUTOREPLY,
@@ -23,6 +24,8 @@ from .data_integration.state import (
 )
 from .helpers_integration.mocks import MS365MOCKS
 from .helpers_integration.utils_integration import update_subentry
+
+UTILS = "custom_components.ms365_mail.integration.utils_integration"
 
 
 async def test_get_data(
@@ -135,6 +138,63 @@ async def test_show_body(
 ) -> None:
     """Test safe_html is working."""
     check_entity_state(hass, "sensor.test_mail", "2", CLEAN_HTML_MESSAGES)
+
+
+@pytest.mark.parametrize(
+    "base_config_entry",
+    [{"subentry": {"show_body": True}}],
+    indirect=True,
+)
+async def test_html_parsed_once(
+    hass: HomeAssistant,
+    requests_mock: Mocker,
+    base_token,
+    base_config_entry: MS365MockConfigEntry,
+) -> None:
+    """Test the HTML of an email is only parsed when the email is new or changed."""
+    MS365MOCKS.standard_mocks(requests_mock)
+    base_config_entry.add_to_hass(hass)
+
+    with patch(f"{UTILS}.clean_html", wraps=clean_html) as mock_clean_html:
+        await hass.config_entries.async_setup(base_config_entry.entry_id)
+        await hass.async_block_till_done()
+        coordinator = base_config_entry.runtime_data.coordinator[0]
+        check_entity_state(hass, "sensor.test_mail", "2", CLEAN_HTML_MESSAGES)
+        assert mock_clean_html.call_count == 2
+
+        # Nothing changed, nothing is parsed again
+        await coordinator.async_refresh()
+        await hass.async_block_till_done()
+        check_entity_state(hass, "sensor.test_mail", "2", CLEAN_HTML_MESSAGES)
+        assert mock_clean_html.call_count == 2
+
+        # Attributes that do not need parsing are still refreshed
+        messages = load_json("O365/inbox_messages.json")
+        requests_mock.get(URL.INBOX.value, text=messages.replace('"isRead": false', '"isRead": true'))
+        await coordinator.async_refresh()
+        await hass.async_block_till_done()
+        assert all(x["is_read"] for x in hass.states.get("sensor.test_mail").attributes["data"])
+        assert mock_clean_html.call_count == 2
+
+        # A changed body is parsed again
+        requests_mock.get(URL.INBOX.value, text=messages.replace("Some very simple test text", "Changed text"))
+        await coordinator.async_refresh()
+        await hass.async_block_till_done()
+        assert hass.states.get("sensor.test_mail").attributes["data"][0]["body"] == "Changed text"
+        assert mock_clean_html.call_count == 3
+
+        # An email that is no longer returned is forgotten
+        # (mail1 gets its original body back, mail2 is replaced by mail3: both are parsed)
+        requests_mock.get(URL.INBOX.value, text=messages.replace('"id": "mail2"', '"id": "mail3"'))
+        await coordinator.async_refresh()
+        await hass.async_block_till_done()
+        assert mock_clean_html.call_count == 5
+        # (mail2 comes back and is parsed again, mail1 is unchanged)
+        mock_call(requests_mock, URL.INBOX, "inbox_messages")
+        await coordinator.async_refresh()
+        await hass.async_block_till_done()
+        check_entity_state(hass, "sensor.test_mail", "2", CLEAN_HTML_MESSAGES)
+        assert mock_clean_html.call_count == 6
 
 
 @pytest.mark.parametrize(
